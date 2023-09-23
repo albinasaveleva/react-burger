@@ -1,0 +1,52 @@
+.header {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation ul {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.navigationItem > a {
+  display: flex;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
+
+.account > a {
+  display: flex;
+}
+
+.link {
+
+}
+
+.linkIcon {
+
+}
+
+.linkTitle {
+
+}
+
+.linkTitle span {
+  color: inherit;
+}

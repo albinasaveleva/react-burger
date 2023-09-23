@@ -1,0 +1,81 @@
+.container {
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.components {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  overflow-y: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  gap: 16px;
+  max-height: max-content;
+  overflow-y: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 8px;               
+}
+
+.content::-webkit-scrollbar-track {
+  background: #2F2F37;        
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+  border-radius: 0;
+  border: 3px solid #8585AD;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+}
+
+.scrollBar {
+  width: 8px;
+  height: auto;
+  background-color: #8585AD;
+}
+
+.component {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.topBun {
+}
+
+
+.buttomBun {
+
+}
+
+
+.info {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price svg {
+  height: 36px;
+  width: 36px;
+}
