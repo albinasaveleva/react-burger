@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import contructorStyle from './constructor.module.css';
+import ingredientType from '../../utils/types';
+
+import mainStyle from './main.module.css';
 
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-export default class Constructor extends React.Component {
+export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +38,7 @@ export default class Constructor extends React.Component {
 
   render() {
     return (
-      <main className={`pb-10 ${contructorStyle.container}`}>
+      <main className={`pb-10 ${mainStyle.container}`}>
         { this.state.ingredients.length > 0 && <BurgerIngredients ingredients={this.state.ingredients} /> }
         { this.state.components.length > 0 && <BurgerConstructor components={this.state.components} /> } 
       </main>
@@ -44,32 +46,6 @@ export default class Constructor extends React.Component {
   }
 };
 
-const propsPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number
-});
-
-Constructor.propTypes = {
-  _id: propsPropTypes,
-  name: propsPropTypes,
-  type: propsPropTypes,
-  proteins: propsPropTypes,
-  fat: propsPropTypes,
-  carbohydrates: propsPropTypes,
-  calories: propsPropTypes,
-  price: propsPropTypes,
-  image: propsPropTypes,
-  image_mobile: propsPropTypes,
-  image_large: propsPropTypes,
-  __v: propsPropTypes
+Main.propTypes = {
+  data: PropTypes.arrayOf(ingredientType).isRequired
 };

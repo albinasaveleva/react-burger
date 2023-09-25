@@ -1,17 +1,17 @@
 import React from 'react';
-import styles from './App.module.css';
+import styles from './app.module.css';
 
 import AppHeader from '../app-header/app-header.jsx';
-import Constructor from '../constructor/constructor';
+import Main from '../main/main';
 
 
 import data from '../../utils/data';
 
 function App() {
   return (
-    <div className={styles.App}>
+    <div className={styles.app}>
       <AppHeader />
-      <Constructor data={data} />
+      <Main data={data} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import ingredientType from '../../utils/types';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 
@@ -32,7 +33,7 @@ export default function BurgerConstructor(props) {
           { <ConstructorElement
               type={'top'}
               isLocked={true}
-              text={bun[0].name}
+              text={`${bun[0].name} (верх)`}
               price={bun[0].price}
               thumbnail={bun[0].image}
             />
@@ -58,7 +59,7 @@ export default function BurgerConstructor(props) {
         { <ConstructorElement
             type={'bottom'}
             isLocked={true}
-            text={bun[0].name}
+            text={`${bun[0].name} (низ)`}
             price={bun[0].price}
             thumbnail={bun[0].image}
           />
@@ -80,32 +81,6 @@ export default function BurgerConstructor(props) {
   );
 };
 
-const propsPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number
-});
-
 BurgerConstructor.propTypes = {
-  _id: propsPropTypes,
-  name: propsPropTypes,
-  type: propsPropTypes,
-  proteins: propsPropTypes,
-  fat: propsPropTypes,
-  carbohydrates: propsPropTypes,
-  calories: propsPropTypes,
-  price: propsPropTypes,
-  image: propsPropTypes,
-  image_mobile: propsPropTypes,
-  image_large: propsPropTypes,
-  __v: propsPropTypes
+  data: PropTypes.arrayOf(ingredientType).isRequired
 };
