@@ -5,6 +5,5 @@
   gap: 40px;
 
   margin: 0 auto;
-  height: calc( 100vh - 92px);  /*92px - высота header*/
+  height: calc( 100vh - 92px);  /*git92px - высота header*/
 }
-

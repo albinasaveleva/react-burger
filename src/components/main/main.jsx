@@ -47,5 +47,5 @@ export default class Main extends React.Component {
 };
 
 Main.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  data: PropTypes.arrayOf(ingredientType)
 };

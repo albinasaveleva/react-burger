@@ -57,7 +57,7 @@ export default function BurgerIngredients(props) {
                   {title}
                 </h3>
                 <Cards>
-                  { ingredients[value].map(item => <Card item={item} key={item._id} />) }
+                  { ingredients[value].map(item => <Card key={item._id} item={item} />) }
                 </Cards>
             </div>
             )
@@ -68,5 +68,5 @@ export default function BurgerIngredients(props) {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  ingredients: PropTypes.arrayOf(ingredientType)
 };

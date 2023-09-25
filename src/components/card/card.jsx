@@ -31,5 +31,5 @@ export default function Card(props) {
 };
 
 Card.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  item: ingredientType
 };

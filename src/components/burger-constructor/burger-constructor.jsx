@@ -82,5 +82,5 @@ export default function BurgerConstructor(props) {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  components: PropTypes.arrayOf(ingredientType)
 };
