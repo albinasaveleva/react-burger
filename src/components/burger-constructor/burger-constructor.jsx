@@ -66,7 +66,7 @@ export default function BurgerConstructor(props) {
         }
       </div>
       </div>
-      <div className={`pt-10 pb-10 pr-4 ${burgerConstructorStyle.info}`}>
+      <div className={`pt-10 pr-4 ${burgerConstructorStyle.info}`}>
         <div className={`pr-10 ${burgerConstructorStyle.price}`}>
           <span className="pr-1 text_type_digits-medium">
             610

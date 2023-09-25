@@ -34,11 +34,11 @@ export default function BurgerIngredients(props) {
 
   const tabScroll = (e) => {
     setCurrent(e);
-    document.getElementById(e).scrollIntoView({ block: "start", behavior: "smooth" });
+    document.getElementById(e).scrollIntoView({ behavior: "smooth" });
   }
 
   return (
-    <section className={`pt-10 pb-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
+    <section className={`pt-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
       <h2 className="pb-5 text text_type_main-large">Соберите бургер</h2>
       <div className={`pb-10 ${burgerIngredientsStyle.tabs}`}>
         { tabs.map(({title, value}) => {
