@@ -51,8 +51,8 @@ export default function BurgerIngredients(props) {
 
   return (
     <section className={`pt-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
-        <h2 className="pb-5 text text_type_main-large">Соберите бургер</h2>
-        <div className={`pb-10 ${burgerIngredientsStyle.tabs}`}>
+        <h2 className="mb-5 text text_type_main-large">Соберите бургер</h2>
+        <div className={`mb-10 ${burgerIngredientsStyle.tabs}`}>
           { tabs.map(({title, value}) => {
             return (
               <Tab key={value} value={value} active={currentTab === value} onClick={tabScroll}>
@@ -80,5 +80,7 @@ export default function BurgerIngredients(props) {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType)
+  ingredients: PropTypes.arrayOf(ingredientType),
+  setModalContent: PropTypes.func.isRequired,
+  setOpenedModal: PropTypes.func.isRequired
 };

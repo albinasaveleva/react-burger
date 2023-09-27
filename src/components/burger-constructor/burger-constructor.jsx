@@ -34,9 +34,9 @@ export default function BurgerConstructor(props) {
   };
 
   return (
-    <section className={`pt-25 pb-10 ${burgerConstructorStyle.container}`} id="burger-constructor">
-        <div  className={`pl-4 ${burgerConstructorStyle.components}`}>
-          <div className={`pb-4 pl-8 ${burgerConstructorStyle.topBun}`}>
+    <section className={`pt-25 ${burgerConstructorStyle.container}`} id="burger-constructor">
+        <div  className={`ml-4 mb-10 ${burgerConstructorStyle.components}`}>
+          <div className={`mb-4 ml-8 ${burgerConstructorStyle.topBun}`}>
             { <ConstructorElement
                 type={'top'}
                 isLocked={true}
@@ -62,7 +62,7 @@ export default function BurgerConstructor(props) {
                 )
               }) }
           </div>
-          <div className={`pt-4 pl-8 ${burgerConstructorStyle.buttomBun}`}>
+          <div className={`mt-4 ml-8 ${burgerConstructorStyle.buttomBun}`}>
           { <ConstructorElement
               type={'bottom'}
               isLocked={true}
@@ -71,11 +71,11 @@ export default function BurgerConstructor(props) {
               thumbnail={bun[0].image}
             />
           }
+          </div>
         </div>
-        </div>
-        <div className={`pt-10 pr-4 ${burgerConstructorStyle.info}`}>
-          <div className={`pr-10 ${burgerConstructorStyle.price}`}>
-            <span className="pr-1 text_type_digits-medium">
+        <div className={`mr-4 ${burgerConstructorStyle.info}`}>
+          <div className={`mr-10 ${burgerConstructorStyle.price}`}>
+            <span className="mr-1 text_type_digits-medium">
               610
             </span>
             <CurrencyIcon type="primary" />
@@ -89,5 +89,7 @@ export default function BurgerConstructor(props) {
 };
 
 BurgerConstructor.propTypes = {
-  components: PropTypes.arrayOf(ingredientType)
+  components: PropTypes.arrayOf(ingredientType),
+  setModalContent: PropTypes.func.isRequired,
+  setOpenedModal: PropTypes.func.isRequired
 };
