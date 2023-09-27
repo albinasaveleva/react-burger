@@ -4,7 +4,6 @@ import mainStyle from './main.module.css';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import ModalOverlay from "../modal-over-lay/modal-over-lay";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
@@ -51,11 +50,9 @@ export default function Main() {
         { components.length > 0 && <BurgerConstructor components={components} setOpenedModal={setOpenedModal} setModalContent={setModalContent} /> } 
       </main>
       { openedModal && modalContent !== null
-        ? <ModalOverlay setOpenedModal={setOpenedModal}>
-            <Modal title={modalContent.title} setOpenedModal={setOpenedModal}>
-              { modalBody() }
-            </Modal>
-          </ModalOverlay>
+        ? <Modal title={modalContent.title} setOpenedModal={setOpenedModal}>
+            { modalBody() }
+          </Modal>
         : null
       }
     </>

@@ -1,22 +1,28 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-
+import modalStyle from './modal.module.css';
 import { 
   Box,
   CloseIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import modalStyle from './modal.module.css';
+
+import ModalOverlay from "../modal-over-lay/modal-over-lay";
+
+const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
-  const doVisibleRoot = () => {
+  const doInvisibleModal = () => {
     document.body.style = '';
     document.querySelector('#root').style = '';
+    document.querySelector('#react-modals').style = '';
   }
 
-  const doInvisibleRoot = () => {
+  const doVisibleModal = () => {
     document.body.style.backgroundColor = 'transparent';
-    document.querySelector('#root').style.opacity = '0';
+    document.querySelector('#root').style.display = 'none';
+    document.querySelector('#react-modals').style.display = 'flex';
   }
 
   const closeModal = () => {
@@ -24,7 +30,7 @@ export default function Modal(props) {
   }
 
   React.useEffect(() => {
-    doInvisibleRoot();
+    doVisibleModal();
 
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
@@ -36,13 +42,13 @@ export default function Modal(props) {
     document.addEventListener('keydown', keyDownHandler);
 
     return () => {
-      doVisibleRoot();
+      doInvisibleModal();
       document.removeEventListener('keydown', keyDownHandler);
     };
   }, []);
   
-  return (
-      <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
+  return ReactDOM.createPortal (
+      (<div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
         <div className={modalStyle.modalHeader}>
           {
             props.title && 
@@ -57,7 +63,8 @@ export default function Modal(props) {
         <div className={modalStyle.modalBody}>
           { props.children }
         </div>
-      </div>
+        <ModalOverlay closeModal={closeModal} />
+      </div>), modalRoot
   );
 };
 

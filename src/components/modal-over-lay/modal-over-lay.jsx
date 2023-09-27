@@ -1,44 +1,31 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-
 import modalOverlayStyle from './modal-over-lay.module.css';
 
-const modalRoot = document.getElementById("react-modals");
-
 export default function ModalOverlay(props) {
-  const closeModal = () => {
-    props.setOpenedModal(false);
-  }
+  // React.useEffect(() => {
+  //   const clickHandler = (e) => {
+  //     e.preventDefault();
 
-  React.useEffect(() => {
-    const clickHandler = (e) => {
-      e.preventDefault();
+  //     if (e.target.id === 'modal-over-lay') {
+  //       props.closeModal();
+  //     }
+  //   }
 
-      if (e.target.id === 'modal-over-lay') {
-        closeModal();
-      }
-    }
+  //   document.addEventListener('click', clickHandler );
 
-    document.addEventListener('click', clickHandler );
+  //   return () => {
+  //     document.removeEventListener('click', clickHandler);
+  //   };
+  // }, []);
 
-    return () => {
-      document.removeEventListener('click', clickHandler);
-    };
-  }, []);
-
-  return ReactDOM.createPortal(
-    (
-      <div id="modal-over-lay" className={modalOverlayStyle.modalOverLay}>
-        { props.children }
-      </div>
-    ), 
-    modalRoot
-  );
+  return (
+    <div id="modal-over-lay" onClick={props.closeModal} className={modalOverlayStyle.modalOverLay} />
+  )
 };
 
 ModalOverlay.propTypes = {
-  setOpenedModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired
 };
 
 
