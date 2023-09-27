@@ -1,0 +1,39 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  max-width: 520px;
+}
+
+.illustration {
+  width: 480px;
+  height: 240px;
+}
+
+.name {
+  text-align: center;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.itemName {
+
+}
+
+.itemValue {
+
+}

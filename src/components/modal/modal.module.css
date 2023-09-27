@@ -1,0 +1,38 @@
+.modal {
+  position: relative;
+  background-color: #1C1C21;
+  max-width: 720px;
+  width: 100%;
+  display: flex;
+  border-radius: 40px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;  
+
+  width: 100%;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}
+
+.closeBtn > svg {
+  vertical-align: middle;
+}
+
+.modalBody {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}

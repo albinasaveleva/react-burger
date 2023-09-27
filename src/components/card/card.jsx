@@ -12,7 +12,7 @@ import cardStyle from './card.module.css';
 
 export default function Card(props) {
   return (
-    <div className={cardStyle.card} key={props.item._id}>
+    <div className={`card ${cardStyle.card}`} data-id={props.item._id} key={props.item._id} onClick={props.onClick}>
     <div className={cardStyle.content}>
       <div className={`pb-1 ${cardStyle.illustration}`}>
         <img src={props.item.image} alt={props.item.name} />
