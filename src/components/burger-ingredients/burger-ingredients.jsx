@@ -41,7 +41,7 @@ export default function BurgerIngredients(props) {
     const ingredientId = e.target.closest('.card').dataset.id;
     const currentIngredient = props.ingredients.filter(element => element._id === ingredientId)[0];
 
-    props.setOpenedModal(true);
+    props.openModal();
     props.setModalContent({
       title: 'Детали ингредиента',
       component: 'IngredientDetails',
@@ -82,5 +82,5 @@ export default function BurgerIngredients(props) {
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientType),
   setModalContent: PropTypes.func.isRequired,
-  setOpenedModal: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 };

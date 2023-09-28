@@ -25,7 +25,7 @@ export default function BurgerConstructor(props) {
   }, {});
 
   const openModal = () => {
-    props.setOpenedModal(true);
+    props.openModal();
     props.setModalContent({
       title: '',
       component: 'OrderDetails',
@@ -91,5 +91,5 @@ export default function BurgerConstructor(props) {
 BurgerConstructor.propTypes = {
   components: PropTypes.arrayOf(ingredientType),
   setModalContent: PropTypes.func.isRequired,
-  setOpenedModal: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 };

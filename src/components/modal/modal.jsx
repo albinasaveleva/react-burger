@@ -13,58 +13,48 @@ import ModalOverlay from "../modal-over-lay/modal-over-lay";
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
-  const doInvisibleModal = () => {
-    document.querySelector('#react-modals').style = '';
-  }
-
-  const doVisibleModal = () => {
-    document.querySelector('#react-modals').style.display = 'flex';
-  }
-
-  const closeModal = () => {
-    props.setOpenedModal(false);
-  }
+  const modal = React.useRef(null);
 
   React.useEffect(() => {
-    doVisibleModal();
-
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
         e.preventDefault();
-        closeModal();
+        props.closeModal();
       }
     };
 
     document.addEventListener('keydown', keyDownHandler);
 
     return () => {
-      doInvisibleModal();
       document.removeEventListener('keydown', keyDownHandler);
     };
   }, []);
   
   return ReactDOM.createPortal (
-      (<div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
-        <div className={modalStyle.modalHeader}>
-          {
-            props.title && 
-              <p className="pt-3 pb-3 text text_type_main-large">
-                {props.title}
-              </p>
-          }
-          <div className={modalStyle.closeBtn} onClick={closeModal}>
-            <CloseIcon type="primary" />
+      (<>
+        <div id="modal" ref={modal} className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
+          <div className={modalStyle.modalHeader}>
+            {
+              props.title && 
+                <p className="pt-3 pb-3 text text_type_main-large">
+                  {props.title}
+                </p>
+            }
+            <div className={modalStyle.closeBtn} onClick={props.closeModal}>
+              <CloseIcon type="primary" />
+            </div>
+          </div>
+          <div className={modalStyle.modalBody}>
+            { props.children }
           </div>
         </div>
-        <div className={modalStyle.modalBody}>
-          { props.children }
-        </div>
-        <ModalOverlay closeModal={closeModal} />
-      </div>), modalRoot
+        <ModalOverlay closeModal={props.closeModal} />
+      </>
+      ), modalRoot
   );
 };
 
 Modal.propTypes = {
   title: PropTypes.string,
-  setOpenedModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired
 };
