@@ -13,8 +13,6 @@ import ModalOverlay from "../modal-over-lay/modal-over-lay";
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
-  const modal = React.useRef(null);
-
   React.useEffect(() => {
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
@@ -32,7 +30,7 @@ export default function Modal(props) {
   
   return ReactDOM.createPortal (
       (<>
-        <div id="modal" ref={modal} className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
+        <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
           <div className={modalStyle.modalHeader}>
             {
               props.title && 
