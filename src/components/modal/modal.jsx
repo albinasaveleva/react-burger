@@ -14,14 +14,10 @@ const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
   const doInvisibleModal = () => {
-    document.body.style = '';
-    document.querySelector('#root').style = '';
     document.querySelector('#react-modals').style = '';
   }
 
   const doVisibleModal = () => {
-    document.body.style.backgroundColor = 'transparent';
-    document.querySelector('#root').style.display = 'none';
     document.querySelector('#react-modals').style.display = 'flex';
   }
 
