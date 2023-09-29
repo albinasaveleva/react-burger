@@ -1,0 +1,47 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  width: 100%;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  z-index: 999;
+
+  background-color: #1C1C21;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;  
+
+  width: 100%;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}
+
+.closeBtn > svg {
+  vertical-align: middle;
+}
+
+.modalBody {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
