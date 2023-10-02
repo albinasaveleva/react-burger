@@ -1,6 +1,7 @@
 import React from "react";
 import mainStyle from './main.module.css';
 import useModal from '../../hooks/useModal';
+import { IngredientsContext, OrderContext, TotalPriceContext } from '../../services/mainContext';
 
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -12,7 +13,13 @@ const url = 'https://norma.nomoreparties.space/api/ingredients';
 
 export default function Main() {
   const [ ingredients, setIngredients ] = React.useState([]);
-  // const [ components, setComponents ] = React.useState([]);
+  const [ order, setOrder ] = React.useState({
+    buns: null,
+    ingredients: null,
+    number: null,
+    name: null
+  });
+  const [ totalPrice, setTotalPrice ] = React.useState(0);
   const [ modalContent, setModalContent ] = React.useState(null);
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -37,24 +44,28 @@ export default function Main() {
 
   const modalBody = () => {
     if (modalContent.component === 'OrderDetails') {
-      return <OrderDetails content={modalContent.content} />
+      return <OrderDetails />
     } else if (modalContent.component === 'IngredientDetails') {
       return <IngredientDetails content={modalContent.content} />
     }
   }
 
-  return (
-    <>
-      <main className={`pb-10 ${mainStyle.container}`}>
-        { ingredients.length > 0 && <BurgerIngredients ingredients={ingredients} openModal={openModal} setModalContent={setModalContent} /> }
-        { ingredients.length > 0 && <BurgerConstructor components={ingredients} openModal={openModal} setModalContent={setModalContent} /> } 
-      </main>
-      { isModalOpen && modalContent !== null
-        ? <Modal title={modalContent.title} closeModal={closeModal}>
-            { modalBody() }
-          </Modal>
-        : null
-      }
-    </>
+  return ( 
+    <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+      <OrderContext.Provider value={{ order, setOrder }} >
+        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
+          <main className={`pb-10 ${mainStyle.container}`}>
+            <BurgerIngredients openModal={openModal} setModalContent={setModalContent} />
+            <BurgerConstructor openModal={openModal} setModalContent={setModalContent} /> 
+          </main>
+          { isModalOpen && modalContent !== null
+            ? <Modal title={modalContent.title} closeModal={closeModal}>
+                { modalBody() }
+              </Modal>
+            : null
+          }
+        </TotalPriceContext.Provider>
+      </OrderContext.Provider>
+    </IngredientsContext.Provider> 
   );
 }

@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import ingredientType from '../../utils/types';
-
 
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import { 
@@ -9,22 +7,26 @@ import {
   Tab,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IngredientsContext } from "../../services/mainContext";
 
 import Card from "../card/card";
 import Cards from "../cards/cards";
 
 export default function BurgerIngredients(props) {
   const [currentTab, setCurrentTab] = React.useState('bun');
+  const { ingredients } = React.useContext(IngredientsContext);
 
-  const ingredients = props.ingredients.reduce((acc, item) => {
-    const type = item.type;
-    if (!Object.hasOwn(acc, type)) {
-      acc[type] = [];
-    };
+  const sortedIngredients = ingredients 
+    ? ingredients.reduce((acc, item) => {
+      const type = item.type;
+      if (!Object.hasOwn(acc, type)) {
+        acc[type] = [];
+      };
 
-    acc[type].push(item);
-    return acc;
-  }, {});
+      acc[type].push(item);
+      return acc;
+    }, {})
+    : {};
 
   const tabs = [
     { title: 'Булки', value: 'bun' },
@@ -39,7 +41,7 @@ export default function BurgerIngredients(props) {
 
   const openModal = (e) => {
     const ingredientId = e.target.closest('.card').dataset.id;
-    const currentIngredient = props.ingredients.filter(element => element._id === ingredientId)[0];
+    const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
 
     props.openModal();
     props.setModalContent({
@@ -69,7 +71,7 @@ export default function BurgerIngredients(props) {
                     {title}
                   </h3>
                   <Cards>
-                    { ingredients[value].map(item => <Card onClick={openModal} key={item._id} item={item} />) }
+                    { sortedIngredients[value] && sortedIngredients[value].map(item => <Card onClick={openModal} key={item._id} item={item} />) }
                   </Cards>
               </div>
               )
@@ -80,7 +82,6 @@ export default function BurgerIngredients(props) {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType),
   setModalContent: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired
 };
