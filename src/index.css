@@ -36,3 +36,21 @@ a {
 #react-modals {
   position: relative;
 }
+
+.constructor-element.default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.constructor-element.default  .constructor-element__image {
+  display: none;
+}
+
+.constructor-element.default  .constructor-element__price {
+  display: none;
+}
+
+.constructor-element.default  .constructor-element__action {
+  display: none;
+}
