@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
+
 import { 
   Box,
   Tab,
@@ -12,26 +13,26 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import useModal from '../../hooks/useModal';
 
-import Card from "../card/card";
-import Cards from "../cards/cards";
+import IngredientsCategory from "../ingredients-category/ingredients-category";
+import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { InView } from 'react-intersection-observer';
+// import { InView } from 'react-intersection-observer';
 
 export default function BurgerIngredients(props) {
   const { isModalOpen, openModal, closeModal } = useModal();
-
   const { list: ingredients } = useSelector(store => store.ingredients);
-  const sortedIngredients = ingredients 
-    ? ingredients.reduce((acc, item) => {
-      const type = item.type;
-      if (!Object.hasOwn(acc, type)) {
-        acc[type] = [];
-      };
 
-      acc[type].push(item);
-      return acc;
-    }, {})
-    : {};
+  const sortedIngredients = ingredients 
+  ? ingredients.reduce((acc, item) => {
+    const type = item.type;
+    if (!Object.hasOwn(acc, type)) {
+      acc[type] = [];
+    };
+
+    acc[type].push(item);
+    return acc;
+  }, {})
+  : {};
 
   const tabs = [
     { title: 'Булки', value: 'bun' },
@@ -70,22 +71,14 @@ export default function BurgerIngredients(props) {
             }) }
           </div>
           <div className={burgerIngredientsStyle.ingredients} id="burger-ingredients-content">
-            { tabs.map(({title, value}) => {
-                return (
-                  <InView  key={value} >
-                    {({ ref, inView, entry }) => (
-                      <div className={burgerIngredientsStyle.tabContent} id={value} ref={ref} data-top-position={''} data-inview={inView}>
-                          <h3 className="text text_type_main-medium">
-                            {title}
-                          </h3>
-                          <Cards>
-                            { sortedIngredients[value] && sortedIngredients[value].map(item => <Card onClick={handleClick} key={item._id} item={item} />) }
-                          </Cards>
-                      </div>
-                    )}
-                  </InView>
-                )
-              }) }
+            { tabs.map(({title, value}) => (
+              <IngredientsCategory title={title} value={value}  key={value}>
+                { sortedIngredients[value] && 
+                  sortedIngredients[value]
+                    .map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) 
+                }
+              </IngredientsCategory>
+            )) }
           </div>
       </section>
       {
