@@ -9,87 +9,50 @@ import {
   DragIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientsContext, OrderContext, TotalPriceContext } from "../../services/mainContext";
+import { useSelector, useDispatch } from 'react-redux';
+import { createOrder } from "../../services/actions/order";
+
 
 export default function BurgerConstructor(props) {
-  const { ingredients } = React.useContext(IngredientsContext);
-  const { order, setOrder } = React.useContext(OrderContext);
-  const { totalPrice, setTotalPrice } = React.useContext(TotalPriceContext);
+  const { buns, ingredients } = useSelector(store => store.burgerConstructor)
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
   const url = 'https://norma.nomoreparties.space/api/orders';
 
-  // React.useEffect(()=>{
-  //   setOrder({
-  //     buns: findIngredient('643d69a5c3f7b9001cfa093c'),
-  //     ingredients: ingredients.filter( item => item.type === 'main' || item.type === 'sauce'),
-  //   });
-  // }, [ingredients]);
-
   React.useEffect(()=>{
-    const ingredientsPrice = order.ingredients 
-      ? order.ingredients.reduce((acc, item) => {
-        acc += item.price;
-        return acc;
-      }, 0)
-      : 0;
-    const bunsPrice = order.buns ? order.buns.price * 2 : 0;
+    const ingredientsPrice = 120;
+    const bunsPrice = 300;
 
-    setTotalPrice(ingredientsPrice + bunsPrice);
-  }, [order.ingredients, order.buns]);
+    setTotalPrice(ingredientsPrice + bunsPrice)
+  }, [buns, ingredients]);
 
-  const findIngredient = (id) => {
-    const currentItem = ingredients.filter(item => item._id === id);
-    return currentItem[0];
+  // const findIngredient = (id) => {
+  //   const currentItem = ingredients.filter(item => item._id === id);
+  //   return currentItem[0];
+  // }
+  const dispatch = useDispatch();
+  const sendOrder = () => {  
+    dispatch(createOrder(['643d69a5c3f7b9001cfa093c']));
+    openModal();
   }
 
-  const sendOrder = () => {
-    const body = {
-      ingredients: [order.buns, ...order.ingredients]
-    };
-    
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Что-то пошло не так...');
-        }
-      })
-      .then(({order: orderData, name}) => {
-        setOrder({
-          ...order,
-          number: orderData.number,
-          name: name,
-        })
-        openModal(orderData.number);
-      })
-      .catch(console.error);
-  }
-
-  const openModal = (number) => {
+  const openModal = () => {
     props.openModal();
     props.setModalContent({
       title: '',
       component: 'OrderDetails',
-      content: number,
     })
   };
 
   const renderTopBun = () => {
     return (
-      order.buns   
+      buns   
         ? <ConstructorElement
             type={'top'}
             isLocked={true}
-            text={`${order.buns.name} (верх)`}
-            price={order.buns.price}
-            thumbnail={order.buns.image}
+            text={`${buns.name} (верх)`}
+            price={buns.price}
+            thumbnail={buns.image}
           />
         : <ConstructorElement
           type={'top'}
@@ -101,13 +64,13 @@ export default function BurgerConstructor(props) {
 
   const renderBottomBun = () => {
     return (
-      order.buns 
+      buns 
         ? <ConstructorElement
             type={'bottom'}
             isLocked={true}
-            text={`${order.buns.name} (низ)`}
-            price={order.buns.price}
-            thumbnail={order.buns.image}
+            text={`${buns.name} (низ)`}
+            price={buns.price}
+            thumbnail={buns.image}
           />
         :  <ConstructorElement
             type={'bottom'}
@@ -119,8 +82,8 @@ export default function BurgerConstructor(props) {
 
   const renderIngredients = () => {
     return (
-      order.ingredients 
-        ? order.ingredients.map((item) => {
+      ingredients 
+        ? ingredients.map((item) => {
             return (
               <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item._id}>
                 <DragIcon type="primary" />
@@ -174,3 +137,4 @@ BurgerConstructor.propTypes = {
   setModalContent: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired
 };
+//totalPrice высчитывается не надо в стор

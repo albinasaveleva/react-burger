@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from 'prop-types';
+import { InView } from 'react-intersection-observer';
 
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import { 
@@ -7,15 +8,15 @@ import {
   Tab,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientsContext } from "../../services/mainContext";
+
+import { useSelector, useDispatch } from 'react-redux';
+import { ADD_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
 
 import Card from "../card/card";
 import Cards from "../cards/cards";
 
 export default function BurgerIngredients(props) {
-  const [currentTab, setCurrentTab] = React.useState('bun');
-  const { ingredients } = React.useContext(IngredientsContext);
-
+  const { list: ingredients } = useSelector(store => store.ingredients);
   const sortedIngredients = ingredients 
     ? ingredients.reduce((acc, item) => {
       const type = item.type;
@@ -33,23 +34,27 @@ export default function BurgerIngredients(props) {
     { title: 'Соусы', value: 'sauce' },
     { title: 'Начинки', value: 'main' },
   ];
-
+  const [currentTab, setCurrentTab] = React.useState('bun');
   const tabScroll = (e) => {
     setCurrentTab(e);
     document.getElementById(e).scrollIntoView({ behavior: "smooth" });
   }
 
-  const openModal = (e) => {
+  const dispatch = useDispatch();
+  const handleClick = (e) => {
     const ingredientId = e.target.closest('.card').dataset.id;
     const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
 
+    dispatch({
+      type: ADD_INGREDIENT_DETAILS,
+      item: currentIngredient
+    })
     props.openModal();
     props.setModalContent({
       title: 'Детали ингредиента',
       component: 'IngredientDetails',
-      content: currentIngredient,
     })
-  };
+  }
 
   return (
     <section className={`pt-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
@@ -63,17 +68,21 @@ export default function BurgerIngredients(props) {
             )
           }) }
         </div>
-        <div className={burgerIngredientsStyle.ingredients}>
+        <div className={burgerIngredientsStyle.ingredients} id="burger-ingredients-content">
           { tabs.map(({title, value}) => {
               return (
-                <div className={burgerIngredientsStyle.tabContent} id={value} key={value}>
-                  <h3 className="text text_type_main-medium">
-                    {title}
-                  </h3>
-                  <Cards>
-                    { sortedIngredients[value] && sortedIngredients[value].map(item => <Card onClick={openModal} key={item._id} item={item} />) }
-                  </Cards>
-              </div>
+                <InView  key={value} >
+                  {({ ref, inView, entry }) => (
+                    <div className={burgerIngredientsStyle.tabContent} id={value} ref={ref} data-top-position={''} data-inview={inView}>
+                        <h3 className="text text_type_main-medium">
+                          {title}
+                        </h3>
+                        <Cards>
+                          { sortedIngredients[value] && sortedIngredients[value].map(item => <Card onClick={handleClick} key={item._id} item={item} />) }
+                        </Cards>
+                    </div>
+                  )}
+                </InView>
               )
             }) }
         </div>

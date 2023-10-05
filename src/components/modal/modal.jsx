@@ -7,17 +7,32 @@ import {
   CloseIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { DELETE_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
+  const { item } = useSelector(store => store.ingredientDetails);
+  const dispatch = useDispatch();
+  const closeModal = () => {
+    props.closeModal();
+
+    if (Object.keys(item).length !== 0) {
+      dispatch({
+        type: DELETE_INGREDIENT_DETAILS,
+      })
+    }
+  }
+
   React.useEffect(() => {
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
         e.preventDefault();
-        props.closeModal();
+
+        closeModal();
       }
     };
 
@@ -38,7 +53,7 @@ export default function Modal(props) {
                   {props.title}
                 </p>
             }
-            <div className={modalStyle.closeBtn} onClick={props.closeModal}>
+            <div className={modalStyle.closeBtn} onClick={closeModal}>
               <CloseIcon type="primary" />
             </div>
           </div>
@@ -46,7 +61,7 @@ export default function Modal(props) {
             { props.children }
           </div>
         </div>
-        <ModalOverlay closeModal={props.closeModal} />
+        <ModalOverlay closeModal={closeModal} />
       </>
       ), modalRoot
   );
