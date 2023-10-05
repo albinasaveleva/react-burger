@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import burgerConstructorStyle from './burger-constructor.module.css';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box,
   Button,
@@ -9,15 +8,18 @@ import {
   DragIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
+import burgerConstructorStyle from './burger-constructor.module.css';
 import { createOrder } from "../../services/actions/order";
 
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import useModal from '../../hooks/useModal';
 
 export default function BurgerConstructor(props) {
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   const { buns, ingredients } = useSelector(store => store.burgerConstructor)
   const [totalPrice, setTotalPrice] = React.useState(0);
-
-  const url = 'https://norma.nomoreparties.space/api/orders';
 
   React.useEffect(()=>{
     const ingredientsPrice = 120;
@@ -30,19 +32,12 @@ export default function BurgerConstructor(props) {
   //   const currentItem = ingredients.filter(item => item._id === id);
   //   return currentItem[0];
   // }
+
   const dispatch = useDispatch();
-  const sendOrder = () => {  
+  const handleClick = () => {
     dispatch(createOrder(['643d69a5c3f7b9001cfa093c']));
     openModal();
   }
-
-  const openModal = () => {
-    props.openModal();
-    props.setModalContent({
-      title: '',
-      component: 'OrderDetails',
-    })
-  };
 
   const renderTopBun = () => {
     return (
@@ -106,35 +101,38 @@ export default function BurgerConstructor(props) {
     }
 
   return (
-    <section className={`pt-25 ${burgerConstructorStyle.container}`} id="burger-constructor">
-      <div  className={`ml-4 mb-10 ${burgerConstructorStyle.components}`}>
-        <div className={`mb-4 ml-8 ${burgerConstructorStyle.topBun}`}>
-          { renderTopBun() }
-        </div>
-        <div className={burgerConstructorStyle.content}>
-          { renderIngredients() }
-        </div>
-        <div className={`mt-4 ml-8 ${burgerConstructorStyle.buttomBun}`}>
-          { renderBottomBun() }
-        </div>
-      </div>
-        <div className={`mr-4 ${burgerConstructorStyle.info}`}>
-          <div className={`mr-10 ${burgerConstructorStyle.price}`}>
-            <span className="mr-1 text_type_digits-medium">
-              {totalPrice}
-            </span>
-            <CurrencyIcon type="primary" />
+    <>
+      <section className={`pt-25 ${burgerConstructorStyle.container}`} id="burger-constructor">
+        <div  className={`ml-4 mb-10 ${burgerConstructorStyle.components}`}>
+          <div className={`mb-4 ml-8 ${burgerConstructorStyle.topBun}`}>
+            { renderTopBun() }
           </div>
-          <Button htmlType="button" type="primary" size="large" onClick={sendOrder}>
-            Оформить заказ
-          </Button>
+          <div className={burgerConstructorStyle.content}>
+            { renderIngredients() }
+          </div>
+          <div className={`mt-4 ml-8 ${burgerConstructorStyle.buttomBun}`}>
+            { renderBottomBun() }
+          </div>
         </div>
-    </section>
+          <div className={`mr-4 ${burgerConstructorStyle.info}`}>
+            <div className={`mr-10 ${burgerConstructorStyle.price}`}>
+              <span className="mr-1 text_type_digits-medium">
+                {totalPrice}
+              </span>
+              <CurrencyIcon type="primary" />
+            </div>
+            <Button htmlType="button" type="primary" size="large" onClick={handleClick}>
+              Оформить заказ
+            </Button>
+          </div>
+      </section>
+      {
+        isModalOpen && 
+        <Modal closeModal={closeModal}>
+          <OrderDetails />
+        </Modal>
+      }
+    </>
   );
-};
-
-BurgerConstructor.propTypes = {
-  setModalContent: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
 };
 //totalPrice высчитывается не надо в стор
