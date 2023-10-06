@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
 
@@ -18,21 +18,22 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 // import { InView } from 'react-intersection-observer';
 
-export default function BurgerIngredients(props) {
+function BurgerIngredients(props) {
   const { isModalOpen, openModal, closeModal } = useModal();
   const { list: ingredients } = useSelector(store => store.ingredients);
 
-  const sortedIngredients = ingredients 
-  ? ingredients.reduce((acc, item) => {
-    const type = item.type;
-    if (!Object.hasOwn(acc, type)) {
-      acc[type] = [];
-    };
-
-    acc[type].push(item);
-    return acc;
-  }, {})
-  : {};
+  const sortedIngredients = useMemo(
+    () => ingredients ? ingredients
+      .reduce((acc, item) => {
+        const type = item.type;
+        if (!Object.hasOwn(acc, type)) {
+          acc[type] = [];
+        };
+    
+        acc[type].push(item);
+        return acc;
+      }, {})
+    : {}, [ingredients])
 
   const tabs = [
     { title: 'Булки', value: 'bun' },
@@ -90,3 +91,6 @@ export default function BurgerIngredients(props) {
     </>
   );
 };
+
+export default BurgerIngredients;
+// export default React.memo(BurgerIngredients);

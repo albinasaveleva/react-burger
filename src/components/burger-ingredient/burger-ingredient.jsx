@@ -10,7 +10,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
-export default function BurgerIngredient({item, handleClick}) {
+function BurgerIngredient({item, handleClick}) {
   return (
     <div className={`card ${burgerIngredientStyle.card}`} data-id={item._id} key={item._id} onClick={handleClick}>
     <div className={burgerIngredientStyle.content}>
@@ -34,3 +34,6 @@ BurgerIngredient.propTypes = {
   item: ingredientType,
   handleClick: PropTypes.func.isRequired
 };
+
+export default BurgerIngredient;
+// export default React.memo(BurgerIngredient);

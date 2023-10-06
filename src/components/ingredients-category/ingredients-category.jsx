@@ -1,7 +1,7 @@
 import React from "react";
 import ingredientsCategoryStyle from './ingredients-category.module.css';
 
-export default function IngredientsCategory({title, value, children}) {
+function IngredientsCategory({title, value, children}) {
   return (
     <div className={ingredientsCategoryStyle.container} id={value}>
       <h3 className="text text_type_main-medium">
@@ -13,3 +13,6 @@ export default function IngredientsCategory({title, value, children}) {
     </div> 
   );
 }
+
+export default IngredientsCategory;
+// export default React.memo(IngredientsCategory);
