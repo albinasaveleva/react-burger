@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   buns: null,
-  ingredients: null
+  ingredients: []
 }
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case ADD_INGREDIENTS: {
       return {
         ...state,
-        ingredients: action.ingredients,
+        ingredients: [...state.ingredients, action.ingredients]
       };
     }
     default: {

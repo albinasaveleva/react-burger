@@ -1,4 +1,6 @@
 import React from "react";
+import { useDrag } from "react-dnd";
+
 import PropTypes from 'prop-types';
 import ingredientType from '../../utils/types';
 
@@ -11,8 +13,17 @@ import {
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
 function BurgerIngredient({item, handleClick}) {
+  const [, dragRef] = useDrag({
+    type: "burgerIngredient",
+    item: {item}
+  });
+
+  const getCount = () => {
+    return 1;
+  }
+
   return (
-    <div className={`card ${burgerIngredientStyle.card}`} data-id={item._id} key={item._id} onClick={handleClick}>
+    <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} data-id={item._id}  onClick={handleClick}>
     <div className={burgerIngredientStyle.content}>
       <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>
         <img src={item.image} alt={item.name} />
@@ -23,9 +34,13 @@ function BurgerIngredient({item, handleClick}) {
       </div>
       <span className={`text text_type_main-default ${burgerIngredientStyle.name}`}>{item.name}</span>
     </div>
-    <div className="counter">
-      <Counter count={1} size="default" />
-    </div>
+    {
+      getCount() 
+      ? <div className="counter">
+          <Counter count={getCount()} size="default" />
+        </div>
+      : null
+    }
   </div>
   );
 };

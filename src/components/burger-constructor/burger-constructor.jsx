@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from "react-dnd";
 import { 
   Box,
   Button,
@@ -8,12 +9,17 @@ import {
   DragIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import burgerConstructorStyle from './burger-constructor.module.css';
+
 import { createOrder } from "../../services/actions/order";
+import { ADD_INGREDIENTS, ADD_BUNS } from "../../services/actions/burgerConstructor";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
+
+import { nanoid } from 'nanoid'
 
 export default function BurgerConstructor(props) {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -22,22 +28,46 @@ export default function BurgerConstructor(props) {
   const [totalPrice, setTotalPrice] = React.useState(0);
 
   React.useEffect(()=>{
-    const ingredientsPrice = 120;
-    const bunsPrice = 300;
+    const ingredientsPrice = ingredients.length > 0 
+      ? ingredients.reduce((acc, item) => {
+        acc += item.price;
+        return acc;
+      }, 0)
+      : 0;
+    const bunsPrice = buns ? buns.price * 2 : 0;
 
-    setTotalPrice(ingredientsPrice + bunsPrice)
-  }, [buns, ingredients]);
-
-  // const findIngredient = (id) => {
-  //   const currentItem = ingredients.filter(item => item._id === id);
-  //   return currentItem[0];
-  // }
+    setTotalPrice(ingredientsPrice + bunsPrice);
+  }, [ingredients, buns]);
 
   const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(createOrder(['643d69a5c3f7b9001cfa093c']));
+
+  const handleClick = () => {  
+    const body = [...ingredients.map(item => item._id), buns._id ];
+    
+    dispatch(createOrder(body));
     openModal();
   }
+
+  const handleDrop = (item) => {
+    if (item.type === 'bun') {
+      dispatch({
+        type: ADD_BUNS,
+        buns: {...item, constructorId: item._id}
+      })
+    } else {
+      dispatch({
+        type: ADD_INGREDIENTS,
+        ingredients: {...item, constructorId: nanoid()}
+      })
+    }
+  }
+
+  const [, dropTarget] = useDrop({
+    accept: "burgerIngredient",
+    drop({item}) {
+      handleDrop(item);
+    },
+  });
 
   const renderTopBun = () => {
     return (
@@ -77,10 +107,10 @@ export default function BurgerConstructor(props) {
 
   const renderIngredients = () => {
     return (
-      ingredients 
+      ingredients.length > 0 
         ? ingredients.map((item) => {
             return (
-              <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item._id}>
+              <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   type={undefined}
@@ -103,7 +133,7 @@ export default function BurgerConstructor(props) {
   return (
     <>
       <section className={`pt-25 ${burgerConstructorStyle.container}`} id="burger-constructor">
-        <div  className={`ml-4 mb-10 ${burgerConstructorStyle.components}`}>
+        <div ref={dropTarget} className={`ml-4 mb-10 ${burgerConstructorStyle.components}`}>
           <div className={`mb-4 ml-8 ${burgerConstructorStyle.topBun}`}>
             { renderTopBun() }
           </div>
