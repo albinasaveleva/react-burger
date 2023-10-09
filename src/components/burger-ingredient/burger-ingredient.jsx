@@ -1,5 +1,7 @@
 import React from "react";
 import { useDrag } from "react-dnd";
+import { useSelector } from 'react-redux';
+
 
 import PropTypes from 'prop-types';
 import ingredientType from '../../utils/types';
@@ -13,14 +15,32 @@ import {
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
 function BurgerIngredient({item, handleClick}) {
+  const { buns, ingredients } = useSelector(store => store.burgerConstructor);
+  const [ count, setCount ] = React.useState(0);
+
+  React.useEffect(()=>{
+    if (item.type === 'bun') {
+      if (!buns) {
+        setCount(0);
+        return;
+      };
+
+      buns._id === item._id ? setCount(1) : setCount(0);
+    } else {
+      if (ingredients.length === 0) {
+        setCount(0);
+        return;
+      }
+
+      const items = ingredients.filter(ingredient => ingredient._id === item._id);
+      setCount(items.length);
+    }
+  }, [buns, ingredients]);
+
   const [, dragRef] = useDrag({
     type: "burgerIngredient",
     item: {item}
   });
-
-  const getCount = () => {
-    return 1;
-  }
 
   return (
     <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} data-id={item._id}  onClick={handleClick}>
@@ -35,9 +55,9 @@ function BurgerIngredient({item, handleClick}) {
       <span className={`text text_type_main-default ${burgerIngredientStyle.name}`}>{item.name}</span>
     </div>
     {
-      getCount() 
+      count > 0 
       ? <div className="counter">
-          <Counter count={getCount()} size="default" />
+          <Counter count={count} size="default" />
         </div>
       : null
     }
