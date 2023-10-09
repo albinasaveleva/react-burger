@@ -12,7 +12,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorIngredientStyle from './burger-constructor-ingredient.module.css';
 
-function BurgerConstructorIngredient({item, index, moveIngredient}) {
+function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredient}) {
   const ref = React.useRef(null);
   const [, drop] = useDrop({
     accept: 'burger-constructor-ingredient',
@@ -66,6 +66,7 @@ function BurgerConstructorIngredient({item, index, moveIngredient}) {
         price={item.price}
         thumbnail={item.image}
         extraClass="ml-2"
+        handleClose={deleteIngredient}
       />
     </div>
   );

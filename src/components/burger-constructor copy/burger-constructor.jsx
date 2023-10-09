@@ -13,7 +13,7 @@ import {
 import burgerConstructorStyle from './burger-constructor.module.css';
 
 import { createOrder } from "../../services/order/actions";
-import { ADD_INGREDIENTS, ADD_BUNS } from "../../services/burgerConstructor/actions";
+import { ADD_INGREDIENT, ADD_BUN } from "../../services/burgerConstructor/actions";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -49,12 +49,12 @@ export default function BurgerConstructor(props) {
   const handleDrop = (item) => {
     if (item.type === 'bun') {
       dispatch({
-        type: ADD_BUNS,
+        type: ADD_BUN,
         buns: {...item, constructorId: item._id}
       })
     } else {
       dispatch({
-        type: ADD_INGREDIENTS,
+        type: ADD_INGREDIENT,
         ingredients: {...item, constructorId: nanoid()}
       })
     }

@@ -21,8 +21,11 @@ export function getIngredients() {
           list: res.data
         })
       })
-      .catch(dispatch({
-        type: GET_INGREDIENTS_FAILED,
-      }))
+      .catch(() => {
+        dispatch({
+          type: GET_INGREDIENTS_FAILED,
+          errors: 'Ошибка загрузки данных'
+        })
+      })
   };
 }

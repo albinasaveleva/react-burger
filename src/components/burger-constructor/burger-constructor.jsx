@@ -14,7 +14,7 @@ import {
 import burgerConstructorStyle from './burger-constructor.module.css';
 
 import { createOrder } from "../../services/order/actions";
-import { ADD_INGREDIENTS, ADD_BUNS, SORT_INGREDIENTS } from "../../services/burgerConstructor/actions";
+import { ADD_INGREDIENT, ADD_BUN, SORT_INGREDIENTS, DELETE_INGREDIENT } from "../../services/burgerConstructor/actions";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -51,12 +51,12 @@ export default function BurgerConstructor(props) {
   const handleDrop = (item) => {
     if (item.type === 'bun') {
       dispatch({
-        type: ADD_BUNS,
+        type: ADD_BUN,
         buns: {...item, constructorId: item._id}
       })
     } else {
       dispatch({
-        type: ADD_INGREDIENTS,
+        type: ADD_INGREDIENT,
         ingredients: {...item, constructorId: nanoid()}
       })
     }
@@ -116,7 +116,7 @@ export default function BurgerConstructor(props) {
           ? ingredients.map((item, index) => {
               return (
                 <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
-                  <BurgerConstructorIngredient index={index} item={item} moveIngredient={moveIngredient} />
+                  <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => deleteIngredient(item)} moveIngredient={moveIngredient} />
                 </div>
               )
             }) 
@@ -141,6 +141,15 @@ export default function BurgerConstructor(props) {
       type: SORT_INGREDIENTS,
       ingredients: sortedIngredients
     })
+  }
+
+  const deleteIngredient = (item) => {
+    const filteredIngredients = ingredients.filter(ingredient => ingredient.constructorId !== item.constructorId);
+    
+    dispatch({
+      type: DELETE_INGREDIENT,
+      ingredients: filteredIngredients,
+    });
   }
 
   return (

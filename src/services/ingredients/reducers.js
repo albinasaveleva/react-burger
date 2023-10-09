@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   list: [],
-  errors: null,
+  errors: [],
   isRequest: false,
   isFailed: false,
 };
@@ -17,6 +17,7 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         isRequest: true,
+        errors: []
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
@@ -25,7 +26,6 @@ export const ingredientsReducer = (state = initialState, action) => {
         list: action.list,
         isRequest: false,
         isFailed: false,
-
       };
     }
     case GET_INGREDIENTS_FAILED: {
@@ -33,6 +33,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         isRequest: false,
         isFailed: true,
+        errors: [action.errors]
       };
     }
     default: {

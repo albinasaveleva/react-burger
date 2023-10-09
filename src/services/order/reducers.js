@@ -5,7 +5,14 @@ import {
 } from './actions';
 
 const orderInitialState = {
-  info: null,
+  info: {
+    succes: null,
+    name: null,
+    order: {
+      number: null,
+      ingredients: [],
+    }
+  },
   errors: null,
   isRequest: false,
   isFailed: false,
