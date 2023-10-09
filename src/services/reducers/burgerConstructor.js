@@ -1,6 +1,7 @@
 import {
   ADD_BUNS,
-  ADD_INGREDIENTS
+  ADD_INGREDIENTS,
+  SORT_INGREDIENTS
 } from '../actions/burgerConstructor';
 
 const initialState = {
@@ -21,6 +22,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         ingredients: [...state.ingredients, action.ingredients]
       };
+    }
+    case SORT_INGREDIENTS: {
+      return {
+        ...state,
+        ingredients: action.ingredients
+      }
     }
     default: {
       return state;

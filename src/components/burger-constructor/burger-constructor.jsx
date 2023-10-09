@@ -1,4 +1,5 @@
 import React from "react";
+import update from 'immutability-helper';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 import { 
@@ -13,11 +14,12 @@ import {
 import burgerConstructorStyle from './burger-constructor.module.css';
 
 import { createOrder } from "../../services/actions/order";
-import { ADD_INGREDIENTS, ADD_BUNS } from "../../services/actions/burgerConstructor";
+import { ADD_INGREDIENTS, ADD_BUNS, SORT_INGREDIENTS } from "../../services/actions/burgerConstructor";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
+import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 
 import { nanoid } from 'nanoid'
 
@@ -42,9 +44,7 @@ export default function BurgerConstructor(props) {
   const dispatch = useDispatch();
 
   const handleClick = () => {  
-    const body = [...ingredients.map(item => item._id), buns._id ];
-    
-    dispatch(createOrder(body));
+    dispatch(createOrder(buns,ingredients));
     openModal();
   }
 
@@ -108,17 +108,10 @@ export default function BurgerConstructor(props) {
   const renderIngredients = () => {
     return (
       ingredients.length > 0 
-        ? ingredients.map((item) => {
+        ? ingredients.map((item, index) => {
             return (
               <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  type={undefined}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  extraClass="ml-2"
-                />
+                <BurgerConstructorIngredient index={index} item={item} moveIngredient={moveIngredient} />
               </div>
             )
           }) 
@@ -127,8 +120,22 @@ export default function BurgerConstructor(props) {
             text={'Выберите начинку'}
             extraClass={'default ml-8'}
           />
-      )
-    }
+    )
+  }
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    const sortedIngredients = update(ingredients, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, ingredients[dragIndex]],
+      ],
+    });
+
+    dispatch({
+      type: SORT_INGREDIENTS,
+      ingredients: sortedIngredients
+    })
+  }
 
   return (
     <>

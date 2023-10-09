@@ -8,7 +8,8 @@ export const CREATE_ORDER_FAILED = 'CREATE_ORDER_FAILED';
 const CREATE_ORDER_ENDPOINT = 'orders';
 const url = `${BURGER_API_URL}/${CREATE_ORDER_ENDPOINT}`;
 
-export function createOrder(body) {
+export function createOrder(buns,ingredients) {
+  const body = [ buns._id, ...ingredients.map(item => item._id), buns._id ]
   return function(dispatch) {
     dispatch({
       type: CREATE_ORDER_REQUEST
