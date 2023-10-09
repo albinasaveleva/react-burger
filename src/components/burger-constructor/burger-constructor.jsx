@@ -23,10 +23,10 @@ import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger
 
 import { nanoid } from 'nanoid'
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  const { buns, ingredients } = useSelector(store => store.burgerConstructor)
+  const { isFailed: isFaledOrder, errors: orderError } = useSelector(store => store.order);
+  const { buns, ingredients } = useSelector(store => store.burgerConstructor);
   const [totalPrice, setTotalPrice] = React.useState(0);
 
   React.useEffect(()=>{
@@ -43,10 +43,13 @@ export default function BurgerConstructor(props) {
 
   const dispatch = useDispatch();
 
-  const handleClick = () => {  
-    dispatch(createOrder(buns,ingredients));
-    openModal();
-  }
+  const handleClick = React.useCallback(
+    () => {  
+      dispatch(createOrder(buns, ingredients));
+  
+      isFaledOrder && orderError ? alert(orderError) : openModal();    
+    }, [isFaledOrder, orderError, buns, ingredients]
+  );
 
   const handleDrop = (item) => {
     if (item.type === 'bun') {

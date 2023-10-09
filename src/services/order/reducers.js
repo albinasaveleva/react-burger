@@ -1,47 +1,54 @@
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILED
+  CREATE_ORDER_FAILED,
+  CLEAR_ORDER_DATA
 } from './actions';
 
-const orderInitialState = {
+const initialState = {
   info: {
-    succes: null,
+    success: null,
     name: null,
-    order: {
-      number: null,
-      ingredients: [],
-    }
+    number: null,
+    ingredients: []
   },
   errors: null,
   isRequest: false,
   isFailed: false,
 }
 
-export const orderReducer = (state = orderInitialState, action) => {
+export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST: {
       return {
-        ...state,
+        state: initialState,
         isRequest: true,
       }
     }
     case CREATE_ORDER_SUCCESS: {
       return {
         ...state,
-        info: action.info,
+        info : {
+          success: action.success,
+          name: action.name,
+          number: action.number,
+          ingredients: action.ingredients,
+        },
+        errors: null,
         isRequest: false,
         isFailed: false,
-        errors: null
       }
     }
     case CREATE_ORDER_FAILED: {
       return {
         ...state,
+        errors: action.error,
         isRequest: false,
-        isFailed: true,
-        errors: true
+        isFailed: true
       }
+    }
+    case CLEAR_ORDER_DATA: {
+      return initialState
     }
     default: {
       return state;

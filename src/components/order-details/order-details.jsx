@@ -14,7 +14,7 @@ export default function OrderDetails() {
     <>
       { info 
         ? <div className={`pt-20 pb-20 ${orderDetailsStyle.details}`}>
-          <p className="mb-8 text text_type_digits-large">{info.order.number}</p>
+          <p className="mb-8 text text_type_digits-large">{info.number}</p>
           <p className="mb-15 text text_type_main-medium">идентификатор заказа</p>
           <div className={`mb-15 ${orderDetailsStyle.done}`}>
             <CheckMarkIcon type="primary" />

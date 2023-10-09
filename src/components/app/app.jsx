@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from '../app-header/app-header.jsx';
 import Main from '../main/main';
-import { getIngredients } from "../../services/ingredients/actions";
 import Preloader from '../preLoader/preloader';
+
+import { getIngredients } from "../../services/ingredients/actions";
 
 function App() {
   const dispatch = useDispatch();
