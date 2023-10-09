@@ -1,12 +1,14 @@
 import React from "react";
 import ingredientDetailsStyle from './ingredient-details.module.css';
+
 import { 
   Box,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import { useSelector } from 'react-redux';
 
-export default function IngredientDetails() {
+function IngredientDetails() {
   const { item: ingredient } = useSelector(store => store.ingredientDetails);
 
   return (
@@ -34,3 +36,6 @@ export default function IngredientDetails() {
     </div>
   );
 };
+
+export default IngredientDetails;
+// export default React.memo(IngredientDetails);

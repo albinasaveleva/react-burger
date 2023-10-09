@@ -14,5 +14,5 @@ function IngredientsCategory({title, value, children}) {
   );
 }
 
-export default IngredientsCategory;
-// export default React.memo(IngredientsCategory);
+// export default IngredientsCategory;
+export default React.memo(IngredientsCategory);

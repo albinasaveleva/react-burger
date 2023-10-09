@@ -50,5 +50,5 @@ BurgerIngredient.propTypes = {
   handleClick: PropTypes.func.isRequired
 };
 
-export default BurgerIngredient;
-// export default React.memo(BurgerIngredient);
+// export default BurgerIngredient;
+export default React.memo(BurgerIngredient);

@@ -1,5 +1,9 @@
 import React from "react";
 import { useDrop, useDrag } from "react-dnd";
+
+import PropTypes from 'prop-types';
+import ingredientType from '../../utils/types';
+
 import { 
   Box,
   ConstructorElement,
@@ -8,8 +12,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorIngredientStyle from './burger-constructor-ingredient.module.css';
 
-
-export default function BurgerConstructorIngredient({item, index, moveIngredient}) {
+function BurgerConstructorIngredient({item, index, moveIngredient}) {
   const ref = React.useRef(null);
   const [, drop] = useDrop({
     accept: 'burger-constructor-ingredient',
@@ -41,6 +44,7 @@ export default function BurgerConstructorIngredient({item, index, moveIngredient
       item.index = hoverIndex
     },
   })
+
   const [{ isDragging }, drag] = useDrag({
     type: 'burger-constructor-ingredient',
     item: {item, index},
@@ -48,6 +52,7 @@ export default function BurgerConstructorIngredient({item, index, moveIngredient
       isDragging: monitor.isDragging()
     })
   })
+
   drag(drop(ref))
 
   const opacity = isDragging ? 0 : 1;
@@ -65,3 +70,12 @@ export default function BurgerConstructorIngredient({item, index, moveIngredient
     </div>
   );
 };
+
+BurgerConstructorIngredient.propTypes = {
+  item: ingredientType,
+  index: PropTypes.number.isRequired,
+  moveIngredient: PropTypes.func.isRequired
+};
+
+// export default BurgerConstructorIngredient;
+export default React.memo(BurgerConstructorIngredient);
