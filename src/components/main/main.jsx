@@ -7,7 +7,7 @@ import mainStyle from './main.module.css';
 
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { getIngredients } from "../../services/actions/ingredients";
+import { getIngredients } from "../../services/ingredients/actions";
 
 export default function Main() {
   const dispatch = useDispatch();

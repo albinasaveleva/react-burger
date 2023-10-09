@@ -8,7 +8,7 @@ import {
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { DELETE_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
+import { DELETE_INGREDIENT_DETAILS } from "../../services/ingredientDetails/actions";
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 

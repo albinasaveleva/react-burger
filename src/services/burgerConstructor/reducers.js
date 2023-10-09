@@ -2,7 +2,7 @@ import {
   ADD_BUNS,
   ADD_INGREDIENTS,
   SORT_INGREDIENTS
-} from '../actions/burgerConstructor';
+} from './actions';
 
 const initialState = {
   buns: null,

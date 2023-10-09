@@ -1,13 +1,13 @@
 import {
   ADD_INGREDIENT_DETAILS,
   DELETE_INGREDIENT_DETAILS
-} from '../actions/burgerIngredients';
+} from './actions';
 
 const initialState = {
   item: {}
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const ingredientDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT_DETAILS: {
       return {

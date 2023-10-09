@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { ADD_INGREDIENT_DETAILS } from "../../services/actions/burgerIngredients";
+import { ADD_INGREDIENT_DETAILS } from "../../services/ingredientDetails/actions";
 
 import { 
   Box,

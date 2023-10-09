@@ -1,7 +1,6 @@
 import React from "react";
-import update from 'immutability-helper';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 import { 
   Box,
   Button,
@@ -14,12 +13,11 @@ import {
 import burgerConstructorStyle from './burger-constructor.module.css';
 
 import { createOrder } from "../../services/order/actions";
-import { ADD_INGREDIENTS, ADD_BUNS, SORT_INGREDIENTS } from "../../services/burgerConstructor/actions";
+import { ADD_INGREDIENTS, ADD_BUNS } from "../../services/burgerConstructor/actions";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
-import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 
 import { nanoid } from 'nanoid'
 
@@ -69,79 +67,68 @@ export default function BurgerConstructor(props) {
     },
   });
 
-  const renderTopBun  = React.useCallback(
-    () => {
-      return (
-        buns   
-          ? <ConstructorElement
-              type={'top'}
-              isLocked={true}
-              text={`${buns.name} (верх)`}
-              price={buns.price}
-              thumbnail={buns.image}
-            />
-          : <ConstructorElement
+  
+
+  const renderTopBun = () => {
+    return (
+      buns   
+        ? <ConstructorElement
             type={'top'}
+            isLocked={true}
+            text={`${buns.name} (верх)`}
+            price={buns.price}
+            thumbnail={buns.image}
+          />
+        : <ConstructorElement
+          type={'top'}
+          text={'Выберите булку'}
+          extraClass={'default'}
+        />
+    )
+  }
+
+  const renderBottomBun = () => {
+    return (
+      buns 
+        ? <ConstructorElement
+            type={'bottom'}
+            isLocked={true}
+            text={`${buns.name} (низ)`}
+            price={buns.price}
+            thumbnail={buns.image}
+          />
+        :  <ConstructorElement
+            type={'bottom'}
             text={'Выберите булку'}
             extraClass={'default'}
           />
-      )
-    }, [buns]
-  );
-
-  const renderBottomBun = React.useCallback(
-    () => {
-      return (
-        buns 
-          ? <ConstructorElement
-              type={'bottom'}
-              isLocked={true}
-              text={`${buns.name} (низ)`}
-              price={buns.price}
-              thumbnail={buns.image}
-            />
-          :  <ConstructorElement
-              type={'bottom'}
-              text={'Выберите булку'}
-              extraClass={'default'}
-            />
-      )
-    }, [buns]
-  );
-
-  const renderIngredients = React.useCallback(
-    () => {
-      return (
-        ingredients.length > 0 
-          ? ingredients.map((item, index) => {
-              return (
-                <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
-                  <BurgerConstructorIngredient index={index} item={item} moveIngredient={moveIngredient} />
-                </div>
-              )
-            }) 
-          : <ConstructorElement
-              type={undefined}
-              text={'Выберите начинку'}
-              extraClass={'default ml-8'}
-            />
-      )
-    }, [ingredients]
-  );
-
-  const moveIngredient = (dragIndex, hoverIndex) => {
-    const sortedIngredients = update(ingredients, {
-      $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, ingredients[dragIndex]],
-      ],
-    });
-
-    dispatch({
-      type: SORT_INGREDIENTS,
-      ingredients: sortedIngredients
-    })
+    )
   }
+
+  const renderIngredients = () => {
+    return (
+      ingredients.length > 0 
+        ? ingredients.map((item) => {
+            return (
+              <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  type={undefined}
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                  extraClass="ml-2"
+                />
+              </div>
+            )
+          }) 
+        : <ConstructorElement
+            type={undefined}
+            text={'Выберите начинку'}
+            extraClass={'default ml-8'}
+          />
+      )
+    }
 
   return (
     <>
@@ -178,3 +165,4 @@ export default function BurgerConstructor(props) {
     </>
   );
 };
+//totalPrice высчитывается не надо в стор
