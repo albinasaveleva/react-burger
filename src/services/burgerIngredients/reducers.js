@@ -11,7 +11,7 @@ const initialState = {
   isFailed: false,
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

@@ -27,7 +27,6 @@ export const orderReducer = (state = initialState, action) => {
     }
     case CREATE_ORDER_SUCCESS: {
       return {
-        ...state,
         info : {
           success: action.success,
           name: action.name,

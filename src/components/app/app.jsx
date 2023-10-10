@@ -6,7 +6,7 @@ import AppHeader from '../app-header/app-header.jsx';
 import Main from '../main/main';
 import Preloader from '../preLoader/preloader';
 
-import { getIngredients } from "../../services/ingredients/actions";
+import { getIngredients } from "../../services/burgerIngredients/actions";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  const { isRequest } = useSelector(store => store.ingredients);
+  const { isRequest } = useSelector(store => store.burgerIngredients);
 
   return (
     <div className={styles.app}>

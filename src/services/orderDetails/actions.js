@@ -10,7 +10,7 @@ const ORDER_ENDPOINT = 'orders';
 const url = `${BURGER_API_URL}/${ORDER_ENDPOINT}`;
 
 const checkIngredients = (buns, ingredients) => {
-  return buns && ingredients.length > 0 ? true : false
+  return buns && ingredients.length > 0 ? true : false;
 }
 
 export function createOrder(buns, ingredients) {

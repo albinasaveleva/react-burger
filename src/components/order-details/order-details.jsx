@@ -8,7 +8,7 @@ import {
 import { useSelector } from 'react-redux';
 
 export default function OrderDetails() {
-  const { info } = useSelector(store => store.order);
+  const { info } = useSelector(store => store.orderDetails);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { useInView } from "react-intersection-observer";
 import { ADD_INGREDIENT_DETAILS } from "../../services/ingredientDetails/actions";
 
 import { 
@@ -16,16 +17,12 @@ import useModal from '../../hooks/useModal';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-// import { InView } from 'react-intersection-observer';
-
 function BurgerIngredients() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { list: ingredients } = useSelector(store => store.ingredients);
+  const { list: ingredients } = useSelector(store => store.burgerIngredients);
 
-  const bunRef = React.useRef(null);
-  const sauceRef = React.useRef(null);
-  const mainRef = React.useRef(null);
+  const rootContainerRef = React.useRef(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const tabs = React.useMemo(()=> {
     return [
@@ -34,26 +31,65 @@ function BurgerIngredients() {
       { title: 'Начинки', value: 'main' },
     ]
   }, []);
+  const [bunref, bunInView, bunEntry] = useInView({
+    threshold: 0,
+    root: rootContainerRef.current,
+  });
+  const [sauceref, sauceInView, sauceEntry] = useInView({
+    threshold: 0,
+    root: rootContainerRef.current,
+  });
+  const [mainref, mainInView, mainEntry] = useInView({
+    threshold: 0,
+    root: rootContainerRef.current,
+  });
+
+  React.useEffect(()=>{
+    if (bunEntry && sauceEntry && mainEntry) {
+      checkCurrentTab();
+    }
+    
+  }, [bunInView, sauceInView, mainInView, bunEntry, sauceEntry, mainEntry]);
+
   const tabScroll = React.useCallback(
     (e) => {
-      setCurrentTab(e);
-      document.getElementById(e).scrollIntoView({ behavior: "smooth" });
+      document.getElementById(e).scrollIntoView({ block: "start", behavior: "smooth" });
     }, []
   );
-  const dispatch = useDispatch();
-  const handleClick = React.useCallback(
-    (e) => {
-      const ingredientId = e.target.closest('.card').dataset.id;
-      const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
-  
-      dispatch({
-        type: ADD_INGREDIENT_DETAILS,
-        item: currentIngredient
-      })
-      openModal();
-    }, [ingredients]
-  )
+  const checkCurrentTab = () => {
+    const tabsInfo = [
+      {
+        name: 'bun',
+        isVisible: bunInView,
+        top: bunEntry,
+      },
+      {
+        name: 'sauce',
+        isVisible: sauceInView,
+        top: sauceEntry,
+      },
+      {
+        name: 'main',
+        isVisible: mainInView,
+        top: mainEntry,
+      },
+    ];
 
+    const visibleTabs = tabsInfo
+      .filter(tab => tab.isVisible === true)
+      .sort(function (a, b) {
+        if (a.top > b.top) {
+          return 1;
+        }
+        if (a.top < b.top) {
+          return -1;
+        }
+        return 0;
+      });
+
+    setCurrentTab(visibleTabs[0].name);
+  }
+  
   const renderTabs = React.useCallback(
     () => {
       return tabs.map(({title, value}) => {
@@ -68,42 +104,56 @@ function BurgerIngredients() {
   const renderBunCategory = React.useCallback(
     () => {
       const buns = ingredients.filter(item => item.type === 'bun');
-      return (
-        <IngredientsCategory bunRef={bunRef} title={'Булки'} value={'bun'}>
-          { buns.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
-        </IngredientsCategory>
-      )
-    }, [ingredients]
+        return (
+          <IngredientsCategory ref={bunref} title={'Булки'} value={'bun'}>
+            { buns.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
+          </IngredientsCategory>
+        )
+    }, [ingredients, handleClick, bunref]
   );
   const renderMainCategory = React.useCallback(
     () => {
       const mains = ingredients.filter(item => item.type === 'main');
       return (
-        <IngredientsCategory mainRef={mainRef} title={'Начинки'} value={'main'}>
+        <IngredientsCategory ref={mainref} title={'Начинки'} value={'main'}>
           { mains.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
         </IngredientsCategory>
       )
-    }, [ingredients]
+    }, [ingredients, handleClick, mainref]
   );
   const renderSauceCategory = React.useCallback(
     () => {
       const sauces = ingredients.filter(item => item.type === 'sauce');
       return (
-        <IngredientsCategory sauceRef={sauceRef} title={'Соусы'} value={'sauce'}>
+        <IngredientsCategory ref={sauceref} title={'Соусы'} value={'sauce'}>
           { sauces.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
         </IngredientsCategory>
       )
-    }, [ingredients]
+    }, [ingredients, handleClick, sauceref]
   );
+
+  const dispatch = useDispatch();
+  const handleClick = React.useCallback(
+    (e) => {
+      const ingredientId = e.target.closest('.card').dataset.id;
+      const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
+  
+      dispatch({
+        type: ADD_INGREDIENT_DETAILS,
+        item: currentIngredient
+      })
+      openModal();
+    }, [ingredients]
+  )
 
   return (
     <>
       <section className={`pt-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
           <h2 className="mb-5 text text_type_main-large">Соберите бургер</h2>
-          <div className={`mb-10 ${burgerIngredientsStyle.tabs}`}>
+          <div className={burgerIngredientsStyle.tabs}>
             { renderTabs() }
           </div>
-          <div className={burgerIngredientsStyle.ingredients} id="burger-ingredients-content">
+          <div ref={rootContainerRef}  className={`pt-10 ${burgerIngredientsStyle.ingredients}`} id="burger-ingredients-content">
             { renderBunCategory() }
             { renderSauceCategory() }
             { renderMainCategory() }
@@ -119,5 +169,5 @@ function BurgerIngredients() {
   );
 };
 
-// export default BurgerIngredients;
-export default React.memo(BurgerIngredients);
+export default BurgerIngredients;
+// export default React.memo(BurgerIngredients);
