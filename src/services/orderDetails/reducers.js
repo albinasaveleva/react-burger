@@ -21,8 +21,15 @@ export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST: {
       return {
-        state: initialState,
+        info : {
+          success: null,
+          name: null,
+          number: null,
+          ingredients: null,
+        },
+        errors: null,
         isRequest: true,
+        isFailed: false,
       }
     }
     case CREATE_ORDER_SUCCESS: {
@@ -40,7 +47,12 @@ export const orderReducer = (state = initialState, action) => {
     }
     case CREATE_ORDER_FAILED: {
       return {
-        ...state,
+        info : {
+          success: null,
+          name: null,
+          number: null,
+          ingredients: null,
+        },
         errors: action.error,
         isRequest: false,
         isFailed: true

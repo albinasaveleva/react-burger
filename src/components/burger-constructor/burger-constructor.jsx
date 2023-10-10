@@ -14,20 +14,30 @@ import {
 import burgerConstructorStyle from './burger-constructor.module.css';
 
 import { createOrder } from "../../services/orderDetails/actions";
-import { ADD_INGREDIENT, ADD_BUN, SORT_INGREDIENTS, DELETE_INGREDIENT } from "../../services/burgerConstructor/actions";
+import { ADD_INGREDIENT, ADD_BUN, SORT_INGREDIENTS, DELETE_INGREDIENT, RESET_BURGER_CONSTRUCTOR } from "../../services/burgerConstructor/actions";
+import { CLEAR_ORDER_DATA } from "../../services/orderDetails/actions";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
+// import Preloader from "../preLoader/preloader";
 
 import { nanoid } from 'nanoid'
 
 export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { isFailed: isFaledOrder, errors: orderError } = useSelector(store => store.orderDetails);
+  // const { isFailed: isFailedOrder, errors: orderErrors } = useSelector(store => store.orderDetails);
+  const info = useSelector(store => store.orderDetails.info);
+
   const { buns, ingredients } = useSelector(store => store.burgerConstructor);
   const [totalPrice, setTotalPrice] = React.useState(0);
+
+  // React.useEffect(() => {
+  //   if (isFailedOrder) {
+  //     alert(orderErrors)
+  //   }
+  // }, [isFailedOrder, orderErrors])
 
   React.useEffect(()=>{
     const ingredientsPrice = ingredients.length > 0 
@@ -39,14 +49,14 @@ export default function BurgerConstructor() {
     const bunsPrice = buns ? buns.price * 2 : 0;
 
     setTotalPrice(ingredientsPrice + bunsPrice);
-  }, [ingredients, buns]);
+  }, [ingredients, buns]);  
 
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = React.useCallback(() => {
     dispatch(createOrder(buns, ingredients));
     openModal();
-  };
+  }, [buns, ingredients])
 
   const handleDrop = (item) => {
     if (item.type === 'bun') {
@@ -179,8 +189,14 @@ export default function BurgerConstructor() {
           </div>
       </section>
       {
-        isModalOpen && 
-        <Modal closeModal={closeModal}>
+        isModalOpen && info.success &&
+        <Modal 
+          closeModal={() => {
+            closeModal();
+            dispatch({type: CLEAR_ORDER_DATA});
+            dispatch({type: RESET_BURGER_CONSTRUCTOR});
+          }}
+        >
           <OrderDetails />
         </Modal>
       }

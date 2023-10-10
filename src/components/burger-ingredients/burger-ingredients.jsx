@@ -89,6 +89,20 @@ function BurgerIngredients() {
 
     setCurrentTab(visibleTabs[0].name);
   }
+
+  const dispatch = useDispatch();
+  const handleClick = React.useCallback(
+    (e) => {
+      const ingredientId = e.target.closest('.card').dataset.id;
+      const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
+  
+      dispatch({
+        type: ADD_INGREDIENT_DETAILS,
+        item: currentIngredient
+      })
+      openModal();
+    }, [ingredients]
+  )
   
   const renderTabs = React.useCallback(
     () => {
@@ -131,20 +145,6 @@ function BurgerIngredients() {
       )
     }, [ingredients, handleClick, sauceref]
   );
-
-  const dispatch = useDispatch();
-  const handleClick = React.useCallback(
-    (e) => {
-      const ingredientId = e.target.closest('.card').dataset.id;
-      const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
-  
-      dispatch({
-        type: ADD_INGREDIENT_DETAILS,
-        item: currentIngredient
-      })
-      openModal();
-    }, [ingredients]
-  )
 
   return (
     <>
