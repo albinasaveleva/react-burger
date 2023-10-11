@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { burgerIngredientsReducer } from '../burgerIngredients/reducers';
 import { ingredientReducer } from '../ingredientDetails/reducers';
@@ -10,4 +11,8 @@ export const rootReducer = combineReducers({
   ingredientDetails: ingredientReducer,
   burgerConstructor: burgerConstructorReducer,
   orderDetails: orderReducer
+});
+
+export const store = configureStore({ 
+  reducer: rootReducer 
 });

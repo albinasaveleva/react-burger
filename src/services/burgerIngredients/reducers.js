@@ -1,7 +1,7 @@
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED
+  GET_INGREDIENTS_ERROR
 } from './actions';
 
 const initialState = {
@@ -28,7 +28,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         isFailed: false,
       };
     }
-    case GET_INGREDIENTS_FAILED: {
+    case GET_INGREDIENTS_ERROR: {
       return {
         ...state,
         isRequest: false,

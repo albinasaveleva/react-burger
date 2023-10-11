@@ -3,8 +3,8 @@ import { checkReponse } from "../../utils/burger-api";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
-export const CREATE_ORDER_FAILED = 'CREATE_ORDER_FAILED';
-export const CLEAR_ORDER_DATA = 'CLEAR_ORDER_DATA';
+export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
+export const RESET_ORDER_DATA = 'RESET_ORDER_DATA';
 
 const ORDER_ENDPOINT = 'orders';
 const url = `${BURGER_API_URL}/${ORDER_ENDPOINT}`;
@@ -40,14 +40,18 @@ export function createOrder(buns, ingredients) {
           })
         })
         .catch(dispatch({
-          type: CREATE_ORDER_FAILED,
+          type: CREATE_ORDER_ERROR,
           error: 'Ошибка при отправке заказа'
         }))
     }
     : function(dispatch) {
       dispatch({
-        type: CREATE_ORDER_FAILED,
+        type: CREATE_ORDER_ERROR,
         error: 'Недостаточно ингредиентов для заказа'
       });
     }
 }
+
+export const clearOrderData = () => ({
+  type: RESET_ORDER_DATA
+});

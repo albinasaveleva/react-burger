@@ -8,7 +8,7 @@ import {
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { DELETE_INGREDIENT_DETAILS } from "../../services/ingredientDetails/actions";
+import { deleteIngredientDetails } from "../../services/ingredientDetails/actions";
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
@@ -21,9 +21,7 @@ export default function Modal(props) {
     props.closeModal();
 
     if (Object.keys(item).length !== 0) {
-      dispatch({
-        type: DELETE_INGREDIENT_DETAILS,
-      })
+      dispatch(deleteIngredientDetails())
     }
   }
 

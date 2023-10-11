@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useInView } from "react-intersection-observer";
-import { ADD_INGREDIENT_DETAILS } from "../../services/ingredientDetails/actions";
+import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
 import { 
   Box,
@@ -17,10 +17,12 @@ import useModal from '../../hooks/useModal';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
+import { getBurgerIngredients } from "../../services/burgerIngredients/selectors";
+
 function BurgerIngredients() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { list: ingredients } = useSelector(store => store.burgerIngredients);
+  const { list: ingredients } = useSelector(getBurgerIngredients);
 
   const rootContainerRef = React.useRef(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
@@ -96,10 +98,7 @@ function BurgerIngredients() {
       const ingredientId = e.target.closest('.card').dataset.id;
       const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
   
-      dispatch({
-        type: ADD_INGREDIENT_DETAILS,
-        item: currentIngredient
-      })
+      dispatch(addIngredienDetails(currentIngredient))
       openModal();
     }, [ingredients]
   )

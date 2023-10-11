@@ -13,31 +13,22 @@ import {
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 
-import { createOrder } from "../../services/orderDetails/actions";
-import { ADD_INGREDIENT, ADD_BUN, SORT_INGREDIENTS, DELETE_INGREDIENT, RESET_BURGER_CONSTRUCTOR } from "../../services/burgerConstructor/actions";
-import { CLEAR_ORDER_DATA } from "../../services/orderDetails/actions";
+import { createOrder, clearOrderData } from "../../services/orderDetails/actions";
+import { addIngredient, addBun, sortIngredients, deleteIngredient, resetBurgerConstructor } from "../../services/burgerConstructor/actions";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
-// import Preloader from "../preLoader/preloader";
 
-import { nanoid } from 'nanoid'
 
 export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  // const { isFailed: isFailedOrder, errors: orderErrors } = useSelector(store => store.orderDetails);
+
   const info = useSelector(store => store.orderDetails.info);
-
   const { buns, ingredients } = useSelector(store => store.burgerConstructor);
-  const [totalPrice, setTotalPrice] = React.useState(0);
 
-  // React.useEffect(() => {
-  //   if (isFailedOrder) {
-  //     alert(orderErrors)
-  //   }
-  // }, [isFailedOrder, orderErrors])
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
   React.useEffect(()=>{
     const ingredientsPrice = ingredients.length > 0 
@@ -60,15 +51,9 @@ export default function BurgerConstructor() {
 
   const handleDrop = (item) => {
     if (item.type === 'bun') {
-      dispatch({
-        type: ADD_BUN,
-        buns: {...item, constructorId: item._id}
-      })
+      dispatch(addBun(item))
     } else {
-      dispatch({
-        type: ADD_INGREDIENT,
-        ingredients: {...item, constructorId: nanoid()}
-      })
+      dispatch(addIngredient(item))
     }
   }
 
@@ -126,7 +111,7 @@ export default function BurgerConstructor() {
           ? ingredients.map((item, index) => {
               return (
                 <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
-                  <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => deleteIngredient(item)} moveIngredient={moveIngredient} />
+                  <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => dispatch(deleteIngredient(item))} moveIngredient={moveIngredient} />
                 </div>
               )
             }) 
@@ -147,20 +132,8 @@ export default function BurgerConstructor() {
       ],
     });
 
-    dispatch({
-      type: SORT_INGREDIENTS,
-      ingredients: sortedIngredients
-    })
-  }
-
-  const deleteIngredient = (item) => {
-    const filteredIngredients = ingredients.filter(ingredient => ingredient.constructorId !== item.constructorId);
-    
-    dispatch({
-      type: DELETE_INGREDIENT,
-      ingredients: filteredIngredients,
-    });
-  }
+    dispatch(sortIngredients(sortedIngredients))
+  };
 
   return (
     <>
@@ -193,8 +166,8 @@ export default function BurgerConstructor() {
         <Modal 
           closeModal={() => {
             closeModal();
-            dispatch({type: CLEAR_ORDER_DATA});
-            dispatch({type: RESET_BURGER_CONSTRUCTOR});
+            dispatch(clearOrderData());
+            dispatch(resetBurgerConstructor());
           }}
         >
           <OrderDetails />

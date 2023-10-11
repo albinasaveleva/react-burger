@@ -1,8 +1,8 @@
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILED,
-  CLEAR_ORDER_DATA
+  CREATE_ORDER_ERROR,
+  RESET_ORDER_DATA
 } from './actions';
 
 const initialState = {
@@ -45,7 +45,7 @@ export const orderReducer = (state = initialState, action) => {
         isFailed: false,
       }
     }
-    case CREATE_ORDER_FAILED: {
+    case CREATE_ORDER_ERROR: {
       return {
         info : {
           success: null,
@@ -58,7 +58,7 @@ export const orderReducer = (state = initialState, action) => {
         isFailed: true
       }
     }
-    case CLEAR_ORDER_DATA: {
+    case RESET_ORDER_DATA: {
       return initialState
     }
     default: {
