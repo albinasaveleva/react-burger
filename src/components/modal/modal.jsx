@@ -20,7 +20,7 @@ export default function Modal(props) {
   const closeModal = () => {
     props.closeModal();
 
-    if (Object.keys(item).length !== 0) {
+    if (item) {
       dispatch(deleteIngredientDetails())
     }
   }

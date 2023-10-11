@@ -4,14 +4,14 @@ import {
 } from './actions';
 
 const initialState = {
-  item: {}
+  item: null
 };
 
 export const ingredientReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT_DETAILS: {
       return {
-        item: action.item
+        item: action.payload
       }
     }
     case DELETE_INGREDIENT_DETAILS: {

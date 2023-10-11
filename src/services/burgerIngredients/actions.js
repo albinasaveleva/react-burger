@@ -18,13 +18,13 @@ export function getIngredients() {
       .then(res => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
-          list: res.data
+          payload: res.data
         })
       })
       .catch(() => {
         dispatch({
           type: GET_INGREDIENTS_ERROR,
-          errors: 'Ошибка загрузки данных'
+          payload: 'Ошибка загрузки данных'
         })
       })
   };

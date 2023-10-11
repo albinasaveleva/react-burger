@@ -12,7 +12,7 @@ const initialState = {
     number: null,
     ingredients: []
   },
-  errors: null,
+  error: null,
   isRequest: false,
   isFailed: false,
 }
@@ -27,7 +27,7 @@ export const orderReducer = (state = initialState, action) => {
           number: null,
           ingredients: null,
         },
-        errors: null,
+        error: null,
         isRequest: true,
         isFailed: false,
       }
@@ -40,7 +40,7 @@ export const orderReducer = (state = initialState, action) => {
           number: action.number,
           ingredients: action.ingredients,
         },
-        errors: null,
+        error: null,
         isRequest: false,
         isFailed: false,
       }
@@ -53,7 +53,7 @@ export const orderReducer = (state = initialState, action) => {
           number: null,
           ingredients: null,
         },
-        errors: action.error,
+        error: action.error,
         isRequest: false,
         isFailed: true
       }

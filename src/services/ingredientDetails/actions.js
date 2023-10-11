@@ -1,9 +1,9 @@
 export const ADD_INGREDIENT_DETAILS = 'ADD_INGREDIENT_DETAILS';
 export const DELETE_INGREDIENT_DETAILS = 'DELETE_INGREDIENT_DETAILS';
 
-export const addIngredienDetails = (currentIngredient) => ({
+export const addIngredienDetails = (item) => ({
   type: ADD_INGREDIENT_DETAILS,
-  item: currentIngredient
+  payload: item
 });
 
 export const deleteIngredientDetails = () => ({
