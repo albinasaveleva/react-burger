@@ -15,7 +15,7 @@ import ModalOverlay from "../modal-over-lay/modal-over-lay";
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal(props) {
-  const { item } = useSelector(store => store.ingredientDetails);
+  const item = useSelector(store => store.ingredientDetails.item);
   const dispatch = useDispatch();
   const closeModal = () => {
     props.closeModal();

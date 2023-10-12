@@ -15,7 +15,8 @@ import {
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
 function BurgerIngredient({item, handleClick}) {
-  const { buns, ingredients } = useSelector(store => store.burgerConstructor);
+  const buns = useSelector(store => store.burgerConstructor.buns);
+  const ingredients = useSelector(store => store.burgerConstructor.ingredients);
 
   const getCount = () => {
     if (item.type === 'bun') {

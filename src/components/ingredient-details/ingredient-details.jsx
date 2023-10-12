@@ -9,7 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 
 function IngredientDetails() {
-  const { item: ingredient } = useSelector(store => store.ingredientDetails);
+  const ingredient = useSelector(store => store.ingredientDetails.item);
 
   return (
     <div className={`pb-5 ${ingredientDetailsStyle.details}`}>

@@ -25,7 +25,7 @@ import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger
 export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const info = useSelector(store => store.orderDetails.info);
+  const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
   const { buns, ingredients } = useSelector(store => store.burgerConstructor);
 
   const getTotalPrice = () => {
@@ -160,7 +160,7 @@ export default function BurgerConstructor() {
           </div>
       </section>
       {
-        isModalOpen && info.success &&
+        isModalOpen && orderRequestSuccess &&
         <Modal 
           closeModal={() => {
             closeModal();

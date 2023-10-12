@@ -22,7 +22,7 @@ import { getBurgerIngredients } from "../../services/burgerIngredients/selectors
 function BurgerIngredients() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { list: ingredients } = useSelector(getBurgerIngredients);
+  const ingredients = useSelector(getBurgerIngredients);
 
   const rootContainerRef = React.useRef(null);
   const [currentTab, setCurrentTab] = React.useState('bun');

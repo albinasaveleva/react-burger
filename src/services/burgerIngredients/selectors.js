@@ -1,1 +1,1 @@
-export const getBurgerIngredients = store => store.burgerIngredients;
+export const getBurgerIngredients = store => store.burgerIngredients.list;
