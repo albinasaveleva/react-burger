@@ -26,7 +26,8 @@ export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
-  const { buns, ingredients } = useSelector(store => store.burgerConstructor);
+  const buns = useSelector(store => store.burgerConstructor.buns);
+  const ingredients = useSelector(store => store.burgerConstructor.ingredients);
 
   const getTotalPrice = () => {
     const ingredientsPrice = ingredients.length > 0 
@@ -63,63 +64,55 @@ export default function BurgerConstructor() {
   });
 
   const renderTopBun  = React.useCallback(
-    () => {
-      return (
-        buns   
-          ? <ConstructorElement
-              type={'top'}
-              isLocked={true}
-              text={`${buns.name} (верх)`}
-              price={buns.price}
-              thumbnail={buns.image}
-            />
-          : <ConstructorElement
-            type={'top'}
-            text={'Выберите булку'}
-            extraClass={'default'}
-          />
-      )
-    }, [buns]
+    () => (
+      buns   
+      ? <ConstructorElement
+          type={'top'}
+          isLocked={true}
+          text={`${buns.name} (верх)`}
+          price={buns.price}
+          thumbnail={buns.image}
+        />
+      : <ConstructorElement
+        type={'top'}
+        text={'Выберите булку'}
+        extraClass={'default'}
+      />
+    ), [buns]
   );
 
   const renderBottomBun = React.useCallback(
-    () => {
-      return (
-        buns 
-          ? <ConstructorElement
-              type={'bottom'}
-              isLocked={true}
-              text={`${buns.name} (низ)`}
-              price={buns.price}
-              thumbnail={buns.image}
-            />
-          :  <ConstructorElement
-              type={'bottom'}
-              text={'Выберите булку'}
-              extraClass={'default'}
-            />
-      )
-    }, [buns]
+    () => (
+      buns 
+      ? <ConstructorElement
+          type={'bottom'}
+          isLocked={true}
+          text={`${buns.name} (низ)`}
+          price={buns.price}
+          thumbnail={buns.image}
+        />
+      :  <ConstructorElement
+          type={'bottom'}
+          text={'Выберите булку'}
+          extraClass={'default'}
+        />
+    ), [buns]
   );
 
   const renderIngredients = React.useCallback(
-    () => {
-      return (
-        ingredients.length > 0 
-          ? ingredients.map((item, index) => {
-              return (
-                <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
-                  <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => dispatch(deleteIngredient(item))} moveIngredient={moveIngredient} />
-                </div>
-              )
-            }) 
-          : <ConstructorElement
-              type={undefined}
-              text={'Выберите начинку'}
-              extraClass={'default ml-8'}
-            />
-      )
-    }, [ingredients]
+    () => (
+      ingredients.length > 0 
+      ? ingredients.map((item, index) => (
+          <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
+            <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => dispatch(deleteIngredient(item))} moveIngredient={moveIngredient} />
+          </div>
+        )) 
+      : <ConstructorElement
+          type={undefined}
+          text={'Выберите начинку'}
+          extraClass={'default ml-8'}
+        />
+    ), [ingredients]
   );
 
   const moveIngredient = (dragIndex, hoverIndex) => {
