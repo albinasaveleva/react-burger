@@ -16,26 +16,20 @@ import burgerIngredientStyle from './burger-ingredient.module.css';
 
 function BurgerIngredient({item, handleClick}) {
   const { buns, ingredients } = useSelector(store => store.burgerConstructor);
-  const [ count, setCount ] = React.useState(0);
 
-  React.useEffect(()=>{
+  const getCount = () => {
     if (item.type === 'bun') {
-      if (!buns) {
-        setCount(0);
-        return;
-      };
+      if (!buns) return 0;
 
-      buns._id === item._id ? setCount(1) : setCount(0);
+      return buns._id === item._id ? 1 : 0;
     } else {
-      if (ingredients.length === 0) {
-        setCount(0);
-        return;
-      }
-
-      const items = ingredients.filter(ingredient => ingredient._id === item._id);
-      setCount(items.length);
+      if (ingredients.length === 0) return 0;
     }
-  }, [buns, ingredients]);
+
+      return ingredients
+        .filter(ingredient => ingredient._id === item._id)
+        .length
+  };
 
   const [, dragRef] = useDrag({
     type: "burgerIngredient",
@@ -55,9 +49,9 @@ function BurgerIngredient({item, handleClick}) {
       <span className={`text text_type_main-default ${burgerIngredientStyle.name}`}>{item.name}</span>
     </div>
     {
-      count > 0 
+      getCount() > 0 
       ? <div className="counter">
-          <Counter count={count} size="default" />
+          <Counter count={getCount()} size="default" />
         </div>
       : null
     }
