@@ -10,7 +10,7 @@ import {
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export default function AppHeader() {
+function AppHeader() {
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <nav className={headerStyle.navigation}>
@@ -53,3 +53,6 @@ export default function AppHeader() {
     </header>
   );
 };
+
+// export default AppHeader;
+export default React.memo(AppHeader);

@@ -1,15 +1,16 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import ingredientType from '../../utils/types';
 import ingredientDetailsStyle from './ingredient-details.module.css';
+
 import { 
   Box,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export default function IngredientDetails(props) {
-  const ingredient = props.content;
-  
+import { useSelector } from 'react-redux';
+
+function IngredientDetails() {
+  const ingredient = useSelector(store => store.ingredientDetails.item);
+
   return (
     <div className={`pb-5 ${ingredientDetailsStyle.details}`}>
       <img className={`mb-4 ${ingredientDetailsStyle.illustration}`} src={ingredient.image} alt={ingredient.name} />
@@ -36,6 +37,5 @@ export default function IngredientDetails(props) {
   );
 };
 
-IngredientDetails.propTypes = {
-  content: ingredientType
-};
+export default IngredientDetails;
+// export default React.memo(IngredientDetails);
