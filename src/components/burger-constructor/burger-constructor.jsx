@@ -28,9 +28,7 @@ export default function BurgerConstructor() {
   const info = useSelector(store => store.orderDetails.info);
   const { buns, ingredients } = useSelector(store => store.burgerConstructor);
 
-  const [totalPrice, setTotalPrice] = React.useState(0);
-
-  React.useEffect(()=>{
+  const getTotalPrice = () => {
     const ingredientsPrice = ingredients.length > 0 
       ? ingredients.reduce((acc, item) => {
         acc += item.price;
@@ -39,8 +37,8 @@ export default function BurgerConstructor() {
       : 0;
     const bunsPrice = buns ? buns.price * 2 : 0;
 
-    setTotalPrice(ingredientsPrice + bunsPrice);
-  }, [ingredients, buns]);  
+    return ingredientsPrice + bunsPrice;
+  } 
 
   const dispatch = useDispatch();
 
@@ -152,7 +150,7 @@ export default function BurgerConstructor() {
           <div className={`mr-4 ${burgerConstructorStyle.info}`}>
             <div className={`mr-10 ${burgerConstructorStyle.price}`}>
               <span className="mr-1 text_type_digits-medium">
-                {totalPrice}
+                {getTotalPrice()}
               </span>
               <CurrencyIcon type="primary" />
             </div>
