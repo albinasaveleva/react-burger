@@ -1,10 +1,9 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styles from './app.module.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import AppHeader from '../app-header/app-header.jsx';
-import Main from '../main/main';
-import Preloader from '../preLoader/preloader';
+import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage } from '../../pages';
 
 import { getIngredients } from "../../services/burgerIngredients/actions";
 
@@ -14,16 +13,20 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  const { isRequest } = useSelector(store => store.burgerIngredients);
-
   return (
     <div className={styles.app}>
-      <AppHeader />
-      {
-        isRequest 
-          ? <Preloader />
-          : <Main />
-      }
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/ingredients" element={<IngredientPage />} />
+          <Route path="*" element={<NonFound404Page />} />
+        </Routes>
+    </BrowserRouter>
     </div>
   );
 }
