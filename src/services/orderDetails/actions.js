@@ -39,17 +39,19 @@ export function createOrder(buns, ingredients) {
             ingredients: body
           })
         })
-        .catch(dispatch({
-          type: CREATE_ORDER_ERROR,
-          error: 'Ошибка при отправке заказа'
-        }))
+        .catch(()=>{
+          dispatch({
+            type: CREATE_ORDER_ERROR,
+            error: 'Ошибка при отправке заказа'
+          })
+        })
     }
     : function(dispatch) {
-      dispatch({
-        type: CREATE_ORDER_ERROR,
-        error: 'Недостаточно ингредиентов для заказа'
-      });
-    }
+        dispatch({
+          type: CREATE_ORDER_ERROR,
+          error: 'Недостаточно ингредиентов для заказа'
+        });
+      }
 }
 
 export const clearOrderData = () => ({

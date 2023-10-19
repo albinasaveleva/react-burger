@@ -1,6 +1,6 @@
 import { BURGER_API_URL } from "../../utils/burger-api";
 import { checkReponse } from "../../utils/burger-api";
-import { setLocalStorage } from "../../utils/localStorage";
+import { setLocalStorage, getLocalStorage } from "../../utils/localStorage";
 import { setCookie, getCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
@@ -152,10 +152,10 @@ export function loginRequest({email, password}) {
   }
 };
 
-export function logoutRequest({refreshToken}) {
+export function logoutRequest() {
   const url = `${BURGER_API_URL}/${AUTH_LOGOUT_ENDPOINT}`;
   const body = {
-    token: refreshToken
+    token: getLocalStorage('refreshToken')
   };
 
   return function(dispatch) {
@@ -188,10 +188,10 @@ export function logoutRequest({refreshToken}) {
   }
 };
 
-export function token({refreshToken}) {
+export function token() {
   const url = `${BURGER_API_URL}/${AUTH_TOKEN_ENDPOINT}`;
   const body = {
-    token: refreshToken
+    token: getLocalStorage('refreshToken')
   };
 
   return function(dispatch) {
@@ -381,3 +381,24 @@ export function updateUser({email, password, name}) {
       })
   }
 }
+
+// export const fetchWithRefresh = async (url, options) => {
+//   try {
+//     const res = await fetch(url, options);
+//     return await checkReponse(res);
+//   } catch (err) {
+//     if (err.message === "jwt expired") {
+//       const refreshData = await refreshToken();
+//       if (!refreshData.success) {
+//         Promise.reject(refreshData);
+//       }
+//       localStorage.setItem("refreshToken", refreshData.refreshToken);
+//       setCookie("accessToken", refreshData.accessToken);
+//       options.headers.authorization = refreshData.accessToken;
+//       const res = await fetch(url, options);
+//       return await checkReponse(res);
+//     } else {
+//       return Promise.reject(err);
+//     }
+//   }
+// };

@@ -14,8 +14,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function LoginPage() {
-  const [ emailValue, setEmailValue ] = React.useState("");
-  const [ passwordValue, setPasswordValue ] = React.useState("");
+  const [ state, setState ] = React.useState({
+    email: '',
+    password: ''
+  });
   const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
 
   React.useEffect(()=>{
@@ -31,15 +33,26 @@ export default function LoginPage() {
     e.preventDefault();
 
     dispatch(loginRequest({
-      email: emailValue,
-      password: passwordValue
+      email: state.email,
+      password: state.password
     }));
     resetForm();
   };
 
   const resetForm = () => {
-    setEmailValue("");
-    setPasswordValue("");
+    setState({
+      email: '',
+      password: ''
+    });
+  }
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setState({
+      ...state,
+      [name]: value
+    });
   }
 
   return (
@@ -48,19 +61,21 @@ export default function LoginPage() {
       <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
         <p className="mb-6 text text_type_main-medium">Вход</p>
         <EmailInput
-          value={emailValue}
+          name={'email'}
+          value={state.email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={handleChange}
         />
         <PasswordInput
-          value={passwordValue}
+          name={'password'}
+          value={state.password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}
           extraClass='mb-6 input-field'
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={handleChange}
         />
         <Button 
           type="primary" 

@@ -17,9 +17,11 @@ import {
 import { registerRequest } from '../services/auth/actions';
 
 export default function RegistrationPage() {
-  const [ nameValue, setNameValue ] = React.useState("");
-  const [ emailValue, setEmailValue ] = React.useState("");
-  const [ passwordValue, setPasswordValue ] = React.useState("");
+  const [ state, setState ] = React.useState({
+    name: '',
+    email: '',
+    password: ''
+  });
 
   const isRegistrSuccess = useSelector(store => store.auth.isLoginSuccess);
 
@@ -36,18 +38,29 @@ export default function RegistrationPage() {
     e.preventDefault();
 
     dispatch(registerRequest({
-      email: emailValue,
-      password: passwordValue,
-      name: nameValue
+      name: state.name,
+      email: state.email,
+      password: state.password,
     }));
     resetForm();
   }
 
   const resetForm = () => {
-    setEmailValue("");
-    setPasswordValue("");
-    setNameValue("");
-  };
+    setState({
+      name: '',
+      email: '',
+      password: ''
+    });
+  }
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setState({
+      ...state,
+      [name]: value
+    });
+  }
 
   return (
     <>
@@ -55,27 +68,30 @@ export default function RegistrationPage() {
       <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
         <p className="mb-6 text text_type_main-medium">Регистрация</p>
         <Input
-          value={nameValue}
+          name={'name'}
+          value={state.name}
           type={'text'}
           placeholder={'Имя'}
           size={'default'}
           extraClass='mb-6 input-field'
-          onChange={e => setNameValue(e.target.value)}            
+          onChange={handleChange}            
         />
         <EmailInput
-          value={emailValue}
+          name={'email'}
+          value={state.email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={handleChange}
         />
         <PasswordInput
-          value={passwordValue}
+          name={'password'}
+          value={state.password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}
           extraClass='mb-6 input-field'
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={handleChange}
         />
         <Button 
           type="primary" 

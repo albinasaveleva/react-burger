@@ -11,6 +11,10 @@ import {
   AUTH_LOGOUT_SUCCESS,
   AUTH_LOGOUT_ERROR,
 
+  AUTH_TOKEN_REQUEST,
+  AUTH_TOKEN_SUCCESS,
+  AUTH_TOKEN_ERROR,
+
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_ERROR,
@@ -40,6 +44,10 @@ const initialState = {
   isLogoutRequest: false,
   isLogoutSuccess: false,
   isLogoutError: false,
+
+  isTokenRequest: false,
+  isTokenSuccess: false,
+  isTokenError: false,
 
   isForgotPasswordRequest: false,
   isForgotPasswordSuccess: false,
@@ -148,6 +156,30 @@ export const authReducer = (state = initialState, action) => {
         isLogoutRequest: false,
         isLogoutSuccess: false,
         isLogoutError: true,
+      }
+    }
+    case AUTH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        isTokenRequest: true,
+        isTokenSuccess: false,
+        isTokenError: false,
+      }
+    }
+    case AUTH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        isTokenRequest: false,
+        isTokenSuccess: true,
+        isTokenError: false,
+      }
+    }
+    case AUTH_TOKEN_ERROR: {
+      return {
+        ...state,
+        isTokenRequest: false,
+        isTokenSuccess: false,
+        isTokenError: true,
       }
     }
     case FORGOT_PASSWORD_REQUEST: {
