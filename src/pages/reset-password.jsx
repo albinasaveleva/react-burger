@@ -33,6 +33,9 @@ export default function ResetPasswordPage() {
 
   const resetForm = () => {
     setPasswordValue("");
+    setTokenValue("");
+
+    navigate('/login')
   };
 
   return (

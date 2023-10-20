@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styles from './app.module.css';
 import { useDispatch } from 'react-redux';
 
-import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, TokenPage } from '../../pages';
+import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage } from '../../pages';
 
 import { getIngredients } from "../../services/burgerIngredients/actions";
 
@@ -24,7 +24,6 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/ingredients" element={<IngredientPage />} />
-          <Route path="/token" element={<TokenPage />} />
           <Route path="*" element={<NonFound404Page />} />
         </Routes>
     </BrowserRouter>

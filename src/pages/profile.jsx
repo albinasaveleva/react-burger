@@ -19,6 +19,7 @@ import { logoutRequest } from '../services/auth/actions';
 import { getUser, updateUser } from '../services/auth/actions';
 
 export default function ProfilePage() {
+  const [currentLink, setCurrrentLink] = React.useState(null);
   const user = useSelector(store => store.auth.user);
   const [ state, setState ] = React.useState({
     name: user.name,
@@ -26,6 +27,17 @@ export default function ProfilePage() {
     password: user.password
   });
   const [isEdit, setIsEdit] = React.useState(false);
+
+  const checkLocation = () => {
+    const location = window.location.pathname
+      .split('/')
+      .filter((item)=> item.length > 0)[1];
+    setCurrrentLink(location ? location : 'profile');
+  };
+
+  React.useEffect(()=>{
+    checkLocation()
+  }, [currentLink])
 
   const dispatch = useDispatch();
 
@@ -64,6 +76,8 @@ export default function ProfilePage() {
     });
   };
 
+
+
   return (
     <>
       <AppHeader />
@@ -73,16 +87,32 @@ export default function ProfilePage() {
                 <ul>
                   <li>
                     <Link to={'/profile'}>
-                      <p className="text text_type_main-medium">Профиль</p>
+                      <span 
+                        className={ currentLink === 'profile' 
+                          ? 'text text_type_main-medium' 
+                          : 'text text_type_main-medium text_color_inactive' }
+                      >
+                        Профиль
+                      </span>
                     </Link>
                   </li>
                   <li>
                     <Link to={'/profile/orders'}>
-                      <p className="text text_type_main-medium">История заказов</p>
+                    <span 
+                        className={ currentLink === 'orders' 
+                          ? 'text text_type_main-medium' 
+                          : 'text text_type_main-medium text_color_inactive' }
+                      >
+                        История заказов
+                      </span>
                     </Link>
                   </li>
                   <li onClick={()=>{dispatch(logoutRequest())}}>
-                    <p className="text text_type_main-medium">Выход</p>
+                    <span 
+                      className="text text_type_main-medium text_color_inactive"
+                    >
+                      Выход
+                    </span>
                   </li>
                 </ul>
               </div>
