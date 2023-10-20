@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AppHeader from '../components/app-header/app-header';
 import PageForm from '../components/page-form/page-form';
@@ -40,6 +40,7 @@ export default function ProfilePage() {
   }, [currentLink])
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(()=>{
     dispatch(getUser());
@@ -107,7 +108,10 @@ export default function ProfilePage() {
                       </span>
                     </Link>
                   </li>
-                  <li onClick={()=>{dispatch(logoutRequest())}}>
+                  <li onClick={()=>{
+                    dispatch(logoutRequest());
+                    navigate('/login');
+                  }}>
                     <span 
                       className="text text_type_main-medium text_color_inactive"
                     >

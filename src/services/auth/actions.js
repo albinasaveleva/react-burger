@@ -1,6 +1,4 @@
-import { BURGER_API_URL } from "../../utils/burger-api";
-import { checkReponse } from "../../utils/burger-api";
-import { setLocalStorage, getLocalStorage } from "../../utils/localStorage";
+import { BURGER_API_URL, fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
 import { setCookie, getCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
@@ -15,9 +13,9 @@ export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 
-export const AUTH_TOKEN_REQUEST = 'AUTH_TOKEN_REQUEST';
-export const AUTH_TOKEN_SUCCESS = 'AUTH_TOKEN_SUCCESS';
-export const AUTH_TOKEN_ERROR = 'AUTH_TOKEN_ERROR';
+// export const AUTH_TOKEN_REQUEST = 'AUTH_TOKEN_REQUEST';
+// export const AUTH_TOKEN_SUCCESS = 'AUTH_TOKEN_SUCCESS';
+// export const AUTH_TOKEN_ERROR = 'AUTH_TOKEN_ERROR';
 
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
@@ -57,7 +55,7 @@ export function registerRequest({email, password, name}) {
     dispatch({
       type: AUTH_REGISTER_REQUEST
     });
-    fetch(url, {
+    fetchRequest(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -69,7 +67,6 @@ export function registerRequest({email, password, name}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(({accessToken, refreshToken, user: {email, name}}) => {
         dispatch({
           type: AUTH_REGISTER_SUCCESS,
@@ -77,19 +74,11 @@ export function registerRequest({email, password, name}) {
           userPassword: password,
           userName: name,
         });
-        setLocalStorage({
+        localStorage.setItem({
           key: 'refreshToken', 
           value: refreshToken
         });
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 20 * 60 });
-        // setLocalStorage({
-        //   key: 'refreshToken', 
-        //   value: JSON.stringify({
-        //     token: refreshToken,
-        //     userName: name,
-        //     userEmail: email,
-        //   })
-        // });
+        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
       })
       .catch(()=>{
         dispatch({
@@ -110,7 +99,7 @@ export function loginRequest({email, password}) {
     dispatch({
       type: AUTH_LOGIN_REQUEST
     });
-    fetch(url, {
+    fetchRequest(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -122,7 +111,6 @@ export function loginRequest({email, password}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(({accessToken, refreshToken, user: {email, name}}) => {
         dispatch({
           type: AUTH_LOGIN_SUCCESS,
@@ -130,19 +118,11 @@ export function loginRequest({email, password}) {
           userPassword: password,
           userName: name
         });
-        setLocalStorage({
+        localStorage.setItem({
           key: 'refreshToken', 
           value: refreshToken
         });
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 20 * 60 });
-        // setLocalStorage({
-        //   key: 'refreshToken', 
-        //   value: JSON.stringify({
-        //     token: refreshToken,
-        //     userName: name,
-        //     userEmail: email,
-        //   })
-        // });
+        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
       })
       .catch(()=>{
         dispatch({
@@ -155,14 +135,14 @@ export function loginRequest({email, password}) {
 export function logoutRequest() {
   const url = `${BURGER_API_URL}/${AUTH_LOGOUT_ENDPOINT}`;
   const body = {
-    token: getLocalStorage('refreshToken')
+    token: localStorage.getItem('refreshToken')
   };
 
   return function(dispatch) {
     dispatch({
       type: AUTH_LOGOUT_REQUEST
     });
-    fetch(url, {
+    fetchRequest(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -174,7 +154,6 @@ export function logoutRequest() {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(()=>{
         dispatch({
           type: AUTH_LOGOUT_SUCCESS,
@@ -188,46 +167,46 @@ export function logoutRequest() {
   }
 };
 
-export function token() {
-  const url = `${BURGER_API_URL}/${AUTH_TOKEN_ENDPOINT}`;
-  const body = {
-    token: getLocalStorage('refreshToken')
-  };
+// export function token() {
+//   const url = `${BURGER_API_URL}/${AUTH_TOKEN_ENDPOINT}`;
+//   const body = {
+//     token: localStorage.getItem('refreshToken')
+//   };
 
-  return function(dispatch) {
-    dispatch({
-      type: AUTH_TOKEN_REQUEST
-    });
-    fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
-      .then(checkReponse)
-      .then(({accessToken, refreshToken})=>{
-        dispatch({
-          type: AUTH_TOKEN_SUCCESS,
-        });
-        setLocalStorage({
-          key: 'refreshToken', 
-          value: refreshToken
-        });
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 20 * 60 });
-      })
-      .catch(()=>{
-        dispatch({
-          type: AUTH_TOKEN_ERROR
-        })
-      })
-  }
-};
+//   return function(dispatch) {
+//     dispatch({
+//       type: AUTH_TOKEN_REQUEST
+//     });
+//     fetch(url, {
+//       method: 'POST',
+//       mode: 'cors',
+//       cache: 'no-cache',
+//       credentials: 'same-origin',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       redirect: 'follow',
+//       referrerPolicy: 'no-referrer',
+//       body: JSON.stringify(body)
+//     })
+//       .then(checkReponse)
+//       .then(({accessToken, refreshToken})=>{
+//         dispatch({
+//           type: AUTH_TOKEN_SUCCESS,
+//         });
+//         localStorage.setItem({
+//           key: 'refreshToken', 
+//           value: refreshToken
+//         });
+//         setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 20 * 60 });
+//       })
+//       .catch(()=>{
+//         dispatch({
+//           type: AUTH_TOKEN_ERROR
+//         })
+//       })
+//   }
+// };
 
 export function forgotPasswordRequest({email}) {
   const url = `${BURGER_API_URL}/${FORGOT_PASSWORD_ENDPOINT}`;
@@ -239,7 +218,7 @@ export function forgotPasswordRequest({email}) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST
     });
-    fetch(url, {
+    fetchRequest(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -251,7 +230,6 @@ export function forgotPasswordRequest({email}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(() => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
@@ -277,7 +255,7 @@ export function resetPasswordRequest({password, token}) {
     dispatch({
       type: RESET_PASSWORD_REQUEST
     });
-    fetch(url, {
+    fetchRequest(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -289,7 +267,6 @@ export function resetPasswordRequest({password, token}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(()=>{
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
@@ -311,19 +288,18 @@ export function getUser() {
     dispatch({
       type: GET_USER_REQUEST
     });
-    fetch(url, {
+    fetchRequestWithRefresh(url, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: 'Bearer ' + getCookie('accessToken')
+        'Authorization': 'Bearer ' + getCookie('accessToken')
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
-      .then(checkReponse)
       .then(({ user: {email, name} }) => {
         dispatch({
           type: GET_USER_SUCCESS,
@@ -352,7 +328,7 @@ export function updateUser({email, password, name}) {
     dispatch({
       type: UPDATE_USER_REQUEST
     });
-    fetch(url, {
+    fetchRequestWithRefresh(url, {
       method: 'PATCH',
       mode: 'cors',
       cache: 'no-cache',
@@ -365,7 +341,6 @@ export function updateUser({email, password, name}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(checkReponse)
       .then(({ user: {email, name} }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
