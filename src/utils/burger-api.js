@@ -3,6 +3,7 @@ import { setCookie } from "./cookies";
 import { AUTH_TOKEN_ENDPOINT } from "../services/auth/actions";
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
+
 export const checkReponse = (res) => {
   return res.ok 
     ? res.json() 
@@ -37,11 +38,12 @@ const refreshToken = async () => {
 
 export const fetchRequestWithRefresh = async (url, options) => {
   try {
-    return fetchRequest(url, options);
+    const res = await fetch(url, options);
+    return await checkReponse(res);
   } catch (err) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
-      
+
       if (!refreshData.success) {
         Promise.reject(refreshData);
       }
@@ -49,7 +51,7 @@ export const fetchRequestWithRefresh = async (url, options) => {
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       setCookie("accessToken", refreshData.accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
 
-      return fetchRequest(url, {
+      const res = await fetch(url, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
@@ -61,6 +63,7 @@ export const fetchRequestWithRefresh = async (url, options) => {
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
       });
+      return await checkReponse(res);
     } else {
       return Promise.reject(err);
     }

@@ -65,11 +65,12 @@ const initialState = {
   isUpdateUserSuccess: false,
   isUpdateUserError: false,
 
-  user: {
-    email: "",
-    password: "",
-    name: ''
-  }
+  // user: {
+  //   email: "",
+  //   password: "",
+  //   name: ''
+  // }
+  user: null
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -89,11 +90,9 @@ export const authReducer = (state = initialState, action) => {
         isRegistrSuccess: true,
         isRegistrError: false,
 
-        user: {
-          email: action.userEmail,
-          password: action.userPassword,
-          name: action.userName,
-        }
+        isLoginSuccess: true,
+
+        user: action.user
       }
     }
     case AUTH_REGISTER_ERROR: {
@@ -119,11 +118,13 @@ export const authReducer = (state = initialState, action) => {
         isLoginSuccess: true,
         isLoginError: false,
 
-        user: {
-          email: action.userEmail,
-          password: action.userPassword,
-          name: action.userName,
-        }
+        user: action.user,
+
+        // user: {
+        //   email: action.userEmail,
+        //   password: action.userPassword,
+        //   name: action.userName,
+        // }
       }
     }
     case AUTH_LOGIN_ERROR: {
@@ -148,6 +149,8 @@ export const authReducer = (state = initialState, action) => {
         isLogoutRequest: false,
         isLogoutSuccess: true,
         isLogoutError: false,
+
+        isLoginSuccess: false,
       }
     }
     case AUTH_LOGOUT_ERROR: {
@@ -196,11 +199,6 @@ export const authReducer = (state = initialState, action) => {
         isForgotPasswordRequest: false,
         isForgotPasswordSuccess: true,
         isForgotPasswordError: false,
-
-        user: {
-          ...state.user,
-          email: action.userEmail,
-        }
       }
     }
     case FORGOT_PASSWORD_ERROR: {
@@ -225,11 +223,6 @@ export const authReducer = (state = initialState, action) => {
         isResetPasswordRequest: false,
         isResetPasswordSuccess: true,
         isResetPasswordError: false,
-
-        user: {
-          ...state.user,
-          password: action.userPassword,
-        }
       }
     }
     case RESET_PASSWORD_ERROR: {
@@ -255,11 +248,9 @@ export const authReducer = (state = initialState, action) => {
         isGetUserSuccess: true,
         isGetUserError: false,
 
-        user: {
-          ...state.user,
-          email: action.userEmail,
-          name: action.userName,
-        }
+        isLoginSuccess: true,
+
+        user: action.user
       }
     }
     case GET_USER_ERROR: {
@@ -285,11 +276,7 @@ export const authReducer = (state = initialState, action) => {
         isUpdateUserSuccess: true,
         isUpdateUserError: false,
 
-        user: {
-          email: action.userEmail,
-          password: action.userPassword,
-          name: action.userName,
-        }
+        user: action.user,
       }
     }
     case UPDATE_USER_ERROR: {

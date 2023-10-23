@@ -1,5 +1,5 @@
 import { BURGER_API_URL, fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
-import { setCookie, getCookie } from "../../utils/cookies";
+import { setCookie, getCookie, deleteCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
 export const AUTH_REGISTER_SUCCESS = 'AUTH_REGISTER_SUCCESS';
@@ -67,17 +67,12 @@ export function registerRequest({email, password, name}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(({accessToken, refreshToken, user: {email, name}}) => {
+      .then(({accessToken, refreshToken, user}) => {
         dispatch({
           type: AUTH_REGISTER_SUCCESS,
-          userEmail: email,
-          userPassword: password,
-          userName: name,
+          user: user,
         });
-        localStorage.setItem({
-          key: 'refreshToken', 
-          value: refreshToken
-        });
+        localStorage.setItem('refreshToken', refreshToken);
         setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
       })
       .catch(()=>{
@@ -111,18 +106,13 @@ export function loginRequest({email, password}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(({accessToken, refreshToken, user: {email, name}}) => {
+      .then(({accessToken, refreshToken, user}) => {
         dispatch({
           type: AUTH_LOGIN_SUCCESS,
-          userEmail: email,
-          userPassword: password,
-          userName: name
+          user: user,
         });
-        localStorage.setItem({
-          key: 'refreshToken', 
-          value: refreshToken
-        });
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+        localStorage.setItem('refreshToken', refreshToken);
+        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 60 * 60 });
       })
       .catch(()=>{
         dispatch({
@@ -157,7 +147,9 @@ export function logoutRequest() {
       .then(()=>{
         dispatch({
           type: AUTH_LOGOUT_SUCCESS,
-        })
+        });
+        localStorage.removeItem('refreshToken');
+        deleteCookie('accessToken');
       })
       .catch(()=>{
         dispatch({
@@ -233,7 +225,6 @@ export function forgotPasswordRequest({email}) {
       .then(() => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
-          userEmail: email,
         })
       })
       .catch(()=>{
@@ -270,7 +261,6 @@ export function resetPasswordRequest({password, token}) {
       .then(()=>{
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
-          userPassword: password,
         })
       })
       .catch(()=>{
@@ -300,11 +290,10 @@ export function getUser() {
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
-      .then(({ user: {email, name} }) => {
+      .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,
-          userEmail: email,
-          userName: name,
+          user: user
         });
       })
       .catch(()=>{
@@ -341,12 +330,10 @@ export function updateUser({email, password, name}) {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(body)
     })
-      .then(({ user: {email, name} }) => {
+      .then(({ user }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
-          userEmail: email,
-          userPassword: password,
-          userName: name,
+          user: user
         });
       })
       .catch(()=>{
@@ -356,3 +343,24 @@ export function updateUser({email, password, name}) {
       })
   }
 }
+
+// export const fetchWithRefresh = async (url, options) => {
+//   try {
+//     const res = await fetch(url, options);
+//     return await checkReponse(res);
+//   } catch (err) {
+//     if (err.message === "jwt expired") {
+//       const refreshData = await refreshToken();
+//       if (!refreshData.success) {
+//         Promise.reject(refreshData);
+//       }
+//       localStorage.setItem("refreshToken", refreshData.refreshToken);
+//       setCookie("accessToken", refreshData.accessToken);
+//       options.headers.authorization = refreshData.accessToken;
+//       const res = await fetch(url, options);
+//       return await checkReponse(res);
+//     } else {
+//       return Promise.reject(err);
+//     }
+//   }
+// };

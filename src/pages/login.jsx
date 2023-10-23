@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import PageForm from '../components/page-form/page-form';
-import AppHeader from '../components/app-header/app-header';
 import { loginRequest } from '../services/auth/actions';
 
 import { 
@@ -18,16 +17,27 @@ export default function LoginPage() {
     email: '',
     password: ''
   });
-  const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
+  // const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
+  // const user = useSelector(store => store.auth.user);
 
-  React.useEffect(()=>{
-    if (isLoginSuccess) {
-      navigate('/');
-    }
-  }, [isLoginSuccess]);
-
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // const initLogin = () => {
+  //   if (user && (user.email && user.password)) {
+  //     dispatch(loginRequest({
+  //       email: user.email,
+  //       password: user.password
+  //     }));
+  //   }
+  // };
+  // initLogin();
+
+  // React.useEffect(()=>{
+  //   if (isLoginSuccess) {
+  //     navigate('/');
+  //   }
+  // }, [isLoginSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,42 +66,39 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-      <AppHeader />
-      <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
-        <p className="mb-6 text text_type_main-medium">Вход</p>
-        <EmailInput
-          name={'email'}
-          value={state.email}
-          placeholder={'E-mail'}
-          size={'default'}
-          extraClass='mb-6 input-field'
-          onChange={handleChange}
-        />
-        <PasswordInput
-          name={'password'}
-          value={state.password}
-          placeholder={'Пароль'}
-          size={'default'}
-          icon={'ShowIcon'}
-          extraClass='mb-6 input-field'
-          onChange={handleChange}
-        />
-        <Button 
-          type="primary" 
-          size="medium"
-          extraClass='mb-20 action' 
-          htmlType="submit" 
-        >
-          Войти
-        </Button>
-        <p className='mb-4 text text_type_main-default additional-action'>Вы — новый пользователь? 
-          <Link to={'/register'}> Зарегистрироваться</Link>
-        </p>
-        <p className='text text_type_main-default additional-action'>Забыли пароль? 
-          <Link to={'/forgot-password'}> Восстановить пароль</Link>
-        </p>
-      </PageForm>
-    </>
+    <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
+      <p className="mb-6 text text_type_main-medium">Вход</p>
+      <EmailInput
+        name={'email'}
+        value={state.email}
+        placeholder={'E-mail'}
+        size={'default'}
+        extraClass='mb-6 input-field'
+        onChange={handleChange}
+      />
+      <PasswordInput
+        name={'password'}
+        value={state.password}
+        placeholder={'Пароль'}
+        size={'default'}
+        icon={'ShowIcon'}
+        extraClass='mb-6 input-field'
+        onChange={handleChange}
+      />
+      <Button 
+        type="primary" 
+        size="medium"
+        extraClass='mb-20 action' 
+        htmlType="submit" 
+      >
+        Войти
+      </Button>
+      <p className='mb-4 text text_type_main-default additional-action'>Вы — новый пользователь? 
+        <Link to={'/register'}> Зарегистрироваться</Link>
+      </p>
+      <p className='text text_type_main-default additional-action'>Забыли пароль? 
+        <Link to={'/forgot-password'}> Восстановить пароль</Link>
+      </p>
+    </PageForm>
   )
 }

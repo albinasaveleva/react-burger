@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 import mainStyle from './main.module.css';
 
-import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Preloader from '../preLoader/preloader';
@@ -16,7 +15,6 @@ export default function Main() {
 
   return ( 
     <>
-      <AppHeader />
       {
         isRequest 
           ? <Preloader />
