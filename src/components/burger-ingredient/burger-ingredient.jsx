@@ -1,9 +1,9 @@
 import React from "react";
 import { useDrag } from "react-dnd";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from "react-router-dom";
+import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
-
-import PropTypes from 'prop-types';
 import ingredientType from '../../utils/types';
 
 import { 
@@ -14,9 +14,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
-function BurgerIngredient({item, handleClick}) {
+function BurgerIngredient({item}) {
   const buns = useSelector(store => store.burgerConstructor.buns);
   const ingredients = useSelector(store => store.burgerConstructor.ingredients);
+
+  const dispatch = useDispatch();
+
 
   const getCount = () => {
     if (item.type === 'bun') {
@@ -36,9 +39,11 @@ function BurgerIngredient({item, handleClick}) {
     type: "burgerIngredient",
     item: {item}
   });
+  let location = useLocation();
 
   return (
-    <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} data-id={item._id}  onClick={handleClick}>
+    <Link to={`/ingredients/${item._id}`} state = {{ backgroundLocation: location }}>
+    <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} data-id={item._id}  onClick={()=>{dispatch(addIngredienDetails(item))}}>
     <div className={burgerIngredientStyle.content}>
       <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>
         <img src={item.image} alt={item.name} />
@@ -57,12 +62,12 @@ function BurgerIngredient({item, handleClick}) {
       : null
     }
   </div>
+  </Link>
   );
 };
 
 BurgerIngredient.propTypes = {
   item: ingredientType,
-  handleClick: PropTypes.func.isRequired
 };
 
 // export default BurgerIngredient;

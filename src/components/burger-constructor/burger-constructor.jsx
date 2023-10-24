@@ -9,7 +9,6 @@ import {
   Button,
   ConstructorElement,
   CurrencyIcon, 
-  DragIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 

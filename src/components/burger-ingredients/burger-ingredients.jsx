@@ -10,9 +10,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import useModal from '../../hooks/useModal';
+// import Modal from "../modal/modal";
+// import IngredientDetails from "../ingredient-details/ingredient-details";
+// import useModal from '../../hooks/useModal';
 
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
@@ -20,7 +20,7 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { getBurgerIngredients } from "../../services/burgerIngredients/selectors";
 
 function BurgerIngredients() {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  // const { isModalOpen, openModal, closeModal } = useModal();
 
   const ingredients = useSelector(getBurgerIngredients);
 
@@ -99,7 +99,7 @@ function BurgerIngredients() {
       const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
   
       dispatch(addIngredienDetails(currentIngredient))
-      openModal();
+      // openModal();
     }, [ingredients]
   )
   
@@ -158,12 +158,12 @@ function BurgerIngredients() {
             { renderMainCategory() }
           </div>
       </section>
-      {
+      {/* {
         isModalOpen && 
         <Modal closeModal={closeModal} title={'Детали ингредиента'}>
           <IngredientDetails />
         </Modal>
-      }
+      } */}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from './app.module.css';
 import { useDispatch } from 'react-redux';
 
@@ -10,9 +10,16 @@ import { ProtectedRouteElement } from '../protected-roure-element/protected-rout
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
+import { deleteIngredientDetails } from '../../services/ingredientDetails/actions';
+
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state;
 
   React.useEffect(()=> {
     dispatch(getIngredients());
@@ -24,7 +31,7 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={state?.backgroundLocation || location}>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={
           <ProtectedRouteElement onlyUnAuth>
@@ -51,9 +58,24 @@ function App() {
             <ProfilePage />
           </ProtectedRouteElement>
         } />
-        <Route path="/ingredients" element={<IngredientPage />} />
+        <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />
       </Routes>
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route path="/ingredients/:id" element={
+            <Modal 
+              closeModal={() => {
+                dispatch(deleteIngredientDetails());
+                navigate('/');
+              }} 
+              title={'Детали ингредиента'}
+            >
+              <IngredientDetails />
+            </Modal>
+          } />
+        </Routes>
+      )}
     </div>
   );
 }
