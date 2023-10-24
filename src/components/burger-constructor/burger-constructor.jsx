@@ -2,6 +2,8 @@ import React from "react";
 import update from 'immutability-helper';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
+import { useNavigate } from "react-router-dom";
+
 import { 
   Box,
   Button,
@@ -20,14 +22,18 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
-
+import Preloader from "../preLoader/preloader";
 
 export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
+  const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
+  const isRequest = useSelector(store => store.orderDetails.isRequest);
   const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
   const buns = useSelector(store => store.burgerConstructor.buns);
   const ingredients = useSelector(store => store.burgerConstructor.ingredients);
+
+  const navigate = useNavigate();
 
   const getTotalPrice = () => {
     const ingredientsPrice = ingredients.length > 0 
@@ -45,7 +51,12 @@ export default function BurgerConstructor() {
 
   const handleClick = React.useCallback(() => {
     dispatch(createOrder(buns, ingredients));
-    openModal();
+    if (isLoginSuccess) {
+      openModal();
+    } else {
+      navigate('/login');
+    }
+    
   }, [buns, ingredients])
 
   const handleDrop = (item) => {
@@ -152,8 +163,10 @@ export default function BurgerConstructor() {
             </Button>
           </div>
       </section>
-      {
-        isModalOpen && orderRequestSuccess &&
+      { 
+        isRequest
+        ? <Preloader />
+        : isModalOpen && orderRequestSuccess &&
         <Modal 
           closeModal={() => {
             closeModal();
