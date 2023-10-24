@@ -10,7 +10,6 @@ import { ProtectedRouteElement } from '../protected-roure-element/protected-rout
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
-import { deleteIngredientDetails } from '../../services/ingredientDetails/actions';
 
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -21,8 +20,11 @@ function App() {
   const location = useLocation();
   const state = location.state;
 
+  console.log(location)
+
   React.useEffect(()=> {
     dispatch(getIngredients());
+
     if (getCookie('accessToken')) {
       dispatch(getUser())
     }
@@ -61,14 +63,12 @@ function App() {
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />
       </Routes>
+
       {state?.backgroundLocation && (
         <Routes>
           <Route path="/ingredients/:id" element={
             <Modal 
-              closeModal={() => {
-                dispatch(deleteIngredientDetails());
-                navigate('/');
-              }} 
+              closeModal={() => { navigate('/')}} 
               title={'Детали ингредиента'}
             >
               <IngredientDetails />

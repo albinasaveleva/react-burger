@@ -27,12 +27,15 @@ export default function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
-  const isRequest = useSelector(store => store.orderDetails.isRequest);
+
+  const isOrderRequest = useSelector(store => store.orderDetails.isRequest);
   const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
+
   const buns = useSelector(store => store.burgerConstructor.buns);
   const ingredients = useSelector(store => store.burgerConstructor.ingredients);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getTotalPrice = () => {
     const ingredientsPrice = ingredients.length > 0 
@@ -46,16 +49,14 @@ export default function BurgerConstructor() {
     return ingredientsPrice + bunsPrice;
   } 
 
-  const dispatch = useDispatch();
-
   const handleClick = React.useCallback(() => {
     dispatch(createOrder(buns, ingredients));
+
     if (isLoginSuccess) {
       openModal();
     } else {
       navigate('/login');
     }
-    
   }, [buns, ingredients])
 
   const handleDrop = (item) => {
@@ -72,6 +73,17 @@ export default function BurgerConstructor() {
       handleDrop(item);
     },
   });
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    const sortedIngredients = update(ingredients, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, ingredients[dragIndex]],
+      ],
+    });
+
+    dispatch(sortIngredients(sortedIngredients))
+  };
 
   const renderTopBun  = React.useCallback(
     () => (
@@ -90,7 +102,6 @@ export default function BurgerConstructor() {
       />
     ), [buns]
   );
-
   const renderBottomBun = React.useCallback(
     () => (
       buns 
@@ -108,7 +119,6 @@ export default function BurgerConstructor() {
         />
     ), [buns]
   );
-
   const renderIngredients = React.useCallback(
     () => (
       ingredients.length > 0 
@@ -124,17 +134,6 @@ export default function BurgerConstructor() {
         />
     ), [ingredients]
   );
-
-  const moveIngredient = (dragIndex, hoverIndex) => {
-    const sortedIngredients = update(ingredients, {
-      $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, ingredients[dragIndex]],
-      ],
-    });
-
-    dispatch(sortIngredients(sortedIngredients))
-  };
 
   return (
     <>
@@ -163,18 +162,18 @@ export default function BurgerConstructor() {
           </div>
       </section>
       { 
-        isRequest
-        ? <Preloader />
-        : isModalOpen && orderRequestSuccess &&
-        <Modal 
-          closeModal={() => {
-            closeModal();
-            dispatch(clearOrderData());
-            dispatch(resetBurgerConstructor());
-          }}
-        >
-          <OrderDetails />
-        </Modal>
+        isOrderRequest
+          ? <Preloader />
+          : isModalOpen && orderRequestSuccess &&
+          <Modal 
+            closeModal={() => {
+              closeModal();
+              dispatch(clearOrderData());
+              dispatch(resetBurgerConstructor());
+            }}
+          >
+            <OrderDetails />
+          </Modal>
       }
     </>
   );

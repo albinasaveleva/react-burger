@@ -43,26 +43,26 @@ function BurgerIngredient({item}) {
 
   return (
     <Link to={`/ingredients/${item._id}`} state = {{ backgroundLocation: location }}>
-    <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} data-id={item._id}  onClick={()=>{dispatch(addIngredienDetails(item))}}>
-    <div className={burgerIngredientStyle.content}>
-      <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>
-        <img src={item.image} alt={item.name} />
-      </div>
-      <div  className={`mb-1 ${burgerIngredientStyle.price}`}>
-        <span className="mr-1 text text_type_digits-default">{item.price}</span>
-        <CurrencyIcon type="primary" />
-      </div>
-      <span className={`text text_type_main-default ${burgerIngredientStyle.name}`}>{item.name}</span>
-    </div>
-    {
-      getCount() > 0 
-      ? <div className="counter">
-          <Counter count={getCount()} size="default" />
+      <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} onClick={()=>{dispatch(addIngredienDetails(item))}}>
+        <div className={burgerIngredientStyle.content}>
+          <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>
+            <img src={item.image} alt={item.name} />
+          </div>
+          <div  className={`mb-1 ${burgerIngredientStyle.price}`}>
+            <span className="mr-1 text text_type_digits-default">{item.price}</span>
+            <CurrencyIcon type="primary" />
+          </div>
+          <span className={`text text_type_main-default ${burgerIngredientStyle.name}`}>{item.name}</span>
         </div>
-      : null
-    }
-  </div>
-  </Link>
+        {
+          getCount() > 0 
+          ? <div className="counter">
+              <Counter count={getCount()} size="default" />
+            </div>
+          : null
+        }
+      </div>
+    </Link>
   );
 };
 

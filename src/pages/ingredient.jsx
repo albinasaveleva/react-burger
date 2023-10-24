@@ -11,7 +11,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function IngredientPage() {
-  //643d69a5c3f7b9001cfa0943
   const { id } = useParams();
   const isRequest = useSelector(store => store.burgerIngredients.isRequest);
   const ingredients = useSelector(store => store.burgerIngredients.list);

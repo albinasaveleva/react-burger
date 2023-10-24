@@ -17,6 +17,7 @@ const modalRoot = document.getElementById("react-modals");
 export default function Modal(props) {
   const item = useSelector(store => store.ingredientDetails.item);
   const dispatch = useDispatch();
+  
   const closeModal = () => {
     props.closeModal();
 
@@ -35,7 +36,6 @@ export default function Modal(props) {
     };
 
     document.addEventListener('keydown', keyDownHandler);
-
     return () => {
       document.removeEventListener('keydown', keyDownHandler);
     };
