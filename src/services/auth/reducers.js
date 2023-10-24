@@ -11,10 +11,6 @@ import {
   AUTH_LOGOUT_SUCCESS,
   AUTH_LOGOUT_ERROR,
 
-  // AUTH_TOKEN_REQUEST,
-  // AUTH_TOKEN_SUCCESS,
-  // AUTH_TOKEN_ERROR,
-
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_ERROR,
@@ -45,10 +41,6 @@ const initialState = {
   isLogoutSuccess: false,
   isLogoutError: false,
 
-  // isTokenRequest: false,
-  // isTokenSuccess: false,
-  // isTokenError: false,
-
   isForgotPasswordRequest: false,
   isForgotPasswordSuccess: false,
   isForgotPasswordError: false,
@@ -65,11 +57,6 @@ const initialState = {
   isUpdateUserSuccess: false,
   isUpdateUserError: false,
 
-  // user: {
-  //   email: "",
-  //   password: "",
-  //   name: ''
-  // }
   user: null
 };
 
@@ -119,12 +106,6 @@ export const authReducer = (state = initialState, action) => {
         isLoginError: false,
 
         user: action.user,
-
-        // user: {
-        //   email: action.userEmail,
-        //   password: action.userPassword,
-        //   name: action.userName,
-        // }
       }
     }
     case AUTH_LOGIN_ERROR: {
@@ -161,30 +142,6 @@ export const authReducer = (state = initialState, action) => {
         isLogoutError: true,
       }
     }
-    // case AUTH_TOKEN_REQUEST: {
-    //   return {
-    //     ...state,
-    //     isTokenRequest: true,
-    //     isTokenSuccess: false,
-    //     isTokenError: false,
-    //   }
-    // }
-    // case AUTH_TOKEN_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     isTokenRequest: false,
-    //     isTokenSuccess: true,
-    //     isTokenError: false,
-    //   }
-    // }
-    // case AUTH_TOKEN_ERROR: {
-    //   return {
-    //     ...state,
-    //     isTokenRequest: false,
-    //     isTokenSuccess: false,
-    //     isTokenError: true,
-    //   }
-    // }
     case FORGOT_PASSWORD_REQUEST: {
       return {
         ...state,

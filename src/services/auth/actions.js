@@ -13,10 +13,6 @@ export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 
-// export const AUTH_TOKEN_REQUEST = 'AUTH_TOKEN_REQUEST';
-// export const AUTH_TOKEN_SUCCESS = 'AUTH_TOKEN_SUCCESS';
-// export const AUTH_TOKEN_ERROR = 'AUTH_TOKEN_ERROR';
-
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_ERROR = 'FORGOT_PASSWORD_ERROR';
@@ -112,7 +108,7 @@ export function loginRequest({email, password}) {
           user: user,
         });
         localStorage.setItem('refreshToken', refreshToken);
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 60 * 60 });
+        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
       })
       .catch(()=>{
         dispatch({
@@ -158,47 +154,6 @@ export function logoutRequest() {
       })
   }
 };
-
-// export function token() {
-//   const url = `${BURGER_API_URL}/${AUTH_TOKEN_ENDPOINT}`;
-//   const body = {
-//     token: localStorage.getItem('refreshToken')
-//   };
-
-//   return function(dispatch) {
-//     dispatch({
-//       type: AUTH_TOKEN_REQUEST
-//     });
-//     fetch(url, {
-//       method: 'POST',
-//       mode: 'cors',
-//       cache: 'no-cache',
-//       credentials: 'same-origin',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       redirect: 'follow',
-//       referrerPolicy: 'no-referrer',
-//       body: JSON.stringify(body)
-//     })
-//       .then(checkReponse)
-//       .then(({accessToken, refreshToken})=>{
-//         dispatch({
-//           type: AUTH_TOKEN_SUCCESS,
-//         });
-//         localStorage.setItem({
-//           key: 'refreshToken', 
-//           value: refreshToken
-//         });
-//         setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 20 * 60 });
-//       })
-//       .catch(()=>{
-//         dispatch({
-//           type: AUTH_TOKEN_ERROR
-//         })
-//       })
-//   }
-// };
 
 export function forgotPasswordRequest({email}) {
   const url = `${BURGER_API_URL}/${FORGOT_PASSWORD_ENDPOINT}`;
@@ -343,24 +298,3 @@ export function updateUser({email, password, name}) {
       })
   }
 }
-
-// export const fetchWithRefresh = async (url, options) => {
-//   try {
-//     const res = await fetch(url, options);
-//     return await checkReponse(res);
-//   } catch (err) {
-//     if (err.message === "jwt expired") {
-//       const refreshData = await refreshToken();
-//       if (!refreshData.success) {
-//         Promise.reject(refreshData);
-//       }
-//       localStorage.setItem("refreshToken", refreshData.refreshToken);
-//       setCookie("accessToken", refreshData.accessToken);
-//       options.headers.authorization = refreshData.accessToken;
-//       const res = await fetch(url, options);
-//       return await checkReponse(res);
-//     } else {
-//       return Promise.reject(err);
-//     }
-//   }
-// };
