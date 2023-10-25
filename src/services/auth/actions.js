@@ -97,42 +97,55 @@ export function registerRequest({email, password, name}) {
 };
 
 export function loginRequest({email, password}) {
+  const checkData = () => {
+    return email.length > 0 && password.length > 0  ? true : false;
+  };
+
   const url = `${BURGER_API_URL}/${AUTH_LOGIN_ENDPOINT}`;
   const body = {
     email, 
     password
   };
 
-  return function(dispatch) {
-    dispatch({
-      type: AUTH_LOGIN_REQUEST
-    });
-    fetchRequest(url, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
-      .then(({accessToken, refreshToken, user}) => {
-        dispatch({
-          type: AUTH_LOGIN_SUCCESS,
-          user: user,
-        });
-        localStorage.setItem('refreshToken', refreshToken);
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+  return checkData()
+    ? function(dispatch) {
+      dispatch({
+        type: AUTH_LOGIN_REQUEST
+      });
+      fetchRequest(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body)
       })
-      .catch(()=>{
-        dispatch({
-          type: AUTH_LOGIN_ERROR
+        .then(({accessToken, refreshToken, user}) => {
+          dispatch({
+            type: AUTH_LOGIN_SUCCESS,
+            user: user,
+          });
+          localStorage.setItem('refreshToken', refreshToken);
+          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
         })
-      })
-  }
+        .catch((err)=>{
+          dispatch({
+            type: AUTH_LOGIN_ERROR
+          })
+          alert(err.message)
+        })
+    }
+    : function(dispatch) {
+      dispatch({
+        type: AUTH_LOGIN_ERROR,
+      });
+
+      alert('Заполните все данные');
+    }
 };
 
 export function logoutRequest() {
