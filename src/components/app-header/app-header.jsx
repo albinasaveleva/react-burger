@@ -116,7 +116,9 @@ function AppHeader() {
         </ul>
       </nav>
       <div className={headerStyle.logo}>
-        <Logo />
+        <NavLink to={'/'}>
+          <Logo />
+        </NavLink>
       </div>
     </header>
   );
