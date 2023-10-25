@@ -39,6 +39,10 @@ export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 export const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
 
 export function registerRequest({email, password, name}) {
+  const checkData = () => {
+    return email.length > 0 && password.length > 0 && name.length > 0 ? true : false;
+  };
+
   const url = `${BURGER_API_URL}/${AUTH_REGISTER_ENDPOINT}`;
   const body = {
     email, 
@@ -46,7 +50,7 @@ export function registerRequest({email, password, name}) {
     name
   };
 
-  return email.length > 0 && password.length > 0 && name.length > 0
+  return checkData()
     ? function(dispatch) {
       dispatch({
         type: AUTH_REGISTER_REQUEST
