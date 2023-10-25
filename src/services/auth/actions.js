@@ -38,11 +38,11 @@ export const AUTH_TOKEN_ENDPOINT = 'auth/token';
 export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 export const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
 
-export function registerRequest({email, password, name}) {
-  const checkData = () => {
-    return email.length > 0 && password.length > 0 && name.length > 0 ? true : false;
-  };
+const checkData = (condition) => {
+  return condition ? true : false;
+};
 
+export function registerRequest({email, password, name}) {
   const url = `${BURGER_API_URL}/${AUTH_REGISTER_ENDPOINT}`;
   const body = {
     email, 
@@ -50,7 +50,7 @@ export function registerRequest({email, password, name}) {
     name
   };
 
-  return checkData()
+  return checkData(email.length > 0 && password.length > 0 && name.length > 0)
     ? function(dispatch) {
       dispatch({
         type: AUTH_REGISTER_REQUEST
@@ -97,17 +97,13 @@ export function registerRequest({email, password, name}) {
 };
 
 export function loginRequest({email, password}) {
-  const checkData = () => {
-    return email.length > 0 && password.length > 0  ? true : false;
-  };
-
   const url = `${BURGER_API_URL}/${AUTH_LOGIN_ENDPOINT}`;
   const body = {
     email, 
     password
   };
 
-  return checkData()
+  return checkData(email.length > 0 && password.length > 0)
     ? function(dispatch) {
       dispatch({
         type: AUTH_LOGIN_REQUEST
@@ -186,16 +182,12 @@ export function logoutRequest() {
 };
 
 export function forgotPasswordRequest({email}) {
-  const checkData = () => {
-    return email.length > 0 ? true : false;
-  };
-
   const url = `${BURGER_API_URL}/${FORGOT_PASSWORD_ENDPOINT}`;
   const body = {
     email
   };
 
-  return checkData()
+  return checkData(email.length > 0)
     ? function(dispatch) {
       dispatch({
         type: FORGOT_PASSWORD_REQUEST
@@ -235,17 +227,13 @@ export function forgotPasswordRequest({email}) {
 };
 
 export function resetPasswordRequest({password, token}) {
-  const checkData = () => {
-    return password.length > 0 && token.length > 0 ? true : false;
-  };
-
   const url = `${BURGER_API_URL}/${RESET_PASSWORD_ENDPOINT}`;
   const body = {
     password,
     token
   };
 
-  return checkData()
+  return checkData(password.length > 0 && token.length > 0)
     ? function(dispatch) {
       dispatch({
         type: RESET_PASSWORD_REQUEST
@@ -317,10 +305,6 @@ export function getUser() {
 }
 
 export function updateUser({email, password, name}) {
-  const checkData = () => {
-    return email.length > 0 && name.length > 0 ? true : false;
-  };
-
   const url = `${BURGER_API_URL}/${AUTH_USER_ENDPOINT}`;
 
   const body = {
@@ -329,7 +313,7 @@ export function updateUser({email, password, name}) {
     name
   };
 
-  return checkData()
+  return checkData(email.length > 0 && name.length > 0)
     ? function(dispatch) {
       dispatch({
         type: UPDATE_USER_REQUEST
