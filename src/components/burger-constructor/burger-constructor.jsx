@@ -50,9 +50,9 @@ function BurgerConstructor() {
   } 
 
   const handleClick = React.useCallback(() => {
-    dispatch(createOrder(buns, ingredients));
-
     if (isLoginSuccess) {
+      dispatch(createOrder(buns, ingredients));
+
       openModal();
     } else {
       navigate('/login');
