@@ -1,4 +1,5 @@
-import { BURGER_API_URL } from "../../utils/burger-api";
+import { BURGER_API_URL, fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
+import { getCookie } from "../../utils/cookies";
 import { checkReponse } from "../../utils/burger-api";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
@@ -22,14 +23,18 @@ export function createOrder(buns, ingredients) {
         type: CREATE_ORDER_REQUEST
       });
 
-      fetch(url, {
+      fetchRequestWithRefresh(url, {
         method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
         },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
         body: JSON.stringify({ ingredients: body })
       })
-        .then(checkReponse)
         .then(({success, name, order}) => {
           dispatch({
             type: CREATE_ORDER_SUCCESS,

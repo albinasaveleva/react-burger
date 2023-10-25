@@ -26,6 +26,10 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+
+  AUTH_TOKEN_REQUEST,
+  AUTH_TOKEN_SUCCESS,
+  AUTH_TOKEN_ERROR,
 } from './actions';
 
 const initialState = {
@@ -57,6 +61,10 @@ const initialState = {
   isUpdateUserSuccess: false,
   isUpdateUserError: false,
 
+  isTokenRequest: false,
+  isTokenSuccess: false,
+  isTokenError: false,
+
   user: null
 };
 
@@ -79,6 +87,8 @@ export const authReducer = (state = initialState, action) => {
 
         isLoginSuccess: true,
 
+        isLogoutSuccess: false,
+
         user: action.user
       }
     }
@@ -96,6 +106,8 @@ export const authReducer = (state = initialState, action) => {
         isLoginRequest: true,
         isLoginSuccess: false,
         isLoginError: false,
+
+        isLogoutSuccess: false,
       }
     }
     case AUTH_LOGIN_SUCCESS: {
@@ -122,6 +134,8 @@ export const authReducer = (state = initialState, action) => {
         isLogoutRequest: true,
         isLogoutSuccess: false,
         isLogoutError: false,
+
+        isLoginSuccess: false,
       }
     }
     case AUTH_LOGOUT_SUCCESS: {
@@ -130,8 +144,6 @@ export const authReducer = (state = initialState, action) => {
         isLogoutRequest: false,
         isLogoutSuccess: true,
         isLogoutError: false,
-
-        isLoginSuccess: false,
       }
     }
     case AUTH_LOGOUT_ERROR: {
@@ -242,6 +254,30 @@ export const authReducer = (state = initialState, action) => {
         isUpdateUserRequest: false,
         isUpdateUserSuccess: false,
         isUpdateUserError: true,
+      }
+    }
+    case AUTH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        isTokenRequest: true,
+        isTokenSuccess: false,
+        isTokenError: false,
+      }
+    }
+    case AUTH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        isTokenRequest: false,
+        isTokenSuccess: true,
+        isTokenError: false,
+      }
+    }
+    case AUTH_TOKEN_ERROR: {
+      return {
+        ...state,
+        isTokenRequest: false,
+        isTokenSuccess: false,
+        isTokenError: true,
       }
     }
     default: {

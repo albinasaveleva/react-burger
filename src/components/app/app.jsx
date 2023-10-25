@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import AppHeader from '../app-header/app-header';
 import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage } from '../../pages';
 import { ProtectedRouteElement } from '../protected-roure-element/protected-route-element';
-
+import ProfileEditPage from '../../pages/profile-edit';
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
@@ -20,12 +20,10 @@ function App() {
   const location = useLocation();
   const state = location.state;
 
-  console.log(location)
-
   React.useEffect(()=> {
     dispatch(getIngredients());
 
-    if (getCookie('accessToken')) {
+    if (getCookie('accessToken') && localStorage.getItem('refreshToken')) {
       dispatch(getUser())
     }
   }, [dispatch])
@@ -59,7 +57,10 @@ function App() {
           <ProtectedRouteElement>
             <ProfilePage />
           </ProtectedRouteElement>
-        } />
+        }>
+          <Route index element={<ProfileEditPage />} />
+          <Route path="orders" element={<div></div>} />
+        </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />
       </Routes>

@@ -1,4 +1,4 @@
-import { setCookie } from "./cookies";
+import { setCookie, getCookie } from "./cookies";
 
 import { AUTH_TOKEN_ENDPOINT } from "../services/auth/actions";
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
@@ -38,6 +38,8 @@ const refreshToken = async () => {
 
 export const fetchRequestWithRefresh = async (url, options) => {
   try {
+    options.headers.authorization = `Bearer ${getCookie('accessToken')}`;
+
     const res = await fetch(url, options);
     return await checkReponse(res);
   } catch (err) {
@@ -50,19 +52,10 @@ export const fetchRequestWithRefresh = async (url, options) => {
 
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       setCookie("accessToken", refreshData.accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+      
+      options.headers.authorization = refreshData.accessToken;
 
-      const res = await fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': refreshData.accessToken
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-      });
+      const res = await fetch(url, options);
       return await checkReponse(res);
     } else {
       return Promise.reject(err);

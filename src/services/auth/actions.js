@@ -29,12 +29,15 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
 
+export const AUTH_TOKEN_REQUEST = 'AUTH_TOKEN_REQUEST';
+export const AUTH_TOKEN_SUCCESS = 'AUTH_TOKEN_SUCCESS';
+export const AUTH_TOKEN_ERROR = 'AUTH_TOKEN_ERROR';
+
 export const AUTH_REGISTER_ENDPOINT = 'auth/register';
 export const AUTH_LOGIN_ENDPOINT = 'auth/login';
 export const AUTH_LOGOUT_ENDPOINT = 'auth/logout';
-export const AUTH_TOKEN_ENDPOINT = 'auth/token';
 export const AUTH_USER_ENDPOINT = 'auth/user';
-
+export const AUTH_TOKEN_ENDPOINT = 'auth/token';
 
 export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 export const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
@@ -240,7 +243,6 @@ export function getUser() {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'Authorization': 'Bearer ' + getCookie('accessToken')
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -279,7 +281,6 @@ export function updateUser({email, password, name}) {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: 'Bearer ' + getCookie('accessToken')
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
