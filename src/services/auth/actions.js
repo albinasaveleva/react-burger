@@ -46,36 +46,50 @@ export function registerRequest({email, password, name}) {
     name
   };
 
-  return function(dispatch) {
-    dispatch({
-      type: AUTH_REGISTER_REQUEST
-    });
-    fetchRequest(url, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
-      .then(({accessToken, refreshToken, user}) => {
-        dispatch({
-          type: AUTH_REGISTER_SUCCESS,
-          user: user,
-        });
-        localStorage.setItem('refreshToken', refreshToken);
-        setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+  return email.length > 0 && password.length > 0 && name.length > 0
+    ? function(dispatch) {
+      dispatch({
+        type: AUTH_REGISTER_REQUEST
+      });
+      fetchRequest(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body)
       })
-      .catch(()=>{
-        dispatch({
-          type: AUTH_REGISTER_ERROR
+        .then(({accessToken, refreshToken, user}) => {
+          dispatch({
+            type: AUTH_REGISTER_SUCCESS,
+            user: user,
+          });
+          localStorage.setItem('refreshToken', refreshToken);
+          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
         })
-      })
-  }
+        .catch(({message})=>{
+          dispatch({
+            type: AUTH_REGISTER_ERROR
+          })
+          if (message === 'User already exists') {
+            alert ('Пользователь уже зарегистрирован. Попробуйте снова')
+          } else {
+            alert(message)
+          }
+        })
+    }
+    : function(dispatch) {
+      dispatch({
+        type: AUTH_REGISTER_ERROR,
+      });
+
+      alert('Заполните все данные');
+    }
+    
 };
 
 export function loginRequest({email, password}) {
