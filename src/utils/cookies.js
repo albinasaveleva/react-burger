@@ -26,6 +26,8 @@ export function setCookie(name, value, props) {
       updatedCookie += '=' + propValue;
     }
   }
+  updatedCookie += 'path=/;'
+
   document.cookie = updatedCookie;
 }
 
