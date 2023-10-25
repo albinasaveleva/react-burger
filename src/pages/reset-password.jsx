@@ -44,12 +44,6 @@ function ResetPasswordPage() {
       password: passwordValue,
       token: tokenValue
     }));
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setPasswordValue("");
-    setTokenValue("");
   };
 
   const renderPage = () => {

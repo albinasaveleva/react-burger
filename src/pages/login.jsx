@@ -30,15 +30,8 @@ function LoginPage() {
       email: state.email,
       password: state.password
     }));
-    resetForm();
   };
 
-  const resetForm = () => {
-    setState({
-      email: '',
-      password: ''
-    });
-  }
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;

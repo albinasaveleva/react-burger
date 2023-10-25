@@ -35,16 +35,7 @@ function RegistrationPage() {
       email: state.email,
       password: state.password,
     }));
-    resetForm();
-  }
-
-  const resetForm = () => {
-    setState({
-      name: '',
-      email: '',
-      password: ''
-    });
-  }
+  };
   
   const handleChange = (e) => {
     const name = e.target.name;

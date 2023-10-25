@@ -31,11 +31,6 @@ function ForgotPasswordPage() {
     e.preventDefault();
 
     dispatch(forgotPasswordRequest({email: emailValue}));
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setEmailValue("");
   };
 
   const renderPage = () => {
