@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../services/auth/actions';
+import { useForm } from '../hooks/useForm';
 
 import { 
   Box,
@@ -19,43 +20,28 @@ import Preloader from '../components/preLoader/preloader';
 function ProfileEditPage() {
   const isUpdateUserRequest = useSelector(store => store.auth.isUpdateUserRequest);
   const user = useSelector(store => store.auth.user);
-  const [ state, setState ] = React.useState({
+  const {values, handleChange, setValues} = useForm({
     name: user ? user.name : '',
     email: user ? user.email : '',
-    password: ''
+    password: user ? user.password || '' : ''
   });
   const [isEdit, setIsEdit] = React.useState(false);
 
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setIsEdit(true);
-    setState({
-      ...state,
-      [name]: value
-    });
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(updateUser({
-      name: state.name,
-      email: state.email,
-      password: state.password
-    }));
+    dispatch(updateUser(values));
     setIsEdit(false);
   };
 
   const handleClick = () => {
     setIsEdit(false);
-    setState({
+    setValues({
       name: user.name,
       email: user.email,
-      password: user.password
+      password: user.password || ''
     });
   };
 
@@ -66,31 +52,40 @@ function ProfileEditPage() {
           <PageForm handleSubmit={handleSubmit}>
           <Input
             name={'name'}
-            value={state.name}
+            value={values.name}
             type={'text'}
             placeholder={'Имя'}
             size={'default'}
             icon={'EditIcon'}
             extraClass='mb-6 input-field'
-            onChange={handleChange}            
+            onChange={(e)=>{
+              handleChange(e);
+              setIsEdit(true);
+            }}            
           />
           <EmailInput
             name={'email'}
-            value={state.email}
+            value={values.email}
             placeholder={'Логин'}
             size={'default'}
             icon={'EditIcon'}
             extraClass='mb-6 input-field'
-            onChange={handleChange}
+            onChange={(e)=>{
+              handleChange(e);
+              setIsEdit(true);
+            }} 
           />
           <PasswordInput
             name={'password'}
-            value={state.password}
+            value={values.password}
             placeholder={'Пароль'}
             size={'default'}
             icon={'EditIcon'}
             extraClass='mb-6 input-field'
-            onChange={handleChange}
+            onChange={(e)=>{
+              handleChange(e);
+              setIsEdit(true);
+            }} 
           />
           {
             isEdit && <div className='actions'>

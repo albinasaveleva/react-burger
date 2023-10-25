@@ -9,12 +9,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { forgotPasswordRequest } from '../services/auth/actions';
+import { useForm } from '../hooks/useForm';
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
 function ForgotPasswordPage() {
-  const [ emailValue, setEmailValue ] = React.useState("");
+  const {values, handleChange} = useForm({
+    email: "",
+  });
+
   const isForgotPasswordSuccess = useSelector(store => store.auth.isForgotPasswordSuccess);
   const isForgotPasswordRequest = useSelector(store => store.auth.isForgotPasswordRequest);
 
@@ -30,7 +34,7 @@ function ForgotPasswordPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(forgotPasswordRequest({email: emailValue}));
+    dispatch(forgotPasswordRequest(values));
   };
 
   const renderPage = () => {
@@ -38,11 +42,12 @@ function ForgotPasswordPage() {
       <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <EmailInput
-          value={emailValue}
+          name='email'
+          value={values.email}
           placeholder={'Укажите e-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={handleChange}
         />
         <Button 
           type="primary" 

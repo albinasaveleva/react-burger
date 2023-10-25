@@ -11,13 +11,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { resetPasswordRequest } from '../services/auth/actions';
+import { useForm } from '../hooks/useForm';
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
 function ResetPasswordPage() {
-  const [ passwordValue, setPasswordValue ] = React.useState("");
-  const [ tokenValue, setTokenValue ] = React.useState("");
+  const {values, handleChange} = useForm({
+    password: "",
+    token: ""
+  });
 
   const isForgotPasswordSuccess = useSelector(store => store.auth.isForgotPasswordSuccess);
   const isResetPasswordRequest = useSelector(store => store.auth.isResetPasswordRequest);
@@ -40,10 +43,7 @@ function ResetPasswordPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(resetPasswordRequest({
-      password: passwordValue,
-      token: tokenValue
-    }));
+    dispatch(resetPasswordRequest(values));
   };
 
   const renderPage = () => {
@@ -51,20 +51,22 @@ function ResetPasswordPage() {
       <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <PasswordInput
-          value={passwordValue}
+          name='password'
+          value={values.password}
           placeholder={'Введите новый пароль'}
           size={'default'}
           icon={'ShowIcon'}
           extraClass='mb-6 input-field'
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={handleChange}
         />
         <Input
-          value={tokenValue}
+          name='token'
+          value={values.token}
           type={'text'}
           placeholder={'Введите код из письма'}
           size={'default'}
           extraClass='mb-6 input-field'
-          onChange={e => setTokenValue(e.target.value)}
+          onChange={handleChange}
         />
         <Button 
           type="primary" 

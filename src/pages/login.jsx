@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { loginRequest } from '../services/auth/actions';
+import { useForm } from '../hooks/useForm';
 
 import { 
   Box,
@@ -15,10 +16,11 @@ import Preloader from '../components/preLoader/preloader';
 import PageForm from '../components/page-form/page-form';
 
 function LoginPage() {
-  const [ state, setState ] = React.useState({
+  const {values, handleChange} = useForm({
     email: '',
     password: ''
   });
+
   const isLoginRequest = useSelector(store => store.auth.isLoginRequest);
 
   const dispatch = useDispatch();
@@ -26,21 +28,8 @@ function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(loginRequest({
-      email: state.email,
-      password: state.password
-    }));
+    dispatch(loginRequest(values));
   };
-
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setState({
-      ...state,
-      [name]: value
-    });
-  }
 
   const renderPage = () => {
     return (
@@ -48,7 +37,7 @@ function LoginPage() {
         <p className="mb-6 text text_type_main-medium">Вход</p>
         <EmailInput
           name={'email'}
-          value={state.email}
+          value={values.email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
@@ -56,7 +45,7 @@ function LoginPage() {
         />
         <PasswordInput
           name={'password'}
-          value={state.password}
+          value={values.password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}

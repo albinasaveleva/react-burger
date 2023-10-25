@@ -15,9 +15,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { registerRequest } from '../services/auth/actions';
+import { useForm } from '../hooks/useForm';
 
 function RegistrationPage() {
-  const [ state, setState ] = React.useState({
+  const {values, handleChange} = useForm({
     name: '',
     email: '',
     password: ''
@@ -30,22 +31,8 @@ function RegistrationPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(registerRequest({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-    }));
+    dispatch(registerRequest(values));
   };
-  
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setState({
-      ...state,
-      [name]: value
-    });
-  }
 
   const renderPage = () => {
     return (
@@ -53,7 +40,7 @@ function RegistrationPage() {
         <p className="mb-6 text text_type_main-medium">Регистрация</p>
         <Input
           name={'name'}
-          value={state.name}
+          value={values.name}
           type={'text'}
           placeholder={'Имя'}
           size={'default'}
@@ -62,7 +49,7 @@ function RegistrationPage() {
         />
         <EmailInput
           name={'email'}
-          value={state.email}
+          value={values.email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
@@ -70,7 +57,7 @@ function RegistrationPage() {
         />
         <PasswordInput
           name={'password'}
-          value={state.password}
+          value={values.password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}
