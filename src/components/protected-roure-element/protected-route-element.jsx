@@ -15,7 +15,7 @@ export function ProtectedRouteElement({ onlyUnAuth = false, children }) {
   }
 
   if (!onlyUnAuth && !isLoginSuccess) {
-    return <Navigate to={'/login'} replace state={{ from: location }} />
+    return <Navigate to={'/login'} state={{ from: location }} />
   }
 
   return children;
