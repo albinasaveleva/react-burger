@@ -23,18 +23,9 @@ function RegistrationPage() {
     password: ''
   });
 
-  const isRegistrSuccess = useSelector(store => store.auth.isRegistrSuccess);
   const isRegistrRequest = useSelector(store => store.auth.isRegistrRequest);
 
-
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // React.useEffect(()=>{
-  //   if (isRegistrSuccess) {
-  //     navigate('/login');
-  //   }
-  // }, [isRegistrSuccess])
 
   const handleSubmit = (e) => {
     e.preventDefault();
