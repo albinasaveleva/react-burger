@@ -9,18 +9,18 @@ export const checkReponse = (res) => {
     : res.json().then((err) => Promise.reject(err));
 };
 
-export const fetchRequest = async (url, options = {}) => {
-  const res = await fetch(url, options);
-  return await checkReponse(res);
+export const fetchRequest = (endpoint, options = {}) => {
+  const url = `${BURGER_API_URL}/${endpoint}`;
+
+  return fetch(url, options)
+    .then(checkReponse)
 }
 
 const refreshToken = async () => {
-  const url = `${BURGER_API_URL}/${AUTH_TOKEN_ENDPOINT}`;
-
   const body = {
     token: localStorage.getItem('refreshToken')
   };
-  const res = await fetch(url, {
+  const options = {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -31,16 +31,16 @@ const refreshToken = async () => {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(body)
-  })
-  return await checkReponse(res);
+  };
+
+  return fetchRequest(AUTH_TOKEN_ENDPOINT, options);
 }
 
-export const fetchRequestWithRefresh = async (url, options) => {
+export const fetchRequestWithRefresh = async (endpoint, options) => {
   try {
     options.headers.authorization = `Bearer ${getCookie('accessToken')}`;
 
-    const res = await fetch(url, options);
-    return await checkReponse(res);
+    return fetchRequest(endpoint, options);
   } catch (err) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
@@ -54,8 +54,7 @@ export const fetchRequestWithRefresh = async (url, options) => {
       
       options.headers.authorization = refreshData.accessToken;
 
-      const res = await fetch(url, options);
-      return await checkReponse(res);
+      return fetchRequest(endpoint, options);
     } else {
       return Promise.reject(err);
     }

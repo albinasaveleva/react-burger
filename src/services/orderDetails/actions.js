@@ -1,4 +1,4 @@
-import { BURGER_API_URL, fetchRequestWithRefresh } from "../../utils/burger-api";
+import { fetchRequestWithRefresh } from "../../utils/burger-api";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
@@ -6,7 +6,6 @@ export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
 export const RESET_ORDER_DATA = 'RESET_ORDER_DATA';
 
 const ORDER_ENDPOINT = 'orders';
-const url = `${BURGER_API_URL}/${ORDER_ENDPOINT}`;
 
 const checkIngredients = (buns, ingredients) => {
   return buns && ingredients.length > 0 ? true : false;
@@ -21,7 +20,7 @@ export function createOrder(buns, ingredients) {
         type: CREATE_ORDER_REQUEST
       });
 
-      fetchRequestWithRefresh(url, {
+      fetchRequestWithRefresh(ORDER_ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',

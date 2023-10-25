@@ -1,5 +1,5 @@
-import { BURGER_API_URL, fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
-import { setCookie, getCookie, deleteCookie } from "../../utils/cookies";
+import { fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
+import { setCookie, deleteCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
 export const AUTH_REGISTER_SUCCESS = 'AUTH_REGISTER_SUCCESS';
@@ -43,7 +43,6 @@ const checkData = (condition) => {
 };
 
 export function registerRequest({email, password, name}) {
-  const url = `${BURGER_API_URL}/${AUTH_REGISTER_ENDPOINT}`;
   const body = {
     email, 
     password,
@@ -55,7 +54,7 @@ export function registerRequest({email, password, name}) {
       dispatch({
         type: AUTH_REGISTER_REQUEST
       });
-      fetchRequest(url, {
+      fetchRequest(AUTH_REGISTER_ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -97,7 +96,6 @@ export function registerRequest({email, password, name}) {
 };
 
 export function loginRequest({email, password}) {
-  const url = `${BURGER_API_URL}/${AUTH_LOGIN_ENDPOINT}`;
   const body = {
     email, 
     password
@@ -108,7 +106,7 @@ export function loginRequest({email, password}) {
       dispatch({
         type: AUTH_LOGIN_REQUEST
       });
-      fetchRequest(url, {
+      fetchRequest(AUTH_LOGIN_ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -145,7 +143,6 @@ export function loginRequest({email, password}) {
 };
 
 export function logoutRequest() {
-  const url = `${BURGER_API_URL}/${AUTH_LOGOUT_ENDPOINT}`;
   const body = {
     token: localStorage.getItem('refreshToken')
   };
@@ -154,7 +151,7 @@ export function logoutRequest() {
     dispatch({
       type: AUTH_LOGOUT_REQUEST
     });
-    fetchRequest(url, {
+    fetchRequest(AUTH_LOGOUT_ENDPOINT, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -182,7 +179,6 @@ export function logoutRequest() {
 };
 
 export function forgotPasswordRequest({email}) {
-  const url = `${BURGER_API_URL}/${FORGOT_PASSWORD_ENDPOINT}`;
   const body = {
     email
   };
@@ -192,7 +188,7 @@ export function forgotPasswordRequest({email}) {
       dispatch({
         type: FORGOT_PASSWORD_REQUEST
       });
-      fetchRequest(url, {
+      fetchRequest(FORGOT_PASSWORD_ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -227,7 +223,6 @@ export function forgotPasswordRequest({email}) {
 };
 
 export function resetPasswordRequest({password, token}) {
-  const url = `${BURGER_API_URL}/${RESET_PASSWORD_ENDPOINT}`;
   const body = {
     password,
     token
@@ -238,7 +233,7 @@ export function resetPasswordRequest({password, token}) {
       dispatch({
         type: RESET_PASSWORD_REQUEST
       });
-      fetchRequest(url, {
+      fetchRequest(RESET_PASSWORD_ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -273,13 +268,11 @@ export function resetPasswordRequest({password, token}) {
 };
 
 export function getUser() {
-  const url = `${BURGER_API_URL}/${AUTH_USER_ENDPOINT}`;
-
   return function(dispatch) {
     dispatch({
       type: GET_USER_REQUEST
     });
-    fetchRequestWithRefresh(url, {
+    fetchRequestWithRefresh(AUTH_USER_ENDPOINT, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache',
@@ -305,8 +298,6 @@ export function getUser() {
 }
 
 export function updateUser({email, password, name}) {
-  const url = `${BURGER_API_URL}/${AUTH_USER_ENDPOINT}`;
-
   const body = {
     email, 
     password,
@@ -318,7 +309,7 @@ export function updateUser({email, password, name}) {
       dispatch({
         type: UPDATE_USER_REQUEST
       });
-      fetchRequestWithRefresh(url, {
+      fetchRequestWithRefresh(AUTH_USER_ENDPOINT, {
         method: 'PATCH',
         mode: 'cors',
         cache: 'no-cache',
