@@ -1,6 +1,4 @@
-import { BURGER_API_URL, fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
-import { getCookie } from "../../utils/cookies";
-import { checkReponse } from "../../utils/burger-api";
+import { BURGER_API_URL, fetchRequestWithRefresh } from "../../utils/burger-api";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';

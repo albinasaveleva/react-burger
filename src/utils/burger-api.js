@@ -1,8 +1,7 @@
 import { setCookie, getCookie } from "./cookies";
-
 import { AUTH_TOKEN_ENDPOINT } from "../services/auth/actions";
-export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
+export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
 export const checkReponse = (res) => {
   return res.ok 
