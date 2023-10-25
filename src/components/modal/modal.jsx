@@ -7,25 +7,12 @@ import {
   CloseIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteIngredientDetails } from "../../services/ingredientDetails/actions";
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
 const modalRoot = document.getElementById("react-modals");
 
 function Modal({closeModal, title, children}) {
-  const item = useSelector(store => store.ingredientDetails.item);
-  const dispatch = useDispatch();
-  
-  const handleClose = () => {
-    closeModal();
-
-    if (item) {
-      dispatch(deleteIngredientDetails())
-    }
-  }
-
   React.useEffect(() => {
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
@@ -51,7 +38,7 @@ function Modal({closeModal, title, children}) {
                   {title}
                 </p>
             }
-            <div className={modalStyle.closeBtn} onClick={handleClose}>
+            <div className={modalStyle.closeBtn} onClick={closeModal}>
               <CloseIcon type="primary" />
             </div>
           </div>
@@ -59,7 +46,7 @@ function Modal({closeModal, title, children}) {
             { children }
           </div>
         </div>
-        <ModalOverlay handleClose={handleClose} />
+        <ModalOverlay handleClose={closeModal} />
       </>
       ), modalRoot
   );

@@ -9,6 +9,7 @@ import { ProtectedRouteElement } from '../protected-roure-element/protected-rout
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
+import { deleteIngredientDetails } from '../../services/ingredientDetails/actions';
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
@@ -68,7 +69,9 @@ function App() {
         <Routes>
           <Route path="/ingredients/:id" element={
             <Modal 
-              closeModal={() => { navigate('/')}} 
+              closeModal={() => { 
+                dispatch(deleteIngredientDetails())
+                navigate('/')}} 
               title={'Детали ингредиента'}
             >
               <IngredientDetails />
