@@ -4,9 +4,8 @@ import styles from './app.module.css';
 import { useDispatch } from 'react-redux';
 
 import AppHeader from '../app-header/app-header';
-import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage } from '../../pages';
+import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, ProfileEditPage } from '../../pages';
 import { ProtectedRouteElement } from '../protected-roure-element/protected-route-element';
-import ProfileEditPage from '../../pages/profile-edit';
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';

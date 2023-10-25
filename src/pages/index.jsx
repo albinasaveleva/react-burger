@@ -6,5 +6,6 @@ import NonFound404Page from './non-found-404';
 import ProfilePage from './profile';
 import RegistrationPage from './registration';
 import ResetPasswordPage from './reset-password';
+import ProfileEditPage from './profile-edit';
 
-export { ForgotPasswordPage, IngredientPage, LoginPage, Main as MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage };
+export { ForgotPasswordPage, IngredientPage, LoginPage, Main as MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, ProfileEditPage };

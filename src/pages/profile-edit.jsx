@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
-
-import PageForm from '../components/page-form/page-form';
+import { updateUser } from '../services/auth/actions';
 
 import { 
   Box,
@@ -14,9 +12,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import profileStyle from './profile.module.css';
-import { updateUser } from '../services/auth/actions';
 
-export default function ProfileEditPage() {
+import PageForm from '../components/page-form/page-form';
+import Preloader from '../components/preLoader/preloader';
+
+function ProfileEditPage() {
+  const isUpdateUserRequest = useSelector(store => store.auth.isUpdateUserRequest);
   const user = useSelector(store => store.auth.user);
   const [ state, setState ] = React.useState({
     name: user ? user.name : '',
@@ -58,66 +59,78 @@ export default function ProfileEditPage() {
     });
   };
 
-
+  const renderPage = () => {
+    return (
+      <>
+        <div className={profileStyle.edit}>
+          <PageForm handleSubmit={handleSubmit}>
+          <Input
+            name={'name'}
+            value={state.name}
+            type={'text'}
+            placeholder={'Имя'}
+            size={'default'}
+            icon={'EditIcon'}
+            extraClass='mb-6 input-field'
+            onChange={handleChange}            
+          />
+          <EmailInput
+            name={'email'}
+            value={state.email}
+            placeholder={'Логин'}
+            size={'default'}
+            icon={'EditIcon'}
+            extraClass='mb-6 input-field'
+            onChange={handleChange}
+          />
+          <PasswordInput
+            name={'password'}
+            value={state.password}
+            placeholder={'Пароль'}
+            size={'default'}
+            icon={'EditIcon'}
+            extraClass='mb-6 input-field'
+            onChange={handleChange}
+          />
+          {
+            isEdit && <div className='actions'>
+              <Button 
+                type="secondary" 
+                size="medium"
+                extraClass='action' 
+                htmlType="button" 
+                onClick={handleClick}
+              >
+                Отмена
+              </Button>
+              <Button 
+                type="primary" 
+                size="medium"
+                extraClass='action' 
+                htmlType="submit" 
+              >
+                Сохранить
+              </Button>
+            </div>
+          }
+          </PageForm>
+        </div>
+        <div className={profileStyle.caption}>
+          <p className="text text_type_main-default text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
-      <div className={profileStyle.edit}>
-        <PageForm handleSubmit={handleSubmit}>
-        <Input
-          name={'name'}
-          value={state.name}
-          type={'text'}
-          placeholder={'Имя'}
-          size={'default'}
-          icon={'EditIcon'}
-          extraClass='mb-6 input-field'
-          onChange={handleChange}            
-        />
-        <EmailInput
-          name={'email'}
-          value={state.email}
-          placeholder={'Логин'}
-          size={'default'}
-          icon={'EditIcon'}
-          extraClass='mb-6 input-field'
-          onChange={handleChange}
-        />
-        <PasswordInput
-          name={'password'}
-          value={state.password}
-          placeholder={'Пароль'}
-          size={'default'}
-          icon={'EditIcon'}
-          extraClass='mb-6 input-field'
-          onChange={handleChange}
-        />
-        {
-          isEdit && <div className='actions'>
-            <Button 
-              type="secondary" 
-              size="medium"
-              extraClass='action' 
-              htmlType="button" 
-              onClick={handleClick}
-            >
-              Отмена
-            </Button>
-            <Button 
-              type="primary" 
-              size="medium"
-              extraClass='action' 
-              htmlType="submit" 
-            >
-              Сохранить
-            </Button>
-          </div>
-        }
-        </PageForm>
-      </div>
-      <div className={profileStyle.caption}>
-        <p className="text text_type_main-default text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
-      </div>
+      {
+        isUpdateUserRequest
+          ? <Preloader />
+          : renderPage()
+      }
     </>
   )
 }
+
+export default React.memo(ProfileEditPage);

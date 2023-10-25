@@ -317,6 +317,10 @@ export function getUser() {
 }
 
 export function updateUser({email, password, name}) {
+  const checkData = () => {
+    return email.length > 0 && name.length > 0 ? true : false;
+  };
+
   const url = `${BURGER_API_URL}/${AUTH_USER_ENDPOINT}`;
 
   const body = {
@@ -325,32 +329,42 @@ export function updateUser({email, password, name}) {
     name
   };
 
-  return function(dispatch) {
-    dispatch({
-      type: UPDATE_USER_REQUEST
-    });
-    fetchRequestWithRefresh(url, {
-      method: 'PATCH',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
-      .then(({ user }) => {
-        dispatch({
-          type: UPDATE_USER_SUCCESS,
-          user: user
-        });
+  return checkData()
+    ? function(dispatch) {
+      dispatch({
+        type: UPDATE_USER_REQUEST
+      });
+      fetchRequestWithRefresh(url, {
+        method: 'PATCH',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body)
       })
-      .catch(()=>{
-        dispatch({
-          type: UPDATE_USER_ERROR
+        .then(({ user }) => {
+          dispatch({
+            type: UPDATE_USER_SUCCESS,
+            user: user
+          });
         })
-      })
-  }
+        .catch((err)=>{
+          dispatch({
+            type: UPDATE_USER_ERROR
+          });
+
+          alert(err.message);
+        })
+    }
+    : function(dispatch) {
+      dispatch({
+        type: UPDATE_USER_ERROR
+      });
+
+      alert('Заполните все данные');
+    }
 }
