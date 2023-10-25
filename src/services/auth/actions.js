@@ -221,7 +221,7 @@ export function forgotPasswordRequest({email}) {
           dispatch({
             type: FORGOT_PASSWORD_ERROR
           });
-          
+
           alert(err.message);
         })
     }
@@ -235,39 +235,53 @@ export function forgotPasswordRequest({email}) {
 };
 
 export function resetPasswordRequest({password, token}) {
+  const checkData = () => {
+    return password.length > 0 && token.length > 0 ? true : false;
+  };
+
   const url = `${BURGER_API_URL}/${RESET_PASSWORD_ENDPOINT}`;
   const body = {
     password,
     token
   };
 
-  return function(dispatch) {
-    dispatch({
-      type: RESET_PASSWORD_REQUEST
-    });
-    fetchRequest(url, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
-      .then(()=>{
-        dispatch({
-          type: RESET_PASSWORD_SUCCESS,
-        })
+  return checkData()
+    ? function(dispatch) {
+      dispatch({
+        type: RESET_PASSWORD_REQUEST
+      });
+      fetchRequest(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body)
       })
-      .catch(()=>{
-        dispatch({
-          type: RESET_PASSWORD_ERROR
+        .then(()=>{
+          dispatch({
+            type: RESET_PASSWORD_SUCCESS,
+          })
         })
-      })
-  }
+        .catch((err)=>{
+          dispatch({
+            type: RESET_PASSWORD_ERROR
+          });
+
+          alert(err.message);
+        })
+    }
+    : function(dispatch) {
+      dispatch({
+        type: RESET_PASSWORD_ERROR,
+      });
+
+      alert('Заполните все данные');
+    }
 };
 
 export function getUser() {
