@@ -75,8 +75,8 @@ function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredi
 BurgerConstructorIngredient.propTypes = {
   item: ingredientType,
   index: PropTypes.number.isRequired,
-  moveIngredient: PropTypes.func.isRequired
+  moveIngredient: PropTypes.func.isRequired,
+  deleteIngredient: PropTypes.func.isRequired,
 };
 
-// export default BurgerConstructorIngredient;
 export default React.memo(BurgerConstructorIngredient);

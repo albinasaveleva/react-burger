@@ -64,5 +64,4 @@ function IngredientDetails() {
   );
 };
 
-export default IngredientDetails;
-// export default React.memo(IngredientDetails);
+export default React.memo(IngredientDetails);

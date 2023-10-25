@@ -14,12 +14,12 @@ import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal(props) {
+function Modal({closeModal, title, children}) {
   const item = useSelector(store => store.ingredientDetails.item);
   const dispatch = useDispatch();
   
-  const closeModal = () => {
-    props.closeModal();
+  const handleClose = () => {
+    closeModal();
 
     if (item) {
       dispatch(deleteIngredientDetails())
@@ -46,20 +46,20 @@ export default function Modal(props) {
         <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
           <div className={modalStyle.modalHeader}>
             {
-              props.title && 
+              title && 
                 <p className="pt-3 pb-3 text text_type_main-large">
-                  {props.title}
+                  {title}
                 </p>
             }
-            <div className={modalStyle.closeBtn} onClick={closeModal}>
+            <div className={modalStyle.closeBtn} onClick={handleClose}>
               <CloseIcon type="primary" />
             </div>
           </div>
           <div className={modalStyle.modalBody}>
-            { props.children }
+            { children }
           </div>
         </div>
-        <ModalOverlay closeModal={closeModal} />
+        <ModalOverlay handleClose={handleClose} />
       </>
       ), modalRoot
   );
@@ -69,3 +69,5 @@ Modal.propTypes = {
   title: PropTypes.string,
   closeModal: PropTypes.func.isRequired
 };
+
+export default React.memo(Modal);

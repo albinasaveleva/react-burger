@@ -10,7 +10,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Preloader from '../preLoader/preloader';
 
-export default function Main() {
+function Main() {
   const { isRequest } = useSelector(store => store.burgerIngredients);
 
   return ( 
@@ -28,3 +28,5 @@ export default function Main() {
     </>
   );
 }
+
+export default React.memo(Main);

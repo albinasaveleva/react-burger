@@ -70,5 +70,4 @@ BurgerIngredient.propTypes = {
   item: ingredientType,
 };
 
-// export default BurgerIngredient;
 export default React.memo(BurgerIngredient);

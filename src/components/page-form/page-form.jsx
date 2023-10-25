@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function PageForm({children, handleSubmit, className}) {
+function PageForm({children, handleSubmit}) {
   return (
     <div className='page-form-wrapper'>
       <form className='page-form' onSubmit={handleSubmit}>
@@ -9,3 +10,9 @@ export default function PageForm({children, handleSubmit, className}) {
     </div>
   )
 }
+
+PageForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
+};
+
+export default React.memo(PageForm);

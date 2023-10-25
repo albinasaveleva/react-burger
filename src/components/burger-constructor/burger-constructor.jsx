@@ -23,7 +23,7 @@ import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import Preloader from "../preLoader/preloader";
 
-export default function BurgerConstructor() {
+function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
@@ -178,3 +178,5 @@ export default function BurgerConstructor() {
     </>
   );
 };
+
+export default React.memo(BurgerConstructor);
