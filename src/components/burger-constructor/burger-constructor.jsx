@@ -50,6 +50,7 @@ function BurgerConstructor() {
   } 
 
   const handleClick = React.useCallback(() => {
+    console.log(isLoginSuccess)
     if (isLoginSuccess) {
       dispatch(createOrder(buns, ingredients));
 
@@ -179,4 +180,4 @@ function BurgerConstructor() {
   );
 };
 
-export default React.memo(BurgerConstructor);
+export default BurgerConstructor;

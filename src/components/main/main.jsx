@@ -11,12 +11,13 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Preloader from '../preLoader/preloader';
 
 function Main() {
-  const { isRequest } = useSelector(store => store.burgerIngredients);
+  const isRequest = useSelector(store => store.burgerIngredients.isRequest);
+  const isGetUserRequest = useSelector(store => store.auth.isGetUserRequest);
 
   return ( 
     <>
       {
-        isRequest 
+        isRequest || isGetUserRequest
           ? <Preloader />
           : <main className={`pb-10 ${mainStyle.container}`}>
               <DndProvider backend={HTML5Backend}>
