@@ -9,11 +9,15 @@ export const checkReponse = (res) => {
     : res.json().then((err) => Promise.reject(err));
 };
 
-export const fetchRequest = (endpoint, options = {}) => {
+function request(url, options) {
+  return fetch(url, options).then(checkReponse)
+}
+
+export const fetchRequest = async (endpoint, options = {}) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
 
-  return fetch(url, options)
-    .then(checkReponse)
+  const res = await request(url, options);
+  return res;
 }
 
 const refreshToken = async () => {
@@ -37,10 +41,13 @@ const refreshToken = async () => {
 }
 
 export const fetchRequestWithRefresh = async (endpoint, options) => {
+  const url = `${BURGER_API_URL}/${endpoint}`;
+
   try {
     options.headers.authorization = `Bearer ${getCookie('accessToken')}`;
 
-    return fetchRequest(endpoint, options);
+    const res = await request(url, options);
+    return res;
   } catch (err) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
@@ -50,11 +57,12 @@ export const fetchRequestWithRefresh = async (endpoint, options) => {
       }
 
       localStorage.setItem("refreshToken", refreshData.refreshToken);
-      setCookie("accessToken", refreshData.accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+      setCookie("accessToken", refreshData.accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
       
       options.headers.authorization = refreshData.accessToken;
 
-      return fetchRequest(endpoint, options);
+      const res = await request(url, options);
+      return res;
     } else {
       return Promise.reject(err);
     }

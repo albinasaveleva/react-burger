@@ -72,7 +72,7 @@ export function registerRequest({email, password, name}) {
             user: user,
           });
           localStorage.setItem('refreshToken', refreshToken);
-          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
         .catch(({message})=>{
           dispatch({
@@ -124,7 +124,7 @@ export function loginRequest({email, password}) {
             user: user,
           });
           localStorage.setItem('refreshToken', refreshToken);
-          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 });
+          setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
         .catch((err)=>{
           dispatch({
