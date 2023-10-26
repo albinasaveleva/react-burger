@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
 import headerStyle from './app-header.module.css';
 
 import { 
@@ -16,43 +18,110 @@ function AppHeader() {
       <nav className={headerStyle.navigation}>
         <ul>
           <li className={headerStyle.navigationItem}>
-            <a href="#" className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}`}  id="constructor">
-              <div className={`mr-2 ${headerStyle.linkIcon}`}>
-                <BurgerIcon type="primary" />
-              </div>
-              <div className={headerStyle.linkTitle}>
-                <span className="text text_type_main-default">Конструктор</span>
-              </div>
-            </a>
+            <NavLink 
+              to={'/'} 
+              className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}`}
+            >
+              {
+                ({ isActive }) => (
+                  isActive
+                  ? <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <BurgerIcon type='primary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default'>
+                        Конструктор
+                      </span>
+                    </div>
+                  </>
+                  : <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <BurgerIcon type='secondary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default text_color_inactive'>
+                        Конструктор
+                      </span>
+                    </div>
+                  </>
+                )
+              }
+            </NavLink>
           </li>
           <li className={headerStyle.navigationItem}>
-            <a href="#" className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}`} id="orders">
-              <div className={`mr-2 ${headerStyle.linkIcon}`}>
-                <ListIcon type="secondary" />
-              </div>
-              <div className={headerStyle.linkTitle}>
-                <span className="text text_type_main-default">Лента заказов</span>
-              </div>
-            </a>
+            <NavLink 
+              to={'/orders'} 
+              className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}` }
+            >
+              {
+                ({ isActive }) => (
+                  isActive
+                  ? <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <ListIcon type='primary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default'>
+                        Лента заказов
+                      </span>
+                    </div>
+                  </>
+                  : <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <ListIcon type='secondary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default text_color_inactive'>
+                        Лента заказов
+                      </span>
+                    </div>
+                  </>
+                )
+              }
+            </NavLink>
+          </li>
+          <li className={headerStyle.navigationItem}>
+            <NavLink 
+              to={'/profile'} 
+              className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}` }
+            >
+              {
+                ({ isActive }) => (
+                  isActive
+                  ? <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <ProfileIcon type='primary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default'>
+                        Личный кабинет
+                      </span>
+                    </div>
+                  </>
+                  : <>
+                    <div className={`mr-2 ${headerStyle.linkIcon}`}>
+                      <ProfileIcon type='secondary' />
+                    </div>
+                    <div className={headerStyle.linkTitle}>
+                      <span className='text text_type_main-default text_color_inactive'>
+                        Личный кабинет
+                      </span>
+                    </div>
+                  </>
+                )
+              }
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div className={headerStyle.logo}>
-        <Logo />
-      </div>
-      <div className={headerStyle.account}>
-        <a href="#" className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}`} id="profile">
-          <div className={`mr-2 ${headerStyle.linkIcon}`}>
-            <ProfileIcon type="secondary" />
-          </div>
-          <div className={headerStyle.linkTitle}>
-            <span className="text text_type_main-default">Личный кабинет</span>
-          </div>
-        </a>
+        <NavLink to={'/'}>
+          <Logo />
+        </NavLink>
       </div>
     </header>
   );
 };
 
-// export default AppHeader;
 export default React.memo(AppHeader);

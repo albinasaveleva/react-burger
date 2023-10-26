@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from 'prop-types';
 import modalOverlayStyle from './modal-over-lay.module.css';
 
-export default function ModalOverlay(props) {
+function ModalOverlay({handleClose}) {
   return (
-    <div id="modal-over-lay" onClick={props.closeModal} className={modalOverlayStyle.modalOverLay} />
+    <div id="modal-over-lay" onClick={handleClose} className={modalOverlayStyle.modalOverLay} />
   )
 };
 
 ModalOverlay.propTypes = {
-  closeModal: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
+
+export default React.memo(ModalOverlay);

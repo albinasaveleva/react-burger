@@ -5,12 +5,14 @@ import { burgerIngredientsReducer } from '../burgerIngredients/reducers';
 import { ingredientReducer } from '../ingredientDetails/reducers';
 import { burgerConstructorReducer } from '../burgerConstructor/reducers';
 import { orderReducer } from '../orderDetails/reducers';
+import { authReducer } from '../auth/reducers';
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
   ingredientDetails: ingredientReducer,
   burgerConstructor: burgerConstructorReducer,
-  orderDetails: orderReducer
+  orderDetails: orderReducer,
+  auth: authReducer
 });
 
 export const store = configureStore({ 

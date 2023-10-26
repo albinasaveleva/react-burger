@@ -1,6 +1,8 @@
 import React from "react";
 import ingredientsCategoryStyle from './ingredients-category.module.css';
 
+import PropTypes from 'prop-types';
+
 const IngredientsCategory = React.forwardRef(({title, value, children}, ref) => {
   return (
     <div ref={ref} className={ingredientsCategoryStyle.container} id={value}>
@@ -14,5 +16,9 @@ const IngredientsCategory = React.forwardRef(({title, value, children}, ref) => 
   );
 });
 
-// export default IngredientsCategory;
+IngredientsCategory.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
+
 export default React.memo(IngredientsCategory);

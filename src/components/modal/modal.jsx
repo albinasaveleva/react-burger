@@ -7,24 +7,12 @@ import {
   CloseIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteIngredientDetails } from "../../services/ingredientDetails/actions";
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal(props) {
-  const item = useSelector(store => store.ingredientDetails.item);
-  const dispatch = useDispatch();
-  const closeModal = () => {
-    props.closeModal();
-
-    if (item) {
-      dispatch(deleteIngredientDetails())
-    }
-  }
-
+function Modal({closeModal, title, children}) {
   React.useEffect(() => {
     const keyDownHandler = e => {
       if (e.key === 'Escape') {
@@ -35,7 +23,6 @@ export default function Modal(props) {
     };
 
     document.addEventListener('keydown', keyDownHandler);
-
     return () => {
       document.removeEventListener('keydown', keyDownHandler);
     };
@@ -46,9 +33,9 @@ export default function Modal(props) {
         <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
           <div className={modalStyle.modalHeader}>
             {
-              props.title && 
+              title && 
                 <p className="pt-3 pb-3 text text_type_main-large">
-                  {props.title}
+                  {title}
                 </p>
             }
             <div className={modalStyle.closeBtn} onClick={closeModal}>
@@ -56,10 +43,10 @@ export default function Modal(props) {
             </div>
           </div>
           <div className={modalStyle.modalBody}>
-            { props.children }
+            { children }
           </div>
         </div>
-        <ModalOverlay closeModal={closeModal} />
+        <ModalOverlay handleClose={closeModal} />
       </>
       ), modalRoot
   );
@@ -69,3 +56,5 @@ Modal.propTypes = {
   title: PropTypes.string,
   closeModal: PropTypes.func.isRequired
 };
+
+export default React.memo(Modal);

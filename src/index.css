@@ -1,3 +1,6 @@
+:root {
+  --header-height: 92px;
+}
 body {
   margin: 0;
   padding: 0;
@@ -21,7 +24,7 @@ a {
   color: inherit;
 }
 
-#constructor {
+/* #constructor {
   color: #fff;
 }
 
@@ -31,7 +34,7 @@ a {
 
 #profile {
   color: rgb(133, 133, 173);
-}
+} */
 
 #react-modals {
   position: relative;
@@ -53,4 +56,38 @@ a {
 
 .constructor-element.default  .constructor-element__action {
   display: none;
+}
+
+.page-form-wrapper {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.page-form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-form .input-field {
+
+}
+
+.page-form .action {
+
+}
+
+.page-form .actions {
+  display: flex;
+  align-self: end;
+}
+
+.page-form .additional-action {
+  color: #8585AD;
+}
+
+.page-form .additional-action a {
+  color: #4C4CFF;
 }

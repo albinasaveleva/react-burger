@@ -7,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 
-export default function OrderDetails() {
+function OrderDetails() {
   const info = useSelector(store => store.orderDetails.info);
 
   return (
@@ -27,3 +27,5 @@ export default function OrderDetails() {
     </>
   );
 };
+
+export default React.memo(OrderDetails);

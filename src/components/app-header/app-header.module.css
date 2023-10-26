@@ -7,6 +7,10 @@
   justify-content: space-between;
 }
 
+.navigation {
+  width: 100%;
+}
+
 .navigation ul {
   display: flex;
   align-items: center;
@@ -15,6 +19,13 @@
 
   margin: 0;
   padding: 0;
+  width: 100%;
+}
+.navigationItem {
+}
+
+.navigationItem:last-child {
+  margin-left: auto;
 }
 
 .navigationItem > a {
@@ -29,14 +40,14 @@
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.account > a {
-  display: flex;
-}
 
 .link {
-
 }
 
 .linkIcon {
@@ -45,8 +56,4 @@
 
 .linkTitle {
 
-}
-
-.linkTitle span {
-  color: inherit;
 }

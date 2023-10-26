@@ -2,12 +2,13 @@ import React from "react";
 import update from 'immutability-helper';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
+import { useNavigate } from "react-router-dom";
+
 import { 
   Box,
   Button,
   ConstructorElement,
   CurrencyIcon, 
-  DragIcon,
   Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -20,14 +21,21 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
+import Preloader from "../preLoader/preloader";
 
-
-export default function BurgerConstructor() {
+function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
+  const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
+
+  const isOrderRequest = useSelector(store => store.orderDetails.isRequest);
   const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
+
   const buns = useSelector(store => store.burgerConstructor.buns);
   const ingredients = useSelector(store => store.burgerConstructor.ingredients);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getTotalPrice = () => {
     const ingredientsPrice = ingredients.length > 0 
@@ -41,11 +49,15 @@ export default function BurgerConstructor() {
     return ingredientsPrice + bunsPrice;
   } 
 
-  const dispatch = useDispatch();
-
   const handleClick = React.useCallback(() => {
-    dispatch(createOrder(buns, ingredients));
-    openModal();
+    console.log(isLoginSuccess)
+    if (isLoginSuccess) {
+      dispatch(createOrder(buns, ingredients));
+
+      openModal();
+    } else {
+      navigate('/login');
+    }
   }, [buns, ingredients])
 
   const handleDrop = (item) => {
@@ -62,6 +74,17 @@ export default function BurgerConstructor() {
       handleDrop(item);
     },
   });
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    const sortedIngredients = update(ingredients, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, ingredients[dragIndex]],
+      ],
+    });
+
+    dispatch(sortIngredients(sortedIngredients))
+  };
 
   const renderTopBun  = React.useCallback(
     () => (
@@ -80,7 +103,6 @@ export default function BurgerConstructor() {
       />
     ), [buns]
   );
-
   const renderBottomBun = React.useCallback(
     () => (
       buns 
@@ -98,7 +120,6 @@ export default function BurgerConstructor() {
         />
     ), [buns]
   );
-
   const renderIngredients = React.useCallback(
     () => (
       ingredients.length > 0 
@@ -114,17 +135,6 @@ export default function BurgerConstructor() {
         />
     ), [ingredients]
   );
-
-  const moveIngredient = (dragIndex, hoverIndex) => {
-    const sortedIngredients = update(ingredients, {
-      $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, ingredients[dragIndex]],
-      ],
-    });
-
-    dispatch(sortIngredients(sortedIngredients))
-  };
 
   return (
     <>
@@ -152,18 +162,22 @@ export default function BurgerConstructor() {
             </Button>
           </div>
       </section>
-      {
-        isModalOpen && orderRequestSuccess &&
-        <Modal 
-          closeModal={() => {
-            closeModal();
-            dispatch(clearOrderData());
-            dispatch(resetBurgerConstructor());
-          }}
-        >
-          <OrderDetails />
-        </Modal>
+      { 
+        isOrderRequest
+          ? <Preloader />
+          : isModalOpen && orderRequestSuccess &&
+          <Modal 
+            closeModal={() => {
+              closeModal();
+              dispatch(clearOrderData());
+              dispatch(resetBurgerConstructor());
+            }}
+          >
+            <OrderDetails />
+          </Modal>
       }
     </>
   );
 };
+
+export default BurgerConstructor;

@@ -1,7 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useInView } from "react-intersection-observer";
-import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
 import { 
   Box,
@@ -10,20 +9,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import useModal from '../../hooks/useModal';
-
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 import { getBurgerIngredients } from "../../services/burgerIngredients/selectors";
 
 function BurgerIngredients() {
-  const { isModalOpen, openModal, closeModal } = useModal();
-
   const ingredients = useSelector(getBurgerIngredients);
-
   const rootContainerRef = React.useRef(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const tabs = React.useMemo(()=> {
@@ -33,6 +25,7 @@ function BurgerIngredients() {
       { title: 'Начинки', value: 'main' },
     ]
   }, []);
+
   const [bunref, bunInView, bunEntry] = useInView({
     threshold: 0,
     root: rootContainerRef.current,
@@ -91,17 +84,6 @@ function BurgerIngredients() {
 
     setCurrentTab(visibleTabs[0].name);
   }
-
-  const dispatch = useDispatch();
-  const handleClick = React.useCallback(
-    (e) => {
-      const ingredientId = e.target.closest('.card').dataset.id;
-      const currentIngredient = ingredients.filter(element => element._id === ingredientId)[0];
-  
-      dispatch(addIngredienDetails(currentIngredient))
-      openModal();
-    }, [ingredients]
-  )
   
   const renderTabs = React.useCallback(
     () => {
@@ -119,30 +101,30 @@ function BurgerIngredients() {
       const buns = ingredients.filter(item => item.type === 'bun');
         return (
           <IngredientsCategory ref={bunref} title={'Булки'} value={'bun'}>
-            { buns.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
+            { buns.map(item => <BurgerIngredient key={item._id} item={item} />) }
           </IngredientsCategory>
         )
-    }, [ingredients, handleClick, bunref]
+    }, [ingredients, bunref]
   );
   const renderMainCategory = React.useCallback(
     () => {
       const mains = ingredients.filter(item => item.type === 'main');
       return (
         <IngredientsCategory ref={mainref} title={'Начинки'} value={'main'}>
-          { mains.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
+          { mains.map(item => <BurgerIngredient key={item._id} item={item} />) }
         </IngredientsCategory>
       )
-    }, [ingredients, handleClick, mainref]
+    }, [ingredients, mainref]
   );
   const renderSauceCategory = React.useCallback(
     () => {
       const sauces = ingredients.filter(item => item.type === 'sauce');
       return (
         <IngredientsCategory ref={sauceref} title={'Соусы'} value={'sauce'}>
-          { sauces.map(item => <BurgerIngredient handleClick={handleClick} key={item._id} item={item} />) }
+          { sauces.map(item => <BurgerIngredient key={item._id} item={item} />) }
         </IngredientsCategory>
       )
-    }, [ingredients, handleClick, sauceref]
+    }, [ingredients, sauceref]
   );
 
   return (
@@ -158,15 +140,8 @@ function BurgerIngredients() {
             { renderMainCategory() }
           </div>
       </section>
-      {
-        isModalOpen && 
-        <Modal closeModal={closeModal} title={'Детали ингредиента'}>
-          <IngredientDetails />
-        </Modal>
-      }
     </>
   );
 };
 
-export default BurgerIngredients;
-// export default React.memo(BurgerIngredients);
+export default React.memo(BurgerIngredients);
