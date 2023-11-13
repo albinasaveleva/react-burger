@@ -5,6 +5,7 @@ import {
   logoutRequestApi, 
   registerRequestApi, 
   resetPasswordRequestApi,
+  updateUserApi
 } from "../../utils/burger-api";
 import { setCookie, deleteCookie } from "../../utils/cookies";
 
@@ -242,18 +243,7 @@ export function updateUser({email, password, name}) {
       dispatch({
         type: UPDATE_USER_REQUEST
       });
-      fetchRequestWithRefresh(AUTH_USER_ENDPOINT, {
-        method: 'PATCH',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
-      })
+      updateUserApi(body)
         .then(({ user }) => {
           dispatch({
             type: UPDATE_USER_SUCCESS,
