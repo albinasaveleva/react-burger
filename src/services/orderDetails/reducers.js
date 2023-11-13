@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   info: {
-    success: null,
+    success: false,
     name: null,
     number: null,
     ingredients: []
@@ -22,7 +22,7 @@ export const orderReducer = (state = initialState, action) => {
     case CREATE_ORDER_REQUEST: {
       return {
         info : {
-          success: null,
+          success: false,
           name: null,
           number: null,
           ingredients: null,
@@ -48,7 +48,7 @@ export const orderReducer = (state = initialState, action) => {
     case CREATE_ORDER_ERROR: {
       return {
         info : {
-          success: null,
+          success: false,
           name: null,
           number: null,
           ingredients: null,

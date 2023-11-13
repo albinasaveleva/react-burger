@@ -1,9 +1,9 @@
-import React from "react";
+import React, {FC} from "react";
 import { RingLoader } from 'react-spinners';
 
 import preloaderStyle from './preloader.module.css';
 
-function Preloader() {
+const Preloader: FC = () => {
   return (
     <div className={preloaderStyle.container}>
       <RingLoader color="#4C4CFF" />
@@ -11,4 +11,4 @@ function Preloader() {
   )
 };
 
-export default React.memo(Preloader);
+export default Preloader;

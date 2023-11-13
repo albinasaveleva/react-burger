@@ -1,4 +1,4 @@
-import { fetchRequest, fetchRequestWithRefresh } from "../../utils/burger-api";
+import { fetchRequest, fetchRequestWithRefresh, getUserApi } from "../../utils/burger-api";
 import { setCookie, deleteCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
@@ -272,17 +272,7 @@ export function getUser() {
     dispatch({
       type: GET_USER_REQUEST
     });
-    fetchRequestWithRefresh(AUTH_USER_ENDPOINT, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-    })
+    getUserApi()
       .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,

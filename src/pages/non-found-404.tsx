@@ -1,16 +1,7 @@
-import React from 'react'
+import React, {FC} from 'react'
 import { Link } from "react-router-dom";
 
-import { 
-  Box,
-  BurgerIcon, 
-  Logo,
-  ListIcon, 
-  ProfileIcon,
-  Typography 
-} from '@ya.praktikum/react-developer-burger-ui-components';
-
-export default function NonFound404Page() {
+const NonFound404Page: FC = () => {
   return (
     <>
       <p className="mb-5 mt-30 text text_type_digits-large">404</p>
@@ -25,3 +16,5 @@ export default function NonFound404Page() {
     </>
   )
 }
+
+export default NonFound404Page;

@@ -1,8 +1,7 @@
-import React from "react";
+import React, {FC} from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useSelector } from 'react-redux';
-
+import { useAppSelector } from '../../hooks/hook';
 
 import mainStyle from './main.module.css';
 
@@ -10,9 +9,11 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Preloader from '../preLoader/preloader';
 
-function Main() {
-  const isRequest = useSelector(store => store.burgerIngredients.isRequest);
-  const isGetUserRequest = useSelector(store => store.auth.isGetUserRequest);
+import { TStore } from "../../utils/types";
+
+const Main: FC = () => {
+  const isRequest = useAppSelector((store: TStore) => store.burgerIngredients.isRequest);
+  const isGetUserRequest = useAppSelector((store: TStore) => store.auth.isGetUserRequest);
 
   return ( 
     <>
@@ -30,4 +31,4 @@ function Main() {
   );
 }
 
-export default React.memo(Main);
+export default Main;

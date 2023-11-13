@@ -1,20 +1,23 @@
-import React from "react";
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import React, {FC, ReactNode} from "react";
+import {createPortal} from 'react-dom';
 import modalStyle from './modal.module.css';
 import { 
-  Box,
   CloseIcon,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
 
-const modalRoot = document.getElementById("react-modals");
+type TComponentProps = {
+  closeModal: () => void,
+  title?: string,
+  children: ReactNode,
+};
 
-function Modal({closeModal, title, children}) {
+const modalRoot = document.getElementById("react-modals") as HTMLElement;
+
+const Modal: FC<TComponentProps> = ({closeModal, title, children}) => {
   React.useEffect(() => {
-    const keyDownHandler = e => {
+    const keyDownHandler = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
         e.preventDefault();
 
@@ -28,7 +31,7 @@ function Modal({closeModal, title, children}) {
     };
   }, []);
   
-  return ReactDOM.createPortal (
+  return createPortal (
       (<>
         <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
           <div className={modalStyle.modalHeader}>
@@ -52,9 +55,4 @@ function Modal({closeModal, title, children}) {
   );
 };
 
-Modal.propTypes = {
-  title: PropTypes.string,
-  closeModal: PropTypes.func.isRequired
-};
-
-export default React.memo(Modal);
+export default Modal;

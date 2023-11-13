@@ -1,26 +1,27 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {FC} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { 
-  Box,
   Button,
   EmailInput,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { forgotPasswordRequest } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-function ForgotPasswordPage() {
+import { TStore } from "../utils/types";
+
+
+const ForgotPasswordPage: FC = () => {
   const {values, handleChange} = useForm({
     email: "",
   });
 
-  const isForgotPasswordSuccess = useSelector(store => store.auth.isForgotPasswordSuccess);
-  const isForgotPasswordRequest = useSelector(store => store.auth.isForgotPasswordRequest);
+  const isForgotPasswordSuccess = useAppSelector((store: TStore) => store.auth.isForgotPasswordSuccess);
+  const isForgotPasswordRequest = useAppSelector((store: TStore) => store.auth.isForgotPasswordRequest);
 
   React.useEffect(() => {
     if (isForgotPasswordSuccess) {
@@ -28,18 +29,18 @@ function ForgotPasswordPage() {
     }
   }, [isForgotPasswordSuccess])
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    //@ts-ignore
     dispatch(forgotPasswordRequest(values));
   };
 
   const renderPage = () => {
     return (
-      <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
+      <PageForm handleSubmit={handleSubmit} classNameString='mt-45'>
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <EmailInput
           name='email'
@@ -76,4 +77,4 @@ function ForgotPasswordPage() {
   
 }
 
-export default React.memo(ForgotPasswordPage);
+export default ForgotPasswordPage;

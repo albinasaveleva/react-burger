@@ -1,9 +1,14 @@
-import React from "react";
+import React, { forwardRef, ReactNode } from "react";
 import ingredientsCategoryStyle from './ingredients-category.module.css';
 
-import PropTypes from 'prop-types';
+type TComponentProps = {
+  title: string,
+  value: string,
+  children: ReactNode;
+};
+type TRef = HTMLDivElement;
 
-const IngredientsCategory = React.forwardRef(({title, value, children}, ref) => {
+const IngredientsCategory = forwardRef<TRef,TComponentProps>(({title, value, children}, ref) => {
   return (
     <div ref={ref} className={ingredientsCategoryStyle.container} id={value}>
       <h3 className="text text_type_main-medium">
@@ -16,9 +21,4 @@ const IngredientsCategory = React.forwardRef(({title, value, children}, ref) => 
   );
 });
 
-IngredientsCategory.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-};
-
-export default React.memo(IngredientsCategory);
+export default IngredientsCategory;

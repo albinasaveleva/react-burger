@@ -1,25 +1,22 @@
-import React from "react";
+import React, {FC} from "react";
 import { useParams } from 'react-router-dom';
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
-import { 
-  Box,
-  Typography 
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppSelector } from '../../hooks/hook';
 
-import { useSelector } from 'react-redux';
+import { TIngredient, TStore } from "../../utils/types";
 
 import Preloader from "../preLoader/preloader";
 
-function IngredientDetails() {
+const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const isRequest = useSelector(store => store.burgerIngredients.isRequest);
-  const ingredients = useSelector(store => store.burgerIngredients.list);
+  const isRequest = useAppSelector((store: TStore) => store.burgerIngredients.isRequest);
+  const ingredients = useAppSelector((store: TStore) => store.burgerIngredients.list);
 
-  const ingredient = useSelector(store => store.ingredientDetails.item);
+  const ingredient = useAppSelector((store: TStore) => store.ingredientDetails.item);
 
-  const renderIngredient = (ingredient) => {
+  const renderIngredient = (ingredient: TIngredient) => {
     return (
       <div className={`pb-5 ${ingredientDetailsStyle.details}`}>
         <img className={`mb-4 ${ingredientDetailsStyle.illustration}`} src={ingredient.image} alt={ingredient.name} />
@@ -47,7 +44,7 @@ function IngredientDetails() {
   };
 
   const getIngredient = () => {
-    const item = ingredients.filter(item => item._id === id)[0];
+    const item = ingredients.filter((item: TIngredient) => item._id === id)[0];
     return renderIngredient(item)
   };
 
@@ -64,4 +61,4 @@ function IngredientDetails() {
   );
 };
 
-export default React.memo(IngredientDetails);
+export default IngredientDetails;

@@ -1,11 +1,9 @@
-import React from "react";
-import { useSelector } from 'react-redux';
+import React, {FC} from "react";
+import { useAppSelector } from '../../hooks/hook';
 import { useInView } from "react-intersection-observer";
 
 import { 
-  Box,
   Tab,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 
@@ -14,10 +12,18 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 import { getBurgerIngredients } from "../../services/burgerIngredients/selectors";
 
-function BurgerIngredients() {
-  const ingredients = useSelector(getBurgerIngredients);
-  const rootContainerRef = React.useRef(null);
-  const [currentTab, setCurrentTab] = React.useState('bun');
+import { TIngredient } from "../../utils/types";
+
+const BurgerIngredients: FC = () => {
+  const ingredients: TIngredient[] = useAppSelector(getBurgerIngredients);
+
+  const rootContainerRef = React.useRef<HTMLDivElement>(null);
+  const [currentTab, setCurrentTab] = React.useState<string>('bun');
+
+  type TTab = {
+    title: string,
+    value: string,
+  }
   const tabs = React.useMemo(()=> {
     return [
       { title: 'Булки', value: 'bun' },
@@ -47,12 +53,18 @@ function BurgerIngredients() {
   }, [bunInView, sauceInView, mainInView, bunEntry, sauceEntry, mainEntry]);
 
   const tabScroll = React.useCallback(
-    (e) => {
-      document.getElementById(e).scrollIntoView({ block: "start", behavior: "smooth" });
+    (e: string): void => {
+      document.getElementById(e)?.scrollIntoView({ block: "start", behavior: "smooth" });
     }, []
   );
-  const checkCurrentTab = () => {
-    const tabsInfo = [
+
+  const checkCurrentTab = (): void => {
+    type TTabInfo = {
+      name: string,
+      isVisible: boolean,
+      top: any,
+    }
+    const tabsInfo: TTabInfo[] = [
       {
         name: 'bun',
         isVisible: bunInView,
@@ -72,7 +84,7 @@ function BurgerIngredients() {
 
     const visibleTabs = tabsInfo
       .filter(tab => tab.isVisible === true)
-      .sort(function (a, b) {
+      .sort(function (a: TTabInfo, b: TTabInfo): number {
         if (a.top > b.top) {
           return 1;
         }
@@ -87,7 +99,7 @@ function BurgerIngredients() {
   
   const renderTabs = React.useCallback(
     () => {
-      return tabs.map(({title, value}) => {
+      return tabs.map(({title, value}: TTab) => {
         return (
           <Tab key={value} value={value} active={currentTab === value} onClick={tabScroll}>
             {title}
@@ -98,30 +110,30 @@ function BurgerIngredients() {
   );
   const renderBunCategory = React.useCallback(
     () => {
-      const buns = ingredients.filter(item => item.type === 'bun');
+      const buns = ingredients.filter((item: TIngredient) => item.type === 'bun');
         return (
           <IngredientsCategory ref={bunref} title={'Булки'} value={'bun'}>
-            { buns.map(item => <BurgerIngredient key={item._id} item={item} />) }
+            { buns.map((item: TIngredient) => <BurgerIngredient key={item._id} item={item} />) }
           </IngredientsCategory>
         )
     }, [ingredients, bunref]
   );
   const renderMainCategory = React.useCallback(
     () => {
-      const mains = ingredients.filter(item => item.type === 'main');
+      const mains = ingredients.filter((item: TIngredient) => item.type === 'main');
       return (
         <IngredientsCategory ref={mainref} title={'Начинки'} value={'main'}>
-          { mains.map(item => <BurgerIngredient key={item._id} item={item} />) }
+          { mains.map((item: TIngredient) => <BurgerIngredient key={item._id} item={item} />) }
         </IngredientsCategory>
       )
     }, [ingredients, mainref]
   );
   const renderSauceCategory = React.useCallback(
     () => {
-      const sauces = ingredients.filter(item => item.type === 'sauce');
+      const sauces = ingredients.filter((item: TIngredient) => item.type === 'sauce');
       return (
         <IngredientsCategory ref={sauceref} title={'Соусы'} value={'sauce'}>
-          { sauces.map(item => <BurgerIngredient key={item._id} item={item} />) }
+          { sauces.map((item: TIngredient) => <BurgerIngredient key={item._id} item={item} />) }
         </IngredientsCategory>
       )
     }, [ingredients, sauceref]
@@ -144,4 +156,4 @@ function BurgerIngredients() {
   );
 };
 
-export default React.memo(BurgerIngredients);
+export default BurgerIngredients;
