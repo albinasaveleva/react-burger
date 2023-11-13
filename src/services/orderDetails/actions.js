@@ -1,11 +1,9 @@
-import { fetchRequestWithRefresh } from "../../utils/burger-api";
+import { createOrderApi } from "../../utils/burger-api";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
 export const RESET_ORDER_DATA = 'RESET_ORDER_DATA';
-
-const ORDER_ENDPOINT = 'orders';
 
 const checkIngredients = (buns, ingredients) => {
   return buns && ingredients.length > 0 ? true : false;
@@ -19,19 +17,7 @@ export function createOrder(buns, ingredients) {
       dispatch({
         type: CREATE_ORDER_REQUEST
       });
-
-      fetchRequestWithRefresh(ORDER_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify({ ingredients: body })
-      })
+      createOrderApi(body)
         .then(({success, name, order}) => {
           dispatch({
             type: CREATE_ORDER_SUCCESS,

@@ -1,4 +1,11 @@
-import { fetchRequest, fetchRequestWithRefresh, getUserApi } from "../../utils/burger-api";
+import { 
+  forgotPasswordRequestApi,
+  getUserApi,
+  loginRequestApi, 
+  logoutRequestApi, 
+  registerRequestApi, 
+  resetPasswordRequestApi,
+} from "../../utils/burger-api";
 import { setCookie, deleteCookie } from "../../utils/cookies";
 
 export const AUTH_REGISTER_REQUEST = 'AUTH_REGISTER_REQUEST';
@@ -29,15 +36,6 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
 
-export const AUTH_REGISTER_ENDPOINT = 'auth/register';
-export const AUTH_LOGIN_ENDPOINT = 'auth/login';
-export const AUTH_LOGOUT_ENDPOINT = 'auth/logout';
-export const AUTH_USER_ENDPOINT = 'auth/user';
-export const AUTH_TOKEN_ENDPOINT = 'auth/token';
-
-export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
-export const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
-
 const checkData = (condition) => {
   return condition ? true : false;
 };
@@ -54,18 +52,7 @@ export function registerRequest({email, password, name}) {
       dispatch({
         type: AUTH_REGISTER_REQUEST
       });
-      fetchRequest(AUTH_REGISTER_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
-      })
+      registerRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch({
             type: AUTH_REGISTER_SUCCESS,
@@ -106,18 +93,7 @@ export function loginRequest({email, password}) {
       dispatch({
         type: AUTH_LOGIN_REQUEST
       });
-      fetchRequest(AUTH_LOGIN_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
-      })
+      loginRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch({
             type: AUTH_LOGIN_SUCCESS,
@@ -151,18 +127,7 @@ export function logoutRequest() {
     dispatch({
       type: AUTH_LOGOUT_REQUEST
     });
-    fetchRequest(AUTH_LOGOUT_ENDPOINT, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body)
-    })
+    logoutRequestApi(body)
       .then(()=>{
         dispatch({
           type: AUTH_LOGOUT_SUCCESS,
@@ -188,18 +153,7 @@ export function forgotPasswordRequest({email}) {
       dispatch({
         type: FORGOT_PASSWORD_REQUEST
       });
-      fetchRequest(FORGOT_PASSWORD_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
-      })
+      forgotPasswordRequestApi(body)
         .then(() => {
           dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -233,18 +187,7 @@ export function resetPasswordRequest({password, token}) {
       dispatch({
         type: RESET_PASSWORD_REQUEST
       });
-      fetchRequest(RESET_PASSWORD_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
-      })
+      resetPasswordRequestApi(body)
         .then(()=>{
           dispatch({
             type: RESET_PASSWORD_SUCCESS,
