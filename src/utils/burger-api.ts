@@ -1,6 +1,7 @@
 import { setCookie, getCookie } from "./cookies";
 import { TIngredient } from './types';
 
+const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 const GET_INGREDIENTS_ENDPOINT = 'ingredients';
 const ORDER_ENDPOINT = 'orders';
 const AUTH_REGISTER_ENDPOINT = 'auth/register';
@@ -10,8 +11,6 @@ const AUTH_USER_ENDPOINT = 'auth/user';
 const AUTH_TOKEN_ENDPOINT = 'auth/token';
 const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
-
-export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
 const fetchOptions = {
   mode: 'cors',
@@ -66,7 +65,7 @@ export const fetchRequest = async <T> (endpoint: string, options: any = {}) => {
   const url = `${BURGER_API_URL}/${endpoint}`;
 
   const res = await request<T>(url, options);
-  console.log(res)
+  
   return res;
 }
 
@@ -100,7 +99,7 @@ export const fetchRequestWithRefresh = async <T> (
     options.headers.authorization = `Bearer ${getCookie('accessToken')}`;
 
     const res = await request<T>(url, options);
-    console.log(res)
+    
     return res;
   } catch (err) {
     if ((err as { message: string }).message === "jwt expired") {
@@ -116,7 +115,7 @@ export const fetchRequestWithRefresh = async <T> (
       options.headers.authorization = refreshData.accessToken;
 
       const res = await request<T>(url, options);
-      console.log(res)
+      
       return res;
     } else {
       return Promise.reject(err);

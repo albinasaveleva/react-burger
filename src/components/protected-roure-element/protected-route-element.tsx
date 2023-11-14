@@ -9,7 +9,6 @@ type TComponentProps = {
   children: ReactElement,
 };
 
-
 export const ProtectedRouteElement: FC<TComponentProps> = ({ onlyUnAuth = false, children }): ReactElement => {
   const location = useLocation();
 
