@@ -1,9 +1,9 @@
 import { createOrderApi } from "../../utils/burger-api";
 
-export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
-export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
-export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
-export const RESET_ORDER_DATA = 'RESET_ORDER_DATA';
+export const CREATE_ORDER_REQUEST: 'CREATE_ORDER_REQUEST' = 'CREATE_ORDER_REQUEST';
+export const CREATE_ORDER_SUCCESS: 'CREATE_ORDER_SUCCESS' = 'CREATE_ORDER_SUCCESS';
+export const CREATE_ORDER_ERROR: 'CREATE_ORDER_ERROR' = 'CREATE_ORDER_ERROR';
+export const RESET_ORDER_DATA: 'RESET_ORDER_DATA' = 'RESET_ORDER_DATA';
 
 const checkIngredients = (buns, ingredients) => {
   return buns && ingredients.length > 0 ? true : false;
