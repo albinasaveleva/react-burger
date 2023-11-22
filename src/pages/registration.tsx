@@ -1,42 +1,42 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from "react-router-dom";
+import React, {FC} from 'react';
+import { Link } from "react-router-dom";
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
 import { 
-  Box,
   Button,
   Input,
   EmailInput,
   PasswordInput,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { registerRequest } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
 
-function RegistrationPage() {
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { TStore } from "../utils/types";
+
+const RegistrationPage: FC = () => {
   const {values, handleChange} = useForm({
     name: '',
     email: '',
     password: ''
   });
 
-  const isRegistrRequest = useSelector(store => store.auth.isRegistrRequest);
+  const isRegistrRequest = useAppSelector((store: TStore) => store.auth.isRegistrRequest);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    //@ts-ignore
     dispatch(registerRequest(values));
   };
 
   const renderPage = () => {
     return (
-      <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
+      <PageForm handleSubmit={handleSubmit} classNameString='mt-45'>
         <p className="mb-6 text text_type_main-medium">Регистрация</p>
         <Input
           name={'name'}
@@ -90,4 +90,4 @@ function RegistrationPage() {
   )
 }
 
-export default React.memo(RegistrationPage);
+export default RegistrationPage;

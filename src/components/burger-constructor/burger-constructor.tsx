@@ -1,15 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import update from 'immutability-helper';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/hook';
 import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 
 import { 
-  Box,
   Button,
   ConstructorElement,
   CurrencyIcon, 
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
@@ -23,34 +21,35 @@ import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import Preloader from "../preLoader/preloader";
 
-function BurgerConstructor() {
+import { TIngredient, TStore } from "../../utils/types";
+
+const BurgerConstructor: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const isLoginSuccess = useSelector(store => store.auth.isLoginSuccess);
+  const isLoginSuccess = useAppSelector((store: TStore) => store.auth.isLoginSuccess);
 
-  const isOrderRequest = useSelector(store => store.orderDetails.isRequest);
-  const orderRequestSuccess = useSelector(store => store.orderDetails.info.success);
+  const isOrderRequest = useAppSelector((store: TStore) => store.orderDetails.isRequest);
+  const orderRequestSuccess = useAppSelector((store: TStore) => store.orderDetails.info.success);
 
-  const buns = useSelector(store => store.burgerConstructor.buns);
-  const ingredients = useSelector(store => store.burgerConstructor.ingredients);
+  const buns = useAppSelector((store: TStore) => store.burgerConstructor.buns);
+  const ingredients = useAppSelector((store: TStore) => store.burgerConstructor.ingredients);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const getTotalPrice = () => {
-    const ingredientsPrice = ingredients.length > 0 
-      ? ingredients.reduce((acc, item) => {
+  const getTotalPrice = (): number => {
+    const ingredientsPrice: number = ingredients.length > 0 
+      ? (ingredients as TIngredient[]).reduce((acc: number, item: TIngredient) => {
         acc += item.price;
         return acc;
       }, 0)
       : 0;
-    const bunsPrice = buns ? buns.price * 2 : 0;
+    const bunsPrice: number = buns ? buns.price * 2 : 0;
 
     return ingredientsPrice + bunsPrice;
   } 
 
   const handleClick = React.useCallback(() => {
-    console.log(isLoginSuccess)
     if (isLoginSuccess) {
       dispatch(createOrder(buns, ingredients));
 
@@ -60,7 +59,7 @@ function BurgerConstructor() {
     }
   }, [buns, ingredients])
 
-  const handleDrop = (item) => {
+  const handleDrop = (item: TIngredient): void => {
     if (item.type === 'bun') {
       dispatch(addBun(item))
     } else {
@@ -70,12 +69,12 @@ function BurgerConstructor() {
 
   const [, dropTarget] = useDrop({
     accept: "burgerIngredient",
-    drop({item}) {
+    drop({item}: {item: TIngredient}): void {
       handleDrop(item);
     },
   });
 
-  const moveIngredient = (dragIndex, hoverIndex) => {
+  const moveIngredient = (dragIndex: number, hoverIndex: number): void => {
     const sortedIngredients = update(ingredients, {
       $splice: [
         [dragIndex, 1],
@@ -99,10 +98,13 @@ function BurgerConstructor() {
       : <ConstructorElement
         type={'top'}
         text={'Выберите булку'}
+        price={0}
+        thumbnail={''}
         extraClass={'default'}
       />
     ), [buns]
   );
+
   const renderBottomBun = React.useCallback(
     () => (
       buns 
@@ -116,6 +118,8 @@ function BurgerConstructor() {
       :  <ConstructorElement
           type={'bottom'}
           text={'Выберите булку'}
+          price={0}
+          thumbnail={''}
           extraClass={'default'}
         />
     ), [buns]
@@ -123,7 +127,7 @@ function BurgerConstructor() {
   const renderIngredients = React.useCallback(
     () => (
       ingredients.length > 0 
-      ? ingredients.map((item, index) => (
+      ? ingredients.map((item: TIngredient, index: number) => (
           <div className={`pr-2 ${burgerConstructorStyle.component}`} key={item.constructorId}>
             <BurgerConstructorIngredient index={index} item={item} deleteIngredient={() => dispatch(deleteIngredient(item))} moveIngredient={moveIngredient} />
           </div>
@@ -131,6 +135,8 @@ function BurgerConstructor() {
       : <ConstructorElement
           type={undefined}
           text={'Выберите начинку'}
+          price={0}
+          thumbnail={''}
           extraClass={'default ml-8'}
         />
     ), [ingredients]
@@ -167,7 +173,7 @@ function BurgerConstructor() {
           ? <Preloader />
           : isModalOpen && orderRequestSuccess &&
           <Modal 
-            closeModal={() => {
+            closeModal={(): void => {
               closeModal();
               dispatch(clearOrderData());
               dispatch(resetBurgerConstructor());

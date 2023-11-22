@@ -1,39 +1,39 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {FC} from 'react';
 import { Link } from "react-router-dom";
 import { loginRequest } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
 
 import { 
-  Box,
   Button,
   EmailInput,
   PasswordInput,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Preloader from '../components/preLoader/preloader';
 import PageForm from '../components/page-form/page-form';
 
-function LoginPage() {
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { TStore } from "../utils/types";
+
+const LoginPage: FC = () => {
   const {values, handleChange} = useForm({
     email: '',
     password: ''
   });
 
-  const isLoginRequest = useSelector(store => store.auth.isLoginRequest);
+  const isLoginRequest = useAppSelector((store: TStore) => store.auth.isLoginRequest);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    //@ts-ignore
     dispatch(loginRequest(values));
   };
 
   const renderPage = () => {
     return (
-      <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
+      <PageForm handleSubmit={handleSubmit} classNameString='mt-45'>
         <p className="mb-6 text text_type_main-medium">Вход</p>
         <EmailInput
           name={'email'}
@@ -81,4 +81,4 @@ function LoginPage() {
   )
 }
 
-export default React.memo(LoginPage);
+export default LoginPage;

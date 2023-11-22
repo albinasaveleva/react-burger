@@ -1,27 +1,27 @@
-import React from "react";
+import React, {FC} from "react";
 import { useDrag } from "react-dnd";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/hook';
 import { Link, useLocation } from "react-router-dom";
 import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
-import ingredientType from '../../utils/types';
-
 import { 
-  Box,
   Counter,
   CurrencyIcon, 
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
-function BurgerIngredient({item}) {
-  const buns = useSelector(store => store.burgerConstructor.buns);
-  const ingredients = useSelector(store => store.burgerConstructor.ingredients);
+import { TIngredient, TStore } from "../../utils/types";
+type TComponentProps = {
+  item: TIngredient,
+};
 
-  const dispatch = useDispatch();
+const BurgerIngredient: FC<TComponentProps> = ({item}) => {
+  const buns = useAppSelector((store: TStore) => store.burgerConstructor.buns);
+  const ingredients = useAppSelector((store: TStore) => store.burgerConstructor.ingredients);
 
+  const dispatch = useAppDispatch();
 
-  const getCount = () => {
+  const getCount = (): number => {
     if (item.type === 'bun') {
       if (!buns) return 0;
 
@@ -30,7 +30,7 @@ function BurgerIngredient({item}) {
       if (ingredients.length === 0) return 0;
     }
 
-      return ingredients
+      return (ingredients as TIngredient[])
         .filter(ingredient => ingredient._id === item._id)
         .length
   };
@@ -66,8 +66,4 @@ function BurgerIngredient({item}) {
   );
 };
 
-BurgerIngredient.propTypes = {
-  item: ingredientType,
-};
-
-export default React.memo(BurgerIngredient);
+export default BurgerIngredient;

@@ -1,15 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {FC} from 'react';
 import { updateUser } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
 
 import { 
-  Box,
   Button,
   Input,
   EmailInput,
   PasswordInput,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import profileStyle from './profile.module.css';
@@ -17,9 +14,12 @@ import profileStyle from './profile.module.css';
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-function ProfileEditPage() {
-  const isUpdateUserRequest = useSelector(store => store.auth.isUpdateUserRequest);
-  const user = useSelector(store => store.auth.user);
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { TStore, TUser } from "../utils/types";
+
+const ProfileEditPage: FC = () => {
+  const isUpdateUserRequest = useAppSelector((store: TStore) => store.auth.isUpdateUserRequest);
+  const user = useAppSelector((store: TStore) => store.auth.user);
   const {values, handleChange, setValues} = useForm({
     name: user ? user.name : '',
     email: user ? user.email : '',
@@ -27,11 +27,11 @@ function ProfileEditPage() {
   });
   const [isEdit, setIsEdit] = React.useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    //@ts-ignore
     dispatch(updateUser(values));
     setIsEdit(false);
   };
@@ -39,9 +39,9 @@ function ProfileEditPage() {
   const handleClick = () => {
     setIsEdit(false);
     setValues({
-      name: user.name,
-      email: user.email,
-      password: user.password || ''
+      name: (user as TUser).name,
+      email: (user as TUser).email,
+      password: (user as TUser).password || ''
     });
   };
 
@@ -68,7 +68,7 @@ function ProfileEditPage() {
             value={values.email}
             placeholder={'Логин'}
             size={'default'}
-            icon={'EditIcon'}
+            isIcon={true}
             extraClass='mb-6 input-field'
             onChange={(e)=>{
               handleChange(e);

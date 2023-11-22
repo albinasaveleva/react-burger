@@ -1,22 +1,31 @@
-import React from "react";
+import React, {FC} from "react";
 import { useDrop, useDrag } from "react-dnd";
 
-import PropTypes from 'prop-types';
-import ingredientType from '../../utils/types';
-
 import { 
-  Box,
   ConstructorElement,
   DragIcon,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorIngredientStyle from './burger-constructor-ingredient.module.css';
 
-function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredient}) {
-  const ref = React.useRef(null);
+import { TIngredient } from "../../utils/types";
+
+type TComponentProps = {
+  item: TIngredient; 
+  index: number; 
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void; 
+  deleteIngredient: () => void;
+};
+
+const BurgerConstructorIngredient: FC<TComponentProps> = ({item, index, moveIngredient, deleteIngredient}) => {
+  type TDropIngredient = {
+    item: TIngredient,
+    index: number,
+  };
+
+  const ref = React.useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
     accept: 'burger-constructor-ingredient',
-    hover(item, monitor) {
+    hover(item: TDropIngredient, monitor: any) {
       if (!ref.current) {
         return
       }
@@ -27,10 +36,10 @@ function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredi
         return
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-      const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
@@ -48,7 +57,7 @@ function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredi
   const [{ isDragging }, drag] = useDrag({
     type: 'burger-constructor-ingredient',
     item: {item, index},
-    collect: monitor => ({
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging()
     })
   })
@@ -72,11 +81,4 @@ function BurgerConstructorIngredient({item, index, moveIngredient, deleteIngredi
   );
 };
 
-BurgerConstructorIngredient.propTypes = {
-  item: ingredientType,
-  index: PropTypes.number.isRequired,
-  moveIngredient: PropTypes.func.isRequired,
-  deleteIngredient: PropTypes.func.isRequired,
-};
-
-export default React.memo(BurgerConstructorIngredient);
+export default BurgerConstructorIngredient;

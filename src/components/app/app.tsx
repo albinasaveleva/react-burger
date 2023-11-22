@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/hook';
+
 import styles from './app.module.css';
-import { useDispatch } from 'react-redux';
 
 import AppHeader from '../app-header/app-header';
 import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, ProfileEditPage } from '../../pages';
-import { ProtectedRouteElement } from '../protected-roure-element/protected-route-element';
+import {ProtectedRouteElement} from '../protected-roure-element/protected-route-element';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
@@ -14,11 +15,11 @@ import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
 
-function App() {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const state = location.state;
+  const state = location.state as { backgroundLocation?: Location };
 
   React.useEffect(()=> {
     dispatch(getIngredients());

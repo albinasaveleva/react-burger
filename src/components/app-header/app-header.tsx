@@ -1,18 +1,16 @@
-import React from "react";
+import React, {FC} from "react";
 import { NavLink } from "react-router-dom";
 
 import headerStyle from './app-header.module.css';
 
 import { 
-  Box,
   BurgerIcon, 
   Logo,
   ListIcon, 
   ProfileIcon,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function AppHeader() {
+const AppHeader: FC = () => {
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <nav className={headerStyle.navigation}>
@@ -124,4 +122,4 @@ function AppHeader() {
   );
 };
 
-export default React.memo(AppHeader);
+export default AppHeader;

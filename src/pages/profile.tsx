@@ -1,21 +1,18 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {FC} from 'react';
 import { NavLink, Outlet } from "react-router-dom";
-
-import { 
-  Box,
-  Typography 
-} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import profileStyle from './profile.module.css';
 import { logoutRequest } from '../services/auth/actions';
 import { getUser } from '../services/auth/actions';
 import Preloader from '../components/preLoader/preloader';
 
-function ProfilePage() {
-  const isGetUserRequest = useSelector(store => store.auth.isGetUserRequest);
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { TStore } from "../utils/types";
 
-  const dispatch = useDispatch();
+const ProfilePage: FC = () => {
+  const isGetUserRequest = useAppSelector((store: TStore) => store.auth.isGetUserRequest);
+
+  const dispatch = useAppDispatch();
 
   React.useEffect(()=>{
     dispatch(getUser());
@@ -91,4 +88,4 @@ function ProfilePage() {
   );
 }
 
-export default React.memo(ProfilePage);
+export default ProfilePage;

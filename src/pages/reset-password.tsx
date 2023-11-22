@@ -1,13 +1,10 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {FC} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 import { 
-  Box,
   Button,
   Input,
   PasswordInput,
-  Typography 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { resetPasswordRequest } from '../services/auth/actions';
@@ -16,18 +13,21 @@ import { useForm } from '../hooks/useForm';
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-function ResetPasswordPage() {
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { TStore } from "../utils/types";
+
+const ResetPasswordPage: FC = () => {
   const {values, handleChange} = useForm({
     password: "",
     token: ""
   });
 
-  const isForgotPasswordSuccess = useSelector(store => store.auth.isForgotPasswordSuccess);
-  const isResetPasswordRequest = useSelector(store => store.auth.isResetPasswordRequest);
-  const isResetPasswordSuccess = useSelector(store => store.auth.isResetPasswordSuccess);
+  const isForgotPasswordSuccess = useAppSelector((store: TStore) => store.auth.isForgotPasswordSuccess);
+  const isResetPasswordRequest = useAppSelector((store: TStore) => store.auth.isResetPasswordRequest);
+  const isResetPasswordSuccess = useAppSelector((store: TStore) => store.auth.isResetPasswordSuccess);
 
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   React.useEffect(()=>{
@@ -40,15 +40,15 @@ function ResetPasswordPage() {
     }
   }, [isForgotPasswordSuccess, isResetPasswordSuccess])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    //@ts-ignore
     dispatch(resetPasswordRequest(values));
   };
 
   const renderPage = () => {
     return (
-      <PageForm handleSubmit={handleSubmit} className={'mt-45'}>
+      <PageForm handleSubmit={handleSubmit} classNameString='mt-45'>
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <PasswordInput
           name='password'
@@ -94,4 +94,4 @@ function ResetPasswordPage() {
   );
 }
 
-export default React.memo(ResetPasswordPage);
+export default ResetPasswordPage;
