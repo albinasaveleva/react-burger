@@ -18,7 +18,7 @@ const initialState: TBurgerConstructorState = {
 export const burgerConstructorReducer = (state = initialState, action: TBurgetConstructorActions): TBurgerConstructorState => {
   switch (action.type) {
     case ADD_BUN: {
-      const newItem = {...action.payload, constructorId: Number(action.payload._id)};
+      const newItem = {...action.payload, constructorId: action.payload._id};
 
       return {
         ...state,
@@ -26,7 +26,7 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgetCo
       };
     }
     case ADD_INGREDIENT: {
-      const newItem = {...action.payload, constructorId: Number(nanoid())};
+      const newItem = {...action.payload, constructorId: nanoid()};
 
       return {
         ...state,
