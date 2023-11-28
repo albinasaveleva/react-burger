@@ -54,18 +54,28 @@ const App: FC = () => {
             <ResetPasswordPage />
           </ProtectedRouteElement>
         } />
-        <Route path="/feed" element={<OrderFeedPage />} />
+        <Route path="/feed">
+          <Route index element={<OrderFeedPage />} />
+          <Route path=":id" element={<OrderInfoPage />} />
+        </Route>
         <Route path="/profile" element={
           <ProtectedRouteElement>
             <ProfilePage />
           </ProtectedRouteElement>
         }>
           <Route index element={<ProfileEditPage />} />
-          <Route path="orders" element={
-          <ProtectedRouteElement>
-            <OrderHistoryPage />
-          </ProtectedRouteElement>
-        } />
+          <Route path="orders">
+            <Route index element={
+              <ProtectedRouteElement>
+                <OrderHistoryPage />
+              </ProtectedRouteElement>
+            } />
+            <Route path=":id" element={
+              <ProtectedRouteElement>
+                <OrderInfoPage />
+              </ProtectedRouteElement>
+            } />
+          </Route>
         </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />

@@ -1,4 +1,6 @@
 import React, {FC} from 'react';
+import { Link, useLocation } from "react-router-dom";
+
 import orderCardStyle from './order-card.module.css';
 
 import { 
@@ -12,7 +14,8 @@ import {
 const OrderCard: FC = () => {
 
   return (
-    <div className={`pt-6 pr-6 pb-6 pl-6 ${orderCardStyle.container}`}>
+    <Link to={'45656'}>
+        <div className={`pt-6 pr-6 pb-6 pl-6 ${orderCardStyle.container}`}>
       <div className={`mb-6 ${orderCardStyle.info}`}>
         <span className={`text text_type_digits-default ${orderCardStyle.id}`}>#034535</span>
         <span className={`text text_type_main-small text_color_inactive ${orderCardStyle.timestamp}`}>Сегодня, 16:20</span>
@@ -42,6 +45,7 @@ const OrderCard: FC = () => {
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 
