@@ -7,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorIngredientStyle from './burger-constructor-ingredient.module.css';
 
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 
 type TComponentProps = {
   item: TIngredient; 

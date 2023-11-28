@@ -6,17 +6,19 @@ import {
   DELETE_INGREDIENT,
   SORT_INGREDIENTS,
   RESET_BURGER_CONSTRUCTOR
-} from './actions';
+} from './constants';
+import { TBurgerConstructorState } from '../../types/data';
+import { TBurgetConstructorActions } from './actions';
 
-const initialState = {
+const initialState: TBurgerConstructorState = {
   buns: null,
   ingredients: []
 }
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgetConstructorActions): TBurgerConstructorState => {
   switch (action.type) {
     case ADD_BUN: {
-      const newItem = {...action.payload, constructorId: action.payload._id};
+      const newItem = {...action.payload, constructorId: Number(action.payload._id)};
 
       return {
         ...state,
@@ -24,7 +26,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case ADD_INGREDIENT: {
-      const newItem = {...action.payload, constructorId: nanoid()};
+      const newItem = {...action.payload, constructorId: Number(nanoid())};
 
       return {
         ...state,

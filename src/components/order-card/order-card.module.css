@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid #1C1C21;
+  border-radius: 40px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+  background-color: #1C1C21;
+
+  z-index: 0;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info:nth-child(2) {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.id {
+
+}
+
+.timestamp {
+
+}
+
+.name {
+  flex-grow: 1;
+}
+
+.status {
+  flex-grow: 1;
+}
+
+.ingredients {
+  display: flex;
+}
+
+.ingredient {
+
+}
+
+.ingredient:not(:first-child) {
+  margin-left: -15px;
+}
+
+.ingredient > img {
+  
+}
+
+.price {
+  display: flex;
+}

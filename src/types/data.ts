@@ -14,23 +14,51 @@ export type TIngredient = {
   constructorId?: number,
 };
 
-export type TBurgerIngredients = {
+export type TUser = {
+  email: string,
+  name: string,
+  password?: string,
+};
+
+// export type TTokens = {
+//   accessToken: string,
+//   refreshToken: string,
+// }
+
+export type TOrder = {
+  ingredients: [] | TIngredient[],
+  _id: string,
+  owner: {
+    name: string,
+    email: string,
+    createdAt: string,
+    updatedAt: string
+  },
+  status: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+  number: number,
+  price: number,
+}
+
+export type TBurgerIngredientsState = {
   list: [] | TIngredient[],
   error: null | string,
   isRequest: boolean,
   isFailed: boolean,
 };
 
-export type TIngredientDetails = {
+export type TIngredientDetailsState = {
   item: null | TIngredient,
 };
 
-export type TBurgerConstructor = {
+export type TBurgerConstructorState = {
   buns: null | TIngredient,
   ingredients: [] | TIngredient[],
 };
 
-export type TOrderDetails = {
+export type TOrderDetailsState = {
   info: {
     success: boolean,
     name: null | string,
@@ -42,13 +70,7 @@ export type TOrderDetails = {
   isFailed: boolean,
 };
 
-export type TUser = {
-  email: string,
-  name: string,
-  password?: string,
-};
-
-export type TAuth = {
+export type TAuthState = {
   isRegistrRequest: boolean,
   isRegistrSuccess: boolean,
   isRegistrError: boolean,
@@ -80,10 +102,10 @@ export type TAuth = {
   user: null | TUser,
 };
 
-export type TStore = {
-  burgerIngredients: TBurgerIngredients,
-  ingredientDetails: TIngredientDetails,
-  burgerConstructor: TBurgerConstructor,
-  orderDetails: TOrderDetails,
-  auth: TAuth,
-}
+// export type TStore = {
+//   burgerIngredients: TBurgerIngredientsState,
+//   ingredientDetails: TIngredientDetailsState,
+//   burgerConstructor: TBurgerConstructorState,
+//   orderDetails: TOrderDetailsState,
+//   auth: TAuthState,
+// }

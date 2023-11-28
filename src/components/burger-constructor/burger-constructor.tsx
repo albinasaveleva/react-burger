@@ -21,18 +21,18 @@ import useModal from '../../hooks/useModal';
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import Preloader from "../preLoader/preloader";
 
-import { TIngredient, TStore } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 
 const BurgerConstructor: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const isLoginSuccess = useAppSelector((store: TStore) => store.auth.isLoginSuccess);
+  const isLoginSuccess = useAppSelector((store) => store.auth.isLoginSuccess);
 
-  const isOrderRequest = useAppSelector((store: TStore) => store.orderDetails.isRequest);
-  const orderRequestSuccess = useAppSelector((store: TStore) => store.orderDetails.info.success);
+  const isOrderRequest = useAppSelector((store) => store.orderDetails.isRequest);
+  const orderRequestSuccess = useAppSelector((store) => store.orderDetails.info.success);
 
-  const buns = useAppSelector((store: TStore) => store.burgerConstructor.buns);
-  const ingredients = useAppSelector((store: TStore) => store.burgerConstructor.ingredients);
+  const buns = useAppSelector((store) => store.burgerConstructor.buns);
+  const ingredients = useAppSelector((store) => store.burgerConstructor.ingredients);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

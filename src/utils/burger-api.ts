@@ -1,5 +1,5 @@
 import { setCookie, getCookie } from "./cookies";
-import { TIngredient } from './types';
+import { TIngredient } from '../types/data';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 const GET_INGREDIENTS_ENDPOINT = 'ingredients';
@@ -164,7 +164,7 @@ export const loginRequestApi = (body: { email: string, password: string }) => {
   })
 }
 
-export const logoutRequestApi = (body: { email: string, password: string }) => {
+export const logoutRequestApi = (body: { token: string }) => {
   return fetchRequest<TLogoutResponse>(AUTH_LOGOUT_ENDPOINT, {
     method: 'POST',
     ...fetchOptions,
@@ -180,7 +180,7 @@ export const forgotPasswordRequestApi = (body: { email: string }) => {
   })
 }
 
-export const resetPasswordRequestApi = (body: { email: string, token: string }) => {
+export const resetPasswordRequestApi = (body: { password: string, token: string }) => {
   return fetchRequest<TResetPasswordResponse>(RESET_PASSWORD_ENDPOINT, {
     method: 'POST',
     ...fetchOptions,

@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/hook';
 import styles from './app.module.css';
 
 import AppHeader from '../app-header/app-header';
-import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, ProfileEditPage } from '../../pages';
+import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, OrderFeedPage, OrderHistoryPage, OrderInfoPage, ProfilePage, ProfileEditPage, RegistrationPage, ResetPasswordPage } from '../../pages';
 import {ProtectedRouteElement} from '../protected-roure-element/protected-route-element';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -54,13 +54,18 @@ const App: FC = () => {
             <ResetPasswordPage />
           </ProtectedRouteElement>
         } />
+        <Route path="/feed" element={<OrderFeedPage />} />
         <Route path="/profile" element={
           <ProtectedRouteElement>
             <ProfilePage />
           </ProtectedRouteElement>
         }>
           <Route index element={<ProfileEditPage />} />
-          <Route path="orders" element={<div></div>} />
+          <Route path="orders" element={
+          <ProtectedRouteElement>
+            <OrderHistoryPage />
+          </ProtectedRouteElement>
+        } />
         </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />

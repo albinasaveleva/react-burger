@@ -1,11 +1,28 @@
-export const ADD_INGREDIENT_DETAILS: 'ADD_INGREDIENT_DETAILS' = 'ADD_INGREDIENT_DETAILS';
-export const DELETE_INGREDIENT_DETAILS: 'DELETE_INGREDIENT_DETAILS' = 'DELETE_INGREDIENT_DETAILS';
+import { TIngredient } from '../../types/data';
+import {
+  ADD_INGREDIENT_DETAILS,
+  DELETE_INGREDIENT_DETAILS,
+} from './constants';
 
-export const addIngredienDetails = (item) => ({
+interface IAddIngredientDetailsAction {
+  type: typeof ADD_INGREDIENT_DETAILS;
+  payload: TIngredient;
+}
+interface IDeleteIngredientDetailsAction {
+  type: typeof DELETE_INGREDIENT_DETAILS;
+}
+
+export type TIngredientDetailsActions = 
+  | IAddIngredientDetailsAction
+  | IDeleteIngredientDetailsAction;
+
+const addIngredientDetailsAction = (item: TIngredient): IAddIngredientDetailsAction => ({
   type: ADD_INGREDIENT_DETAILS,
-  payload: item
+  payload: item,
 });
-
-export const deleteIngredientDetails = () => ({
+const deleteIngredientDetailsAction = (): IDeleteIngredientDetailsAction => ({
   type: DELETE_INGREDIENT_DETAILS,
 });
+
+export const addIngredienDetails = (item: TIngredient) => addIngredientDetailsAction(item);
+export const deleteIngredientDetails = () => deleteIngredientDetailsAction();

@@ -1,29 +1,61 @@
-export const ADD_BUN: 'ADD_BUN' = 'ADD_BUN';
-export const ADD_INGREDIENT: 'ADD_INGREDIENT' = 'ADD_INGREDIENT';
-export const DELETE_INGREDIENT: 'DELETE_INGREDIENT' = 'DELETE_INGREDIENT';
-export const SORT_INGREDIENTS: 'SORT_INGREDIENTS' = 'SORT_INGREDIENTS';
-export const RESET_BURGER_CONSTRUCTOR: 'RESET_BURGER_CONSTRUCTOR' = 'RESET_BURGER_CONSTRUCTOR';
+import { TIngredient } from '../../types/data';
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  RESET_BURGER_CONSTRUCTOR,
+  SORT_INGREDIENTS,
+} from './constants';
 
-export const addBun = (item) => ({
+interface IAddBunAction {
+  type: typeof ADD_BUN;
+  payload: TIngredient;
+}
+interface IAddIngredientAction {
+  type: typeof ADD_INGREDIENT;
+  payload: TIngredient;
+}
+interface IDeleteIngredientAction {
+  type: typeof DELETE_INGREDIENT;
+  payload: TIngredient;
+}
+interface ISortIngredientsAction {
+  type: typeof SORT_INGREDIENTS;
+  payload: Array<TIngredient>;
+}
+interface IResetBurgerConstructorAction {
+  type: typeof RESET_BURGER_CONSTRUCTOR;
+}
+
+export type TBurgetConstructorActions = 
+  | IAddBunAction
+  | IAddIngredientAction
+  | IDeleteIngredientAction
+  | ISortIngredientsAction
+  | IResetBurgerConstructorAction;
+
+const addBunAction = (item: TIngredient): IAddBunAction => ({
   type: ADD_BUN,
   payload: item
 });
-
-export const addIngredient = (item) => ({
+const addIngredientAction = (item: TIngredient): IAddIngredientAction => ({
   type: ADD_INGREDIENT,
-  payload: item,
+  payload: item
 });
-
-export const deleteIngredient = (item) => ({
+const deleteIngredientAction = (item: TIngredient): IDeleteIngredientAction => ({
   type: DELETE_INGREDIENT,
   payload: item,
 });
-
-export const sortIngredients = (sortedIngredients) => ({
+const sortIngredientsAction = (sortedIngredients: Array<TIngredient>): ISortIngredientsAction => ({
   type: SORT_INGREDIENTS,
-  payload: sortedIngredients
+  payload: sortedIngredients,
+});
+const resetBurgerConstructorAction = (): IResetBurgerConstructorAction => ({
+  type: RESET_BURGER_CONSTRUCTOR,
 });
 
-export const resetBurgerConstructor = () => ({
-  type: RESET_BURGER_CONSTRUCTOR
-});
+export const addBun = (item: TIngredient): any => addBunAction(item);
+export const addIngredient = (item: TIngredient): any => addIngredientAction(item);
+export const deleteIngredient = (item: TIngredient): any => deleteIngredientAction(item);
+export const sortIngredients = (sortedIngredients: Array<TIngredient>): any => sortIngredientsAction(sortedIngredients);
+export const resetBurgerConstructor = (): any => resetBurgerConstructorAction();

@@ -5,10 +5,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppSelector } from '../../hooks/hook';
 
-import { TStore } from "../../utils/types";
-
 const OrderDetails: FC = () => {
-  const info = useAppSelector((store: TStore) => store.orderDetails.info);
+  const info = useAppSelector((store) => store.orderDetails.info);
 
   return (
     <div className={`pt-20 pb-20 ${orderDetailsStyle.details}`}>

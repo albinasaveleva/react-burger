@@ -7,41 +7,219 @@ import {
   resetPasswordRequestApi,
   updateUserApi
 } from "../../utils/burger-api";
+
+import {
+  AUTH_REGISTER_REQUEST,
+  AUTH_REGISTER_SUCCESS,
+  AUTH_REGISTER_ERROR,
+
+  AUTH_LOGIN_REQUEST,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_ERROR,
+
+  AUTH_LOGOUT_REQUEST,
+  AUTH_LOGOUT_SUCCESS,
+  AUTH_LOGOUT_ERROR,
+
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_ERROR,
+
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_ERROR,
+
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_ERROR,
+
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR
+} from "./constants";
+
+import { TUser } from "../../types/data";
+
 import { setCookie, deleteCookie } from "../../utils/cookies";
+import { AppDispatch, AppThunkAction } from '../../types/index';
 
-export const AUTH_REGISTER_REQUEST: 'AUTH_REGISTER_REQUEST' = 'AUTH_REGISTER_REQUEST';
-export const AUTH_REGISTER_SUCCESS: 'AUTH_REGISTER_SUCCESS' = 'AUTH_REGISTER_SUCCESS';
-export const AUTH_REGISTER_ERROR: 'AUTH_REGISTER_ERROR' = 'AUTH_REGISTER_ERROR';
 
-export const AUTH_LOGIN_REQUEST: 'AUTH_LOGIN_REQUEST' = 'AUTH_LOGIN_REQUEST';
-export const AUTH_LOGIN_SUCCESS: 'AUTH_LOGIN_SUCCESS' = 'AUTH_LOGIN_SUCCESS';
-export const AUTH_LOGIN_ERROR: 'AUTH_LOGIN_ERROR' = 'AUTH_LOGIN_ERROR';
-
-export const AUTH_LOGOUT_REQUEST: 'AUTH_LOGOUT_REQUEST' = 'AUTH_LOGOUT_REQUEST';
-export const AUTH_LOGOUT_SUCCESS: 'AUTH_LOGOUT_SUCCESS' = 'AUTH_LOGOUT_SUCCESS';
-export const AUTH_LOGOUT_ERROR: 'AUTH_LOGOUT_ERROR' = 'AUTH_LOGOUT_ERROR';
-
-export const FORGOT_PASSWORD_REQUEST: 'FORGOT_PASSWORD_REQUEST' = 'FORGOT_PASSWORD_REQUEST';
-export const FORGOT_PASSWORD_SUCCESS: 'FORGOT_PASSWORD_SUCCESS' = 'FORGOT_PASSWORD_SUCCESS';
-export const FORGOT_PASSWORD_ERROR: 'FORGOT_PASSWORD_ERROR' = 'FORGOT_PASSWORD_ERROR';
-
-export const RESET_PASSWORD_REQUEST: 'RESET_PASSWORD_REQUEST' = 'RESET_PASSWORD_REQUEST';
-export const RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS' = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_ERROR: 'RESET_PASSWORD_ERROR' = 'RESET_PASSWORD_ERROR';
-
-export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
-export const GET_USER_ERROR: 'GET_USER_ERROR' = 'GET_USER_ERROR';
-
-export const UPDATE_USER_REQUEST: 'UPDATE_USER_REQUEST' = 'UPDATE_USER_REQUEST';
-export const UPDATE_USER_SUCCESS: 'UPDATE_USER_SUCCESS' = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_ERROR: 'UPDATE_USER_ERROR' = 'UPDATE_USER_ERROR';
-
-const checkData = (condition) => {
+const checkData = (condition: any) => {
   return condition ? true : false;
 };
 
-export function registerRequest({email, password, name}) {
+interface IAuthRegisterRequestAction {
+  type: typeof AUTH_REGISTER_REQUEST;
+}
+interface IAuthRegisterRequestSuccessAction {
+  type: typeof AUTH_REGISTER_SUCCESS;
+  user: TUser;
+}
+interface IAuthRegisterRequestErrorAction {
+  type: typeof AUTH_REGISTER_ERROR;
+}
+
+interface IAuthLoginRequestAction {
+  type: typeof AUTH_LOGIN_REQUEST;
+}
+interface IAuthLoginRequestSuccessAction {
+  type: typeof AUTH_LOGIN_SUCCESS;
+  user: TUser;
+}
+interface IAuthLoginRequestErrorAction {
+  type: typeof AUTH_LOGIN_ERROR;
+}
+
+interface IAuthLogoutRequestAction {
+  type: typeof AUTH_LOGOUT_REQUEST;
+}
+interface IAuthLogoutRequestSuccessAction {
+  type: typeof AUTH_LOGOUT_SUCCESS;
+}
+interface IAuthLogoutRequestErrorAction {
+  type: typeof AUTH_LOGOUT_ERROR;
+}
+
+interface IForgotPasswordRequestAction {
+  type: typeof FORGOT_PASSWORD_REQUEST;
+}
+interface IForgotPasswordRequestSuccessAction {
+  type: typeof FORGOT_PASSWORD_SUCCESS;
+}
+interface IForgotPasswordRequestErrorAction {
+  type: typeof FORGOT_PASSWORD_ERROR;
+}
+
+interface IResetPasswordRequestAction {
+  type: typeof RESET_PASSWORD_REQUEST;
+}
+interface IResetPasswordRequestSuccessAction {
+  type: typeof RESET_PASSWORD_SUCCESS;
+}
+interface IResetPasswordRequestErrorAction {
+  type: typeof RESET_PASSWORD_ERROR;
+}
+
+interface IGetUserRequestAction {
+  type: typeof GET_USER_REQUEST;
+}
+interface IGetUserRequestSuccessAction {
+  type: typeof GET_USER_SUCCESS;
+  user: TUser;
+}
+interface IGetUserRequestErrorAction {
+  type: typeof GET_USER_ERROR;
+}
+
+interface IUpdateUserRequestAction {
+  type: typeof UPDATE_USER_REQUEST;
+}
+interface IUpdateUserRequestSuccessAction {
+  type: typeof UPDATE_USER_SUCCESS;
+  user: TUser;
+}
+interface IUpdateUserRequestErrorAction {
+  type: typeof UPDATE_USER_ERROR;
+}
+
+export type TAuthActions = 
+  | IAuthRegisterRequestAction
+  | IAuthRegisterRequestSuccessAction
+  | IAuthRegisterRequestErrorAction
+  | IAuthLoginRequestAction
+  | IAuthLoginRequestSuccessAction
+  | IAuthLoginRequestErrorAction
+  | IAuthLogoutRequestAction
+  | IAuthLogoutRequestSuccessAction
+  | IAuthLogoutRequestErrorAction
+  | IForgotPasswordRequestAction
+  | IForgotPasswordRequestSuccessAction
+  | IForgotPasswordRequestErrorAction
+  | IResetPasswordRequestAction
+  | IResetPasswordRequestSuccessAction
+  | IResetPasswordRequestErrorAction
+  | IGetUserRequestAction
+  | IGetUserRequestSuccessAction
+  | IGetUserRequestErrorAction
+  | IUpdateUserRequestAction
+  | IUpdateUserRequestSuccessAction
+  | IUpdateUserRequestErrorAction;
+
+const authRegisterRequestAction = (): IAuthRegisterRequestAction => ({
+  type: AUTH_REGISTER_REQUEST
+})
+const authRegisterRequestSuccessAction = (user: TUser): IAuthRegisterRequestSuccessAction => ({
+  type: AUTH_REGISTER_SUCCESS,
+  user
+})
+const authRegisterRequestErrorAction = (): IAuthRegisterRequestErrorAction => ({
+  type: AUTH_REGISTER_ERROR
+})
+
+const authLoginRequestAction = (): IAuthLoginRequestAction => ({
+  type: AUTH_LOGIN_REQUEST
+})
+const authLoginRequestSuccessAction = (user: TUser): IAuthLoginRequestSuccessAction => ({
+  type: AUTH_LOGIN_SUCCESS,
+  user
+})
+const authLoginRequestErrorAction = (): IAuthLoginRequestErrorAction => ({
+  type: AUTH_LOGIN_ERROR
+})
+
+const authLogoutRequestAction = (): IAuthLogoutRequestAction => ({
+  type: AUTH_LOGOUT_REQUEST
+})
+const authLogoutRequestSuccessAction = (): IAuthLogoutRequestSuccessAction => ({
+  type: AUTH_LOGOUT_SUCCESS
+})
+const authLogoutRequestErrorAction = (): IAuthLogoutRequestErrorAction => ({
+  type: AUTH_LOGOUT_ERROR
+})
+
+const forgotPasswordRequestAction = (): IForgotPasswordRequestAction => ({
+  type: FORGOT_PASSWORD_REQUEST
+})
+const forgotPasswordRequestSuccessAction = (): IForgotPasswordRequestSuccessAction => ({
+  type: FORGOT_PASSWORD_SUCCESS
+})
+const forgotPasswordRequestErrorAction = (): IForgotPasswordRequestErrorAction => ({
+  type: FORGOT_PASSWORD_ERROR
+})
+
+const resetPasswordRequestAction = (): IResetPasswordRequestAction => ({
+  type: RESET_PASSWORD_REQUEST
+})
+const resetPasswordRequestSuccessAction = (): IResetPasswordRequestSuccessAction => ({
+  type: RESET_PASSWORD_SUCCESS
+})
+const resetPasswordRequestErrorAction = (): IResetPasswordRequestErrorAction => ({
+  type: RESET_PASSWORD_ERROR
+})
+
+const getUserRequestAction = (): IGetUserRequestAction => ({
+  type: GET_USER_REQUEST
+})
+const getUserRequestSuccessAction = (user: TUser): IGetUserRequestSuccessAction => ({
+  type: GET_USER_SUCCESS,
+  user
+})
+const getUserRequestErrorAction = (): IGetUserRequestErrorAction => ({
+  type: GET_USER_ERROR
+})
+
+const updateUserRequestAction = (): IUpdateUserRequestAction => ({
+  type: UPDATE_USER_REQUEST
+})
+const updateUserRequestSuccessAction = (user: TUser): IUpdateUserRequestSuccessAction => ({
+  type: UPDATE_USER_SUCCESS,
+  user
+})
+const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
+  type: UPDATE_USER_ERROR
+})
+
+export const registerRequest = ({email, password, name}: {email: string, password: string, name: string}): AppThunkAction => {
   const body = {
     email, 
     password,
@@ -49,23 +227,19 @@ export function registerRequest({email, password, name}) {
   };
 
   return checkData(email.length > 0 && password.length > 0 && name.length > 0)
-    ? function(dispatch) {
-      dispatch({
-        type: AUTH_REGISTER_REQUEST
-      });
+    ? function(dispatch: AppDispatch) {
+      dispatch(authRegisterRequestAction());
+
       registerRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
-          dispatch({
-            type: AUTH_REGISTER_SUCCESS,
-            user: user,
-          });
+          dispatch(authRegisterRequestSuccessAction(user));
+
           localStorage.setItem('refreshToken', refreshToken);
           setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
         .catch(({message})=>{
-          dispatch({
-            type: AUTH_REGISTER_ERROR
-          })
+          dispatch(authRegisterRequestErrorAction());
+
           if (message === 'User already exists') {
             alert ('Пользователь уже зарегистрирован. Попробуйте снова')
           } else {
@@ -73,33 +247,26 @@ export function registerRequest({email, password, name}) {
           }
         })
     }
-    : function(dispatch) {
-      dispatch({
-        type: AUTH_REGISTER_ERROR,
-      });
+    : function(dispatch: AppDispatch) {
+      dispatch(authRegisterRequestErrorAction());
 
       alert('Заполните все данные');
     }
     
 };
 
-export function loginRequest({email, password}) {
+export const loginRequest = ({email, password}: {email: string, password: string}): AppThunkAction => {
   const body = {
     email, 
     password
   };
 
   return checkData(email.length > 0 && password.length > 0)
-    ? function(dispatch) {
-      dispatch({
-        type: AUTH_LOGIN_REQUEST
-      });
+    ? function(dispatch: AppDispatch) {
+      dispatch(authLoginRequestAction());
       loginRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
-          dispatch({
-            type: AUTH_LOGIN_SUCCESS,
-            user: user,
-          });
+          dispatch(authLoginRequestSuccessAction(user));
           localStorage.setItem('refreshToken', refreshToken);
           setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
@@ -110,128 +277,102 @@ export function loginRequest({email, password}) {
           alert(err.message)
         })
     }
-    : function(dispatch) {
-      dispatch({
-        type: AUTH_LOGIN_ERROR,
-      });
+    : function(dispatch: AppDispatch) {
+      dispatch(authLoginRequestErrorAction());
 
       alert('Заполните все данные');
     }
 };
 
-export function logoutRequest() {
-  const body = {
-    token: localStorage.getItem('refreshToken')
+export const logoutRequest = (): AppThunkAction => {
+  const body: { token: string } = {
+    token: localStorage.getItem('refreshToken') as string
   };
 
-  return function(dispatch) {
-    dispatch({
-      type: AUTH_LOGOUT_REQUEST
-    });
+  return function(dispatch: AppDispatch) {
+    dispatch(authLogoutRequestAction());
+
     logoutRequestApi(body)
       .then(()=>{
-        dispatch({
-          type: AUTH_LOGOUT_SUCCESS,
-        });
+        dispatch(authLogoutRequestSuccessAction());
+
         localStorage.removeItem('refreshToken');
         deleteCookie('accessToken');
       })
       .catch(()=>{
-        dispatch({
-          type: AUTH_LOGOUT_ERROR
-        })
+        dispatch(authLogoutRequestErrorAction())
       })
   }
 };
 
-export function forgotPasswordRequest({email}) {
+export const forgotPasswordRequest = ({email}: {email: string}): AppThunkAction => {
   const body = {
     email
   };
 
   return checkData(email.length > 0)
-    ? function(dispatch) {
-      dispatch({
-        type: FORGOT_PASSWORD_REQUEST
-      });
+    ? function(dispatch: AppDispatch) {
+      dispatch(forgotPasswordRequestAction());
+
       forgotPasswordRequestApi(body)
         .then(() => {
-          dispatch({
-            type: FORGOT_PASSWORD_SUCCESS,
-          })
+          dispatch(forgotPasswordRequestSuccessAction())
         })
         .catch((err)=>{
-          dispatch({
-            type: FORGOT_PASSWORD_ERROR
-          });
+          dispatch(forgotPasswordRequestErrorAction());
 
           alert(err.message);
         })
     }
-    :function(dispatch) {
-      dispatch({
-        type: FORGOT_PASSWORD_ERROR,
-      });
+    :function(dispatch: AppDispatch) {
+      dispatch(forgotPasswordRequestErrorAction());
 
       alert('Заполните все данные');
     }
 };
 
-export function resetPasswordRequest({password, token}) {
+export const resetPasswordRequest = ({password, token}: {password: string, token: string}): AppThunkAction => {
   const body = {
     password,
     token
   };
 
   return checkData(password.length > 0 && token.length > 0)
-    ? function(dispatch) {
-      dispatch({
-        type: RESET_PASSWORD_REQUEST
-      });
+    ? function(dispatch: AppDispatch) {
+      dispatch(resetPasswordRequestAction());
+
       resetPasswordRequestApi(body)
         .then(()=>{
-          dispatch({
-            type: RESET_PASSWORD_SUCCESS,
-          })
+          dispatch(resetPasswordRequestSuccessAction())
         })
         .catch((err)=>{
-          dispatch({
-            type: RESET_PASSWORD_ERROR
-          });
+          dispatch(resetPasswordRequestErrorAction());
 
           alert(err.message);
         })
     }
-    : function(dispatch) {
-      dispatch({
-        type: RESET_PASSWORD_ERROR,
-      });
+    : function(dispatch: AppDispatch) {
+      dispatch(resetPasswordRequestErrorAction());
 
       alert('Заполните все данные');
     }
 };
 
-export function getUser() {
-  return function(dispatch) {
-    dispatch({
-      type: GET_USER_REQUEST
-    });
+export const getUser = (): AppThunkAction => {
+  return function(dispatch: AppDispatch) {
+    dispatch(getUserRequestAction());
+
     getUserApi()
       .then(({ user }) => {
-        dispatch({
-          type: GET_USER_SUCCESS,
-          user: user
-        });
+        dispatch(getUserRequestSuccessAction(user));
       })
       .catch(()=>{
-        dispatch({
-          type: GET_USER_ERROR
-        })
+        dispatch(getUserRequestErrorAction())
       })
   }
 }
 
-export function updateUser({email, password, name}) {
+export const updateUser = ({email, password, name}: {email: string, password: string, name: string}): AppThunkAction => {
   const body = {
     email, 
     password,
@@ -239,29 +380,20 @@ export function updateUser({email, password, name}) {
   };
 
   return checkData(email.length > 0 && name.length > 0)
-    ? function(dispatch) {
-      dispatch({
-        type: UPDATE_USER_REQUEST
-      });
+    ? function(dispatch: AppDispatch) {
+      dispatch(updateUserRequestAction());
       updateUserApi(body)
         .then(({ user }) => {
-          dispatch({
-            type: UPDATE_USER_SUCCESS,
-            user: user
-          });
+          dispatch(updateUserRequestSuccessAction(user));
         })
         .catch((err)=>{
-          dispatch({
-            type: UPDATE_USER_ERROR
-          });
+          dispatch(updateUserRequestErrorAction());
 
           alert(err.message);
         })
     }
-    : function(dispatch) {
-      dispatch({
-        type: UPDATE_USER_ERROR
-      });
+    : function(dispatch: AppDispatch) {
+      dispatch(updateUserRequestErrorAction());
 
       alert('Заполните все данные');
     }

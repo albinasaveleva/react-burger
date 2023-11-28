@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-self: start;
+
+  position: relative;
+  width: 100%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+.navigation {
+
+}
+
+.navigation li {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.edit {
+  height: 320px;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 320px;
+}

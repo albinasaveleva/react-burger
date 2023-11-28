@@ -1,0 +1,30 @@
+.container {
+
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 36px;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+}
+
+.status:first-child .list > span {
+  color: #00CCCC;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 8px;
+}
+
+
+.completed {
+
+}

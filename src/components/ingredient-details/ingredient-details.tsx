@@ -5,16 +5,16 @@ import ingredientDetailsStyle from './ingredient-details.module.css';
 
 import { useAppSelector } from '../../hooks/hook';
 
-import { TIngredient, TStore } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 
 import Preloader from "../preLoader/preloader";
 
 const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const isRequest = useAppSelector((store: TStore) => store.burgerIngredients.isRequest);
-  const ingredients = useAppSelector((store: TStore) => store.burgerIngredients.list);
+  const isRequest = useAppSelector((store) => store.burgerIngredients.isRequest);
+  const ingredients = useAppSelector((store) => store.burgerIngredients.list);
 
-  const ingredient = useAppSelector((store: TStore) => store.ingredientDetails.item);
+  const ingredient = useAppSelector((store) => store.ingredientDetails.item);
 
   const renderIngredient = (ingredient: TIngredient) => {
     return (

@@ -1,0 +1,60 @@
+.container {
+}
+
+.content {
+
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info:first-child {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name {
+
+}
+
+.status {
+
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+}
+
+.ingredientImage {
+
+}
+
+.ingredientPrice {
+  display: flex;
+  align-items: center;
+}
+
+.timestamp {
+
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
