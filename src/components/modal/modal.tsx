@@ -6,6 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ModalOverlay from "../modal-over-lay/modal-over-lay";
+import { useParams } from "react-router-dom";
 
 type TComponentProps = {
   closeModal: () => void,
@@ -16,6 +17,8 @@ type TComponentProps = {
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
 const Modal: FC<TComponentProps> = ({closeModal, title, children}) => {
+  const { id } = useParams();
+
   React.useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
@@ -36,10 +39,11 @@ const Modal: FC<TComponentProps> = ({closeModal, title, children}) => {
         <div id="modal" className={`pt-10 pr-10 pb-10 pl-10 ${modalStyle.modal}`}>
           <div className={modalStyle.modalHeader}>
             {
-              title && 
-                <p className="pt-3 pb-3 text text_type_main-large">
-                  {title}
-                </p>
+              title 
+              ? title === 'id' 
+                ? <p className="pt-3 pb-3 text text_type_digits-default">{`#${id}`}</p>
+                : <p className="pt-3 pb-3 text text_type_main-large">{title}</p>
+              : null
             }
             <div className={modalStyle.closeBtn} onClick={closeModal}>
               <CloseIcon type="primary" />

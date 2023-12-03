@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import update from 'immutability-helper';
-import { useAppSelector, useAppDispatch } from '../../hooks/hook';
+import { useAppSelector, useAppDispatch } from '../../services/store/store';
 import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 

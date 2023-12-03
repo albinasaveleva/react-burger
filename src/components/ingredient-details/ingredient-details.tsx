@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
-import { useAppSelector } from '../../hooks/hook';
+import { useAppSelector } from '../../services/store/store';
 
 import { TIngredient } from "../../types/data";
 

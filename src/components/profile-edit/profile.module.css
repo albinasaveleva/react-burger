@@ -25,11 +25,3 @@
 .edit {
   height: 320px;
 }
-
-.caption {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-
-  width: 320px;
-}

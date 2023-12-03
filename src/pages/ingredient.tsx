@@ -5,7 +5,7 @@ import Preloader from '../components/preLoader/preloader';
 import NonFound404Page from './non-found-404';
 import IngredientDetails from '../components/ingredient-details/ingredient-details';
 
-import { useAppSelector } from '../hooks/hook';
+import { useAppSelector } from '../services/store/store';
 import { TIngredient } from '../types/data';
 
 const IngredientPage: FC = () => {

@@ -1,51 +1,79 @@
-import type { Middleware, MiddlewareAPI } from 'redux';
-import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import type { Middleware } from 'redux';
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
-import type { TApplicationActions, AppDispatch, RootState } from '../../types/index';
+import type { RootState } from '../store/store';
+import { refreshToken } from '../../utils/burger-api';
 
+export type TWSActionTypes = {
+  wsConnect: ActionCreatorWithPayload<string>,
+  wsDisconnect: ActionCreatorWithoutPayload,
 
-export const socketMiddleware = (wsUrl: string): any => {
-    // return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
-    //     let socket: WebSocket | null = null;
+  wsConnecting: ActionCreatorWithoutPayload,
 
-    // return next => (action: TApplicationActions) => {
-    //   const { dispatch, getState } = store;
-    //   const { type, payload } = action;
+  onOpen: ActionCreatorWithoutPayload,
+  onClose: ActionCreatorWithoutPayload,
+  onError: ActionCreatorWithPayload<string>,
+  onMessage: ActionCreatorWithPayload<any>,
+}
+
+export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, RootState> => {
+  return ((store) => {
+    let socket: WebSocket | null = null;
+    let isConnected = false;
+    let reconnectTimer = 0;
+    let url = '';
+
+    return next => (action) => {
+      const { dispatch } = store;
+      const { wsConnect, wsDisconnect, wsConnecting, onOpen, onClose, onError, onMessage } = wsActions;
  
-    //   if (type === 'WS_CONNECTION_START') {
-    //         // объект класса WebSocket
-    //     socket = new WebSocket(wsUrl);
-    //   }
-    //   if (socket) {
+      if (wsConnect.match(action)) {
+        url = action.payload;
+        socket = new WebSocket(url);
+      }
+      if (socket) {
+        socket.onopen = () => {
+          dispatch(wsConnecting());
+          dispatch(onOpen());
+          isConnected = true;
+        };
 
-    //             // функция, которая вызывается при открытии сокета
-    //     socket.onopen = event => {
-    //       dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
-    //     };
+        socket.onerror = event => {
+          dispatch(onError(event.type));
+        };
 
-    //             // функция, которая вызывается при ошибке соединения
-    //     socket.onerror = event => {
-    //       dispatch({ type: 'WS_CONNECTION_ERROR', payload: event });
-    //     };
+        socket.onmessage = event => {
+          const { data } = event;
+          const parsedData = JSON.parse(data);
+          dispatch(onMessage(parsedData));
+        };
 
-    //             // функция, которая вызывается при получения события от сервера
-    //     socket.onmessage = event => {
-    //       const { data } = event;
-    //       dispatch({ type: 'WS_GET_MESSAGE', payload: data });
-    //     };
-    //             // функция, которая вызывается при закрытии соединения
-    //     socket.onclose = event => {
-    //       dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
-    //     };
+        socket.onclose = event => {
+          if (event.code !== 1000) {
+            dispatch(onError(event.code.toString()));
+          }
+          dispatch(onClose());
 
-    //     if (type === 'WS_SEND_MESSAGE') {
-    //       const message = payload;
-    //                 // функция для отправки сообщения на сервер
-    //       socket.send(JSON.stringify(message));
-    //     }
-    //   }
+          if (isConnected) {
+            dispatch(wsConnecting());
+            reconnectTimer = window.setTimeout(()=>{
+              dispatch(wsConnect(url))
+            }, 3000)
+          }
+        };
 
-    //   next(action);
-    // };
-    // }) as Middleware;
+        if (wsDisconnect.match(action)) {
+          clearTimeout(reconnectTimer);
+          isConnected = false;
+          reconnectTimer = 0;
+
+          socket.close();
+          dispatch(onClose());
+        }
+
+      }
+
+      next(action);
+    };
+    });
 };

@@ -45,7 +45,16 @@
 }
 
 .ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  position: relative;
+
+  width: 64px;
+  height: 64px;
+
+  overflow: hidden;
 }
 
 .ingredient:not(:first-child) {
@@ -53,7 +62,29 @@
 }
 
 .ingredient > img {
-  
+  width: inherit;
+  height: 56px;
+  object-fit: cover;
+}
+
+.ingredientMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  z-index: 99;
+
+  width: inherit;
+  height: inherit;
+
+  background: rgba(19, 19, 22, 0.4);
 }
 
 .price {

@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import { useDrag } from "react-dnd";
-import { useAppSelector, useAppDispatch } from '../../hooks/hook';
+import { useAppSelector, useAppDispatch } from '../../services/store/store';
 import { Link, useLocation } from "react-router-dom";
 import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 

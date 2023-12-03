@@ -3,7 +3,7 @@ import orderDetailsStyle from './order-details.module.css';
 import { 
   CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppSelector } from '../../hooks/hook';
+import { useAppSelector } from '../../services/store/store';
 
 const OrderDetails: FC = () => {
   const info = useAppSelector((store) => store.orderDetails.info);

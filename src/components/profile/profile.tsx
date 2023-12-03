@@ -1,17 +1,33 @@
-import React, {FC} from 'react';
-import { NavLink, Outlet } from "react-router-dom";
+import React, {FC, ReactNode} from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 import profileStyle from './profile.module.css';
 import { logoutRequest } from '../../services/auth/actions';
 
-import { useAppDispatch } from '../../hooks/hook';
+import { useAppDispatch } from '../../services/store/store';
 
-const Profile: FC = () => {
+type TComponentProps = {
+  children: ReactNode,
+};
+
+const Profile: FC<TComponentProps> = ({ children }) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const renderCaption = () => {
+    if (location.pathname === '/profile') {
+      return (<span className="text text_type_main-default text_color_inactive">
+        В этом разделе вы можете изменить свои персональные данные
+      </span>)
+    } else if ( location.pathname === '/profile/orders') {
+      return (<span className="text text_type_main-default text_color_inactive">
+        В этом разделе вы можете просмотреть свою историю заказов
+      </span>)
+    }
+  }
 
   return (
     <div className={`mt-30 ml-5 ${profileStyle.container}`}>
-      <div className={`mr-15 ${profileStyle.sidebar}`}>
+      <div className={profileStyle.sidebar}>
         <div className={`mb-20 ${profileStyle.navigation}`}>
           <ul>
             <li>
@@ -61,8 +77,11 @@ const Profile: FC = () => {
             </li>
           </ul>
         </div>
+        <div className={profileStyle.caption}>
+        { renderCaption() }
       </div>
-      <Outlet />
+      </div>
+      { children }
     </div>
   )
 }

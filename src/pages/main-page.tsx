@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import { useAppSelector } from '../hooks/hook';
+import { useAppSelector } from '../services/store/store';
 
 import Preloader from "../components/preLoader/preloader";
 import Main from "../components/main/main";

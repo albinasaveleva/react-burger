@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import { useAppSelector } from '../../hooks/hook';
+import { useAppSelector } from '../../services/store/store';
 import { useInView } from "react-intersection-observer";
 
 import { 

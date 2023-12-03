@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import { useAppSelector } from '../../hooks/hook';
+import { useAppSelector } from '../../services/store/store';
 import { useLocation, Navigate } from "react-router-dom";
 
 type TComponentProps = {

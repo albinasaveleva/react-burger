@@ -1,5 +1,5 @@
 import { createOrderApi } from "../../utils/burger-api";
-import { TIngredient, TOrder } from "../../types/data";
+import { TIngredient, TOrderDetails} from "../../types/data";
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -62,7 +62,7 @@ export function createOrder(buns: null | TIngredient, ingredients: [] | TIngredi
 
       createOrderApi(body)
         .then(({success, name, order}) => {
-          dispatch(createOrderRequestSuccessAction(success, name, (order as TOrder).number, body))
+          dispatch(createOrderRequestSuccessAction(success, name, (order as TOrderDetails).number, body))
         })
         .catch(()=>{
           dispatch(createOrderRequestErrorAction('Ошибка при отправке заказа'))

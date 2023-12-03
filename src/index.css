@@ -24,18 +24,6 @@ a {
   color: inherit;
 }
 
-/* #constructor {
-  color: #fff;
-}
-
-#orders { 
-  color: rgb(133, 133, 173);
-}
-
-#profile {
-  color: rgb(133, 133, 173);
-} */
-
 #react-modals {
   position: relative;
 }
@@ -110,4 +98,12 @@ a {
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+}
+
+.statusSuccess {
+  color: #00CCCC;
+}
+
+.statusCanceled {
+  color: #E52B1A;
 }

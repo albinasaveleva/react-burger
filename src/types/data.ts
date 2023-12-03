@@ -25,7 +25,7 @@ export type TUser = {
 //   refreshToken: string,
 // }
 
-export type TOrder = {
+export type TOrderDetails = {
   ingredients: [] | TIngredient[],
   _id: string,
   owner: {
@@ -40,7 +40,17 @@ export type TOrder = {
   updatedAt: string,
   number: number,
   price: number,
-}
+};
+
+export type TOrder = {
+  createdAt:  string,
+  ingredients: string[],
+  name: string,
+  number: number,
+  status: string,
+  updatedAt: string,
+  _id: string,
+};
 
 export type TBurgerIngredientsState = {
   list: [] | TIngredient[],
@@ -101,6 +111,12 @@ export type TAuthState = {
 
   user: null | TUser,
 };
+
+export enum WebsocketStatus {
+  CONNECTING = 'CONNECTING...',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE'
+}
 
 // export type TStore = {
 //   burgerIngredients: TBurgerIngredientsState,

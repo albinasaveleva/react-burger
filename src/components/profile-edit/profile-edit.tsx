@@ -13,7 +13,7 @@ import profileStyle from './profile.module.css';
 
 import PageForm from '../page-form/page-form';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { TUser } from "../../types/data";
 
 type TValues = {
@@ -49,8 +49,7 @@ const ProfileEdit: FC = () => {
   };
 
   return (
-    <>
-      <div className={profileStyle.edit}>
+    <div className={profileStyle.edit}>
         <PageForm handleSubmit={handleSubmit}>
         <Input
           name={'name'}
@@ -112,10 +111,6 @@ const ProfileEdit: FC = () => {
         }
         </PageForm>
       </div>
-      <div className={profileStyle.caption}>
-        <p className="text text_type_main-default text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
-      </div>
-    </>
   )
 }
 

@@ -1,4 +1,5 @@
 .container {
+  width: 100%;
 }
 
 .content {
@@ -32,6 +33,32 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+
+  max-height: 312px;
+  overflow-y: auto;
+}
+.ingredientsList::-webkit-scrollbar {
+  width: 8px;               
+}
+
+.ingredientsList::-webkit-scrollbar-track {
+  background: #2F2F37;        
+}
+
+.ingredientsList::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+  border-radius: 0;
+  border: 3px solid #8585AD;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+}
+
+.scrollBar {
+  width: 8px;
+  height: auto;
+  background-color: #8585AD;
 }
 
 .ingredient {
@@ -42,7 +69,15 @@
 }
 
 .ingredientImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.ingredientImage > img {
+  width: inherit;
+  height: 56px;
+  object-fit: cover;
 }
 
 .ingredientPrice {

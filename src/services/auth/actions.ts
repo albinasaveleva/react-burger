@@ -41,7 +41,7 @@ import {
 import { TUser } from "../../types/data";
 
 import { setCookie, deleteCookie } from "../../utils/cookies";
-import { AppDispatch, AppThunkAction } from '../../types/index';
+import { AppDispatch, AppThunk } from '../../services/store/store';
 
 
 const checkData = (condition: any) => {
@@ -219,7 +219,7 @@ const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
   type: UPDATE_USER_ERROR
 })
 
-export const registerRequest = ({email, password, name}: {email: string, password: string, name: string}): AppThunkAction => {
+export const registerRequest = ({email, password, name}: {email: string, password: string, name: string}): AppThunk => {
   const body = {
     email, 
     password,
@@ -255,7 +255,7 @@ export const registerRequest = ({email, password, name}: {email: string, passwor
     
 };
 
-export const loginRequest = ({email, password}: {email: string, password: string}): AppThunkAction => {
+export const loginRequest = ({email, password}: {email: string, password: string}): AppThunk => {
   const body = {
     email, 
     password
@@ -284,7 +284,7 @@ export const loginRequest = ({email, password}: {email: string, password: string
     }
 };
 
-export const logoutRequest = (): AppThunkAction => {
+export const logoutRequest = (): AppThunk => {
   const body: { token: string } = {
     token: localStorage.getItem('refreshToken') as string
   };
@@ -305,7 +305,7 @@ export const logoutRequest = (): AppThunkAction => {
   }
 };
 
-export const forgotPasswordRequest = ({email}: {email: string}): AppThunkAction => {
+export const forgotPasswordRequest = ({email}: {email: string}): AppThunk => {
   const body = {
     email
   };
@@ -331,7 +331,7 @@ export const forgotPasswordRequest = ({email}: {email: string}): AppThunkAction 
     }
 };
 
-export const resetPasswordRequest = ({password, token}: {password: string, token: string}): AppThunkAction => {
+export const resetPasswordRequest = ({password, token}: {password: string, token: string}): AppThunk => {
   const body = {
     password,
     token
@@ -358,7 +358,7 @@ export const resetPasswordRequest = ({password, token}: {password: string, token
     }
 };
 
-export const getUser = (): AppThunkAction => {
+export const getUser = (): AppThunk => {
   return function(dispatch: AppDispatch) {
     dispatch(getUserRequestAction());
 
@@ -372,7 +372,7 @@ export const getUser = (): AppThunkAction => {
   }
 }
 
-export const updateUser = ({email, password, name}: {email: string, password: string, name: string}): AppThunkAction => {
+export const updateUser = ({email, password, name}: {email: string, password: string, name: string}): AppThunk => {
   const body = {
     email, 
     password,

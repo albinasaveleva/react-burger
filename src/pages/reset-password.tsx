@@ -13,7 +13,7 @@ import { useForm } from '../hooks/useForm';
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../services/store/store';
 
 type TValues = {
   password: string, 
