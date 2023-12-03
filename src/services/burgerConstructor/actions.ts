@@ -54,8 +54,8 @@ const resetBurgerConstructorAction = (): IResetBurgerConstructorAction => ({
   type: RESET_BURGER_CONSTRUCTOR,
 });
 
-export const addBun = (item: TIngredient): any => addBunAction(item);
-export const addIngredient = (item: TIngredient): any => addIngredientAction(item);
-export const deleteIngredient = (item: TIngredient): any => deleteIngredientAction(item);
-export const sortIngredients = (sortedIngredients: Array<TIngredient>): any => sortIngredientsAction(sortedIngredients);
-export const resetBurgerConstructor = (): any => resetBurgerConstructorAction();
+export const addBun = (item: TIngredient) => addBunAction(item);
+export const addIngredient = (item: TIngredient) => addIngredientAction(item);
+export const deleteIngredient = (item: TIngredient) => deleteIngredientAction(item);
+export const sortIngredients = (sortedIngredients: Array<TIngredient>) => sortIngredientsAction(sortedIngredients);
+export const resetBurgerConstructor = () => resetBurgerConstructorAction();

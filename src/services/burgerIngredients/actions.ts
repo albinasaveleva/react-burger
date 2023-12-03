@@ -6,6 +6,7 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_ERROR
 } from './constants';
+import { AppDispatch } from "../store/store";
 
 interface IGetIngredientsRequestAction {
   type: typeof GET_INGREDIENTS_REQUEST;
@@ -37,7 +38,7 @@ const getIngredientsRequestErrorAction  = (): IGetIngredientsRequestErrorAction 
 });
 
 export function getIngredients() {
-  return function(dispatch: any) {
+  return function(dispatch: AppDispatch) {
     dispatch(getIngredientsRequestAction());
 
     getIngredientsApi()

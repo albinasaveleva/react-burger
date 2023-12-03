@@ -6,6 +6,7 @@ import {
   CREATE_ORDER_ERROR,
   RESET_ORDER_DATA
 } from './constants';
+import { AppDispatch } from "../store/store";
 
 interface ICreateOrderRequestAction {
   readonly type: typeof CREATE_ORDER_REQUEST;
@@ -55,7 +56,7 @@ const checkIngredients = (buns: null | TIngredient, ingredients: [] | TIngredien
 
 export function createOrder(buns: null | TIngredient, ingredients: [] | TIngredient[]) {
   return checkIngredients(buns, ingredients) 
-    ? function(dispatch: any) {
+    ? function(dispatch: AppDispatch) {
       const body = [ (buns as TIngredient)._id, ...ingredients.map(item => item._id), (buns as TIngredient)._id ];
 
       dispatch(createOrderRequestAction());
@@ -68,7 +69,7 @@ export function createOrder(buns: null | TIngredient, ingredients: [] | TIngredi
           dispatch(createOrderRequestErrorAction('Ошибка при отправке заказа'))
         })
     }
-    : function(dispatch: any) {
+    : function(dispatch: AppDispatch) {
         dispatch(createOrderRequestErrorAction('Недостаточно ингредиентов для заказа'));
       }
 }

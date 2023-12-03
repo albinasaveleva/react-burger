@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { WS_ORDER_HISTORY_ENDPOINT, WS_URL } from '../../utils/burger-api';
 import { getCookie } from '../../utils/cookies';
+import { AppDispatch } from '../store/store';
 
 export const wsConnect = createAction<string, 'ORDER_HISTORY_WS_CONNECT'>('ORDER_HISTORY_WS_CONNECT');
 export const wsDisconnect = createAction('ORDER_HISTORY_WS_DISCONNECT');
@@ -35,14 +36,14 @@ export type TWSOrderHistoryActions =
   };
 
   export function connectWSOrderHistory() {
-    return function(dispatch: any) {
+    return function(dispatch: AppDispatch) {
       const wsUrl = `${WS_URL}/${WS_ORDER_HISTORY_ENDPOINT}?token=${getCookie('accessToken')}`
       dispatch(wsConnect(wsUrl));
     }
   }
   
   export function disconnectWSOrderHistory() {
-    return function(dispatch: any) {
+    return function(dispatch: AppDispatch) {
       dispatch(wsDisconnect())
     }
   }

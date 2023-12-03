@@ -57,7 +57,7 @@ const BurgerConstructorIngredient: FC<TComponentProps> = ({item, index, moveIngr
   const [{ isDragging }, drag] = useDrag({
     type: 'burger-constructor-ingredient',
     item: {item, index},
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
   })

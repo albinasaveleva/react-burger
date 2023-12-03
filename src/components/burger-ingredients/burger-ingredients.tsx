@@ -60,23 +60,23 @@ const BurgerIngredients: FC = () => {
     type TTabInfo = {
       name: string,
       isVisible: boolean,
-      top: any,
+      top: IntersectionObserverEntry,
     }
     const tabsInfo: TTabInfo[] = [
       {
         name: 'bun',
         isVisible: bunInView,
-        top: bunEntry,
+        top: bunEntry as IntersectionObserverEntry,
       },
       {
         name: 'sauce',
         isVisible: sauceInView,
-        top: sauceEntry,
+        top: sauceEntry as IntersectionObserverEntry,
       },
       {
         name: 'main',
         isVisible: mainInView,
-        top: mainEntry,
+        top: mainEntry as IntersectionObserverEntry,
       },
     ];
 

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { WS_ORDER_FEED_ENDPOINT, WS_URL } from '../../utils/burger-api';
+import { AppDispatch } from '../store/store';
 
 export const wsConnect = createAction<string, 'ORDER_FEED_WS_CONNECT'>('ORDER_FEED_WS_CONNECT');
 export const wsDisconnect = createAction('ORDER_FEED_WS_DISCONNECT');
@@ -33,14 +34,14 @@ export const wsOrderFeedActions = {
 };
 
 export function connectWSOrderFeed() {
-  return function(dispatch: any) {
+  return function(dispatch: AppDispatch) {
     const wsUrl = `${WS_URL}/${WS_ORDER_FEED_ENDPOINT}`
     dispatch(wsConnect(wsUrl));
   }
 }
 
 export function disconnectWSOrderFeed() {
-  return function(dispatch: any) {
+  return function(dispatch: AppDispatch) {
     dispatch(wsDisconnect())
   }
 }
