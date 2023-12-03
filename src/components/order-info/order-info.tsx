@@ -42,14 +42,7 @@ export const getOrderPrice = (orderIngredients: string[], ingredients: TIngredie
 
 const OrderInfo: FC = () => {
   const { id } = useParams();
-  const location = useLocation();
-  console.log(location)
-  if (location.state?.backgroundLocation !== location.pathname) {
-    location.state.backgroundLocation.pathname = location.pathname
-  } 
-  console.log(location)
-
-
+  
   const [ order, setOrder ] = React.useState<null | TOrder>(null);
   const ingredients = useAppSelector(store => store.burgerIngredients.list);
   
