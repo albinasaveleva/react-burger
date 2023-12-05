@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import { useDrag } from "react-dnd";
-import { useAppSelector, useAppDispatch } from '../../hooks/hook';
+import { useAppSelector, useAppDispatch } from '../../services/store/store';
 import { Link, useLocation } from "react-router-dom";
 import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
@@ -10,14 +10,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientStyle from './burger-ingredient.module.css';
 
-import { TIngredient, TStore } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 type TComponentProps = {
   item: TIngredient,
 };
 
 const BurgerIngredient: FC<TComponentProps> = ({item}) => {
-  const buns = useAppSelector((store: TStore) => store.burgerConstructor.buns);
-  const ingredients = useAppSelector((store: TStore) => store.burgerConstructor.ingredients);
+  const buns = useAppSelector((store) => store.burgerConstructor.buns);
+  const ingredients = useAppSelector((store) => store.burgerConstructor.ingredients);
 
   const dispatch = useAppDispatch();
 

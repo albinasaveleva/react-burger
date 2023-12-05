@@ -49,7 +49,7 @@ const AppHeader: FC = () => {
           </li>
           <li className={headerStyle.navigationItem}>
             <NavLink 
-              to={'/orders'} 
+              to={'/feed'} 
               className={`ml-5 mr-5 mb-4 mt-4 ${headerStyle.link}` }
             >
               {

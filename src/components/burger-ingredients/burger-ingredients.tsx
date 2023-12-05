@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import { useAppSelector } from '../../hooks/hook';
+import { useAppSelector } from '../../services/store/store';
 import { useInView } from "react-intersection-observer";
 
 import { 
@@ -10,12 +10,10 @@ import burgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import { getBurgerIngredients } from "../../services/burgerIngredients/selectors";
-
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 
 const BurgerIngredients: FC = () => {
-  const ingredients: TIngredient[] = useAppSelector(getBurgerIngredients);
+  const ingredients: TIngredient[] = useAppSelector(store => store.burgerIngredients.list);
 
   const rootContainerRef = React.useRef<HTMLDivElement>(null);
   const [currentTab, setCurrentTab] = React.useState<string>('bun');
@@ -62,23 +60,23 @@ const BurgerIngredients: FC = () => {
     type TTabInfo = {
       name: string,
       isVisible: boolean,
-      top: any,
+      top: IntersectionObserverEntry,
     }
     const tabsInfo: TTabInfo[] = [
       {
         name: 'bun',
         isVisible: bunInView,
-        top: bunEntry,
+        top: bunEntry as IntersectionObserverEntry,
       },
       {
         name: 'sauce',
         isVisible: sauceInView,
-        top: sauceEntry,
+        top: sauceEntry as IntersectionObserverEntry,
       },
       {
         name: 'main',
         isVisible: mainInView,
-        top: mainEntry,
+        top: mainEntry as IntersectionObserverEntry,
       },
     ];
 

@@ -13,8 +13,12 @@ import { useForm } from '../hooks/useForm';
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { TStore } from "../utils/types";
+import { useAppDispatch, useAppSelector } from '../services/store/store';
+
+type TValues = {
+  password: string, 
+  token: string,
+};
 
 const ResetPasswordPage: FC = () => {
   const {values, handleChange} = useForm({
@@ -22,9 +26,9 @@ const ResetPasswordPage: FC = () => {
     token: ""
   });
 
-  const isForgotPasswordSuccess = useAppSelector((store: TStore) => store.auth.isForgotPasswordSuccess);
-  const isResetPasswordRequest = useAppSelector((store: TStore) => store.auth.isResetPasswordRequest);
-  const isResetPasswordSuccess = useAppSelector((store: TStore) => store.auth.isResetPasswordSuccess);
+  const isForgotPasswordSuccess = useAppSelector((store) => store.auth.isForgotPasswordSuccess);
+  const isResetPasswordRequest = useAppSelector((store) => store.auth.isResetPasswordRequest);
+  const isResetPasswordSuccess = useAppSelector((store) => store.auth.isResetPasswordSuccess);
 
 
   const dispatch = useAppDispatch();
@@ -42,8 +46,7 @@ const ResetPasswordPage: FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //@ts-ignore
-    dispatch(resetPasswordRequest(values));
+    dispatch(resetPasswordRequest(values as TValues));
   };
 
   const renderPage = () => {
@@ -52,7 +55,7 @@ const ResetPasswordPage: FC = () => {
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <PasswordInput
           name='password'
-          value={values.password}
+          value={(values as TValues).password}
           placeholder={'Введите новый пароль'}
           size={'default'}
           icon={'ShowIcon'}
@@ -61,7 +64,7 @@ const ResetPasswordPage: FC = () => {
         />
         <Input
           name='token'
-          value={values.token}
+          value={(values as TValues).token}
           type={'text'}
           placeholder={'Введите код из письма'}
           size={'default'}

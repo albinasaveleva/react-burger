@@ -7,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorIngredientStyle from './burger-constructor-ingredient.module.css';
 
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../types/data";
 
 type TComponentProps = {
   item: TIngredient; 
@@ -57,7 +57,7 @@ const BurgerConstructorIngredient: FC<TComponentProps> = ({item, index, moveIngr
   const [{ isDragging }, drag] = useDrag({
     type: 'burger-constructor-ingredient',
     item: {item, index},
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
   })

@@ -14,8 +14,13 @@ import {
 import { registerRequest } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
 
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { TStore } from "../utils/types";
+import { useAppDispatch, useAppSelector } from '../services/store/store';
+
+type TValues = {
+  email: string, 
+  password: string, 
+  name: string,
+};
 
 const RegistrationPage: FC = () => {
   const {values, handleChange} = useForm({
@@ -24,14 +29,13 @@ const RegistrationPage: FC = () => {
     password: ''
   });
 
-  const isRegistrRequest = useAppSelector((store: TStore) => store.auth.isRegistrRequest);
+  const isRegistrRequest = useAppSelector((store) => store.auth.isRegistrRequest);
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //@ts-ignore
-    dispatch(registerRequest(values));
+    dispatch(registerRequest(values as TValues));
   };
 
   const renderPage = () => {
@@ -40,7 +44,7 @@ const RegistrationPage: FC = () => {
         <p className="mb-6 text text_type_main-medium">Регистрация</p>
         <Input
           name={'name'}
-          value={values.name}
+          value={(values as TValues).name}
           type={'text'}
           placeholder={'Имя'}
           size={'default'}
@@ -49,7 +53,7 @@ const RegistrationPage: FC = () => {
         />
         <EmailInput
           name={'email'}
-          value={values.email}
+          value={(values as TValues).email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
@@ -57,7 +61,7 @@ const RegistrationPage: FC = () => {
         />
         <PasswordInput
           name={'password'}
-          value={values.password}
+          value={(values as TValues).password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}

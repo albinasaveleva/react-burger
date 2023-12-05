@@ -7,21 +7,20 @@ import {
 
 import { forgotPasswordRequest } from '../services/auth/actions';
 import { useForm } from '../hooks/useForm';
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../services/store/store';
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
-import { TStore } from "../utils/types";
-
+type TValues = {email: string};
 
 const ForgotPasswordPage: FC = () => {
   const {values, handleChange} = useForm({
     email: "",
   });
 
-  const isForgotPasswordSuccess = useAppSelector((store: TStore) => store.auth.isForgotPasswordSuccess);
-  const isForgotPasswordRequest = useAppSelector((store: TStore) => store.auth.isForgotPasswordRequest);
+  const isForgotPasswordSuccess = useAppSelector((store) => store.auth.isForgotPasswordSuccess);
+  const isForgotPasswordRequest = useAppSelector((store) => store.auth.isForgotPasswordRequest);
 
   React.useEffect(() => {
     if (isForgotPasswordSuccess) {
@@ -34,8 +33,7 @@ const ForgotPasswordPage: FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //@ts-ignore
-    dispatch(forgotPasswordRequest(values));
+    dispatch(forgotPasswordRequest(values as TValues));
   };
 
   const renderPage = () => {
@@ -44,7 +42,7 @@ const ForgotPasswordPage: FC = () => {
         <p className="mb-6 text text_type_main-medium">Восстановление пароля</p>
         <EmailInput
           name='email'
-          value={values.email}
+          value={(values as TValues).email}
           placeholder={'Укажите e-mail'}
           size={'default'}
           extraClass='mb-6 input-field'

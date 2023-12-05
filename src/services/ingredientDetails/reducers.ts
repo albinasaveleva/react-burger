@@ -1,13 +1,15 @@
+import { TIngredientDetailsState } from '../../types/data';
+import { TIngredientDetailsActions } from './actions';
 import {
   ADD_INGREDIENT_DETAILS,
   DELETE_INGREDIENT_DETAILS
-} from './actions';
+} from './constants';
 
-const initialState = {
+const initialState: TIngredientDetailsState = {
   item: null
 };
 
-export const ingredientReducer = (state = initialState, action) => {
+export const ingredientReducer = (state = initialState, action: TIngredientDetailsActions): TIngredientDetailsState => {
   switch (action.type) {
     case ADD_INGREDIENT_DETAILS: {
       return {

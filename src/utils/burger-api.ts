@@ -1,16 +1,24 @@
 import { setCookie, getCookie } from "./cookies";
-import { TIngredient } from './types';
+import { TIngredient, TOrder } from '../types/data';
 
-const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
-const GET_INGREDIENTS_ENDPOINT = 'ingredients';
-const ORDER_ENDPOINT = 'orders';
-const AUTH_REGISTER_ENDPOINT = 'auth/register';
-const AUTH_LOGIN_ENDPOINT = 'auth/login';
-const AUTH_LOGOUT_ENDPOINT = 'auth/logout';
-const AUTH_USER_ENDPOINT = 'auth/user';
-const AUTH_TOKEN_ENDPOINT = 'auth/token';
-const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
-const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
+export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+export const GET_INGREDIENTS_ENDPOINT = 'ingredients';
+export const ORDER_ENDPOINT = 'orders';
+export const AUTH_REGISTER_ENDPOINT = 'auth/register';
+export const AUTH_LOGIN_ENDPOINT = 'auth/login';
+export const AUTH_LOGOUT_ENDPOINT = 'auth/logout';
+export const AUTH_USER_ENDPOINT = 'auth/user';
+export const AUTH_TOKEN_ENDPOINT = 'auth/token';
+export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
+export const RESET_PASSWORD_ENDPOINT = 'password-reset/reset';
+
+export const WS_URL = 'wss://norma.nomoreparties.space';
+export const WS_ORDER_FEED_ENDPOINT = 'orders/all';
+export const WS_ORDER_HISTORY_ENDPOINT = 'orders';
+
+export const getIngredient = (ingredientId: string, ingredients: TIngredient[]) => ingredients.filter(ingredient => ingredient._id === ingredientId)[0];
+
+
 
 const fetchOptions = {
   mode: 'cors',
@@ -46,6 +54,7 @@ type TLoginResponse = TServerResponse<TUser & TRefresh>;
 type TLogoutResponse = TServerResponse<{ message: string }>;
 type TForgotPasswordResponse = TServerResponse<{ message: string }>;
 type TResetPasswordResponse = TServerResponse<{ message: string }>;
+type TOrdersResponse = TServerResponse<{ orders: TOrder[] }>;
 
 const checkReponse = <T>(res: Response): Promise<T> => {
   return res.ok 
@@ -69,7 +78,7 @@ export const fetchRequest = async <T> (endpoint: string, options: any = {}) => {
   return res;
 }
 
-const refreshToken = async (): Promise<TRefreshResponse> => {
+export const refreshToken = async (): Promise<TRefreshResponse> => {
   const body = {
     token: localStorage.getItem('refreshToken')
   };
@@ -123,7 +132,12 @@ export const fetchRequestWithRefresh = async <T> (
   }
 };
 
-export const getIngredientsApi = () => fetchRequest<TIngredientsResponse>(GET_INGREDIENTS_ENDPOINT);
+export const getIngredientsApi = () => {
+  return fetchRequest<TIngredientsResponse>(GET_INGREDIENTS_ENDPOINT, {
+    method: 'GET',
+    ...fetchOptions,
+  })
+};
 
 export const createOrderApi = (body: string[]) => {
   return fetchRequestWithRefresh<TCreateOrderResponse>(ORDER_ENDPOINT, {
@@ -132,6 +146,13 @@ export const createOrderApi = (body: string[]) => {
     body: JSON.stringify({ ingredients: body })
   })
 };
+
+export const getOrderApi = (id: string) =>{
+  return fetchRequest<TOrdersResponse>(`${ORDER_ENDPOINT}/${id}`, {
+    method: 'GET',
+    ...fetchOptions,
+  })
+} 
 
 export const getUserApi = () => {
   return fetchRequestWithRefresh<TUserResponse>(AUTH_USER_ENDPOINT, {
@@ -164,7 +185,7 @@ export const loginRequestApi = (body: { email: string, password: string }) => {
   })
 }
 
-export const logoutRequestApi = (body: { email: string, password: string }) => {
+export const logoutRequestApi = (body: { token: string }) => {
   return fetchRequest<TLogoutResponse>(AUTH_LOGOUT_ENDPOINT, {
     method: 'POST',
     ...fetchOptions,
@@ -180,7 +201,7 @@ export const forgotPasswordRequestApi = (body: { email: string }) => {
   })
 }
 
-export const resetPasswordRequestApi = (body: { email: string, token: string }) => {
+export const resetPasswordRequestApi = (body: { password: string, token: string }) => {
   return fetchRequest<TResetPasswordResponse>(RESET_PASSWORD_ENDPOINT, {
     method: 'POST',
     ...fetchOptions,

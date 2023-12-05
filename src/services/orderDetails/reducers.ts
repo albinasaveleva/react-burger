@@ -1,11 +1,13 @@
+import { TOrderDetailsState } from '../../types/data';
+import { TOrderDetailsStateActions } from './actions';
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_ERROR,
   RESET_ORDER_DATA
-} from './actions';
+} from './constants';
 
-const initialState = {
+const initialState: TOrderDetailsState = {
   info: {
     success: false,
     name: null,
@@ -17,7 +19,7 @@ const initialState = {
   isFailed: false,
 }
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderDetailsStateActions): TOrderDetailsState => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST: {
       return {
@@ -25,7 +27,7 @@ export const orderReducer = (state = initialState, action) => {
           success: false,
           name: null,
           number: null,
-          ingredients: null,
+          ingredients: [],
         },
         error: null,
         isRequest: true,
@@ -51,7 +53,7 @@ export const orderReducer = (state = initialState, action) => {
           success: false,
           name: null,
           number: null,
-          ingredients: null,
+          ingredients: [],
         },
         error: action.error,
         isRequest: false,

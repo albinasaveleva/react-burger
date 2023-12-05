@@ -12,8 +12,12 @@ import {
 import Preloader from '../components/preLoader/preloader';
 import PageForm from '../components/page-form/page-form';
 
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { TStore } from "../utils/types";
+import { useAppDispatch, useAppSelector } from '../services/store/store';
+
+type TValues = {
+  email: string, 
+  password: string,
+};
 
 const LoginPage: FC = () => {
   const {values, handleChange} = useForm({
@@ -21,14 +25,13 @@ const LoginPage: FC = () => {
     password: ''
   });
 
-  const isLoginRequest = useAppSelector((store: TStore) => store.auth.isLoginRequest);
+  const isLoginRequest = useAppSelector((store) => store.auth.isLoginRequest);
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //@ts-ignore
-    dispatch(loginRequest(values));
+    dispatch(loginRequest(values as TValues));
   };
 
   const renderPage = () => {
@@ -37,7 +40,7 @@ const LoginPage: FC = () => {
         <p className="mb-6 text text_type_main-medium">Вход</p>
         <EmailInput
           name={'email'}
-          value={values.email}
+          value={(values as TValues).email}
           placeholder={'E-mail'}
           size={'default'}
           extraClass='mb-6 input-field'
@@ -45,7 +48,7 @@ const LoginPage: FC = () => {
         />
         <PasswordInput
           name={'password'}
-          value={values.password}
+          value={(values as TValues).password}
           placeholder={'Пароль'}
           size={'default'}
           icon={'ShowIcon'}

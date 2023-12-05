@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/hook';
+import { useAppDispatch } from '../../services/store/store';
 
 import styles from './app.module.css';
 
 import AppHeader from '../app-header/app-header';
-import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, RegistrationPage, ResetPasswordPage, ProfilePage, ProfileEditPage } from '../../pages';
+import { ForgotPasswordPage, IngredientPage, LoginPage, MainPage, NonFound404Page, OrderFeedPage, OrderHistoryPage, OrderInfoPage, ProfilePage, ProfileEditPage, RegistrationPage, ResetPasswordPage } from '../../pages';
 import {ProtectedRouteElement} from '../protected-roure-element/protected-route-element';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -14,6 +14,7 @@ import { deleteIngredientDetails } from '../../services/ingredientDetails/action
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
+import OrderInfo from '../order-info/order-info';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -54,13 +55,30 @@ const App: FC = () => {
             <ResetPasswordPage />
           </ProtectedRouteElement>
         } />
-        <Route path="/profile" element={
-          <ProtectedRouteElement>
-            <ProfilePage />
-          </ProtectedRouteElement>
-        }>
-          <Route index element={<ProfileEditPage />} />
-          <Route path="orders" element={<div></div>} />
+        <Route path="/feed">
+          <Route index element={<OrderFeedPage />} />
+          <Route path=":id" element={<OrderInfoPage />} />
+        </Route>
+        <Route path="/profile">
+          <Route index element={
+            <ProtectedRouteElement>
+              <ProfilePage>
+                <ProfileEditPage />
+              </ProfilePage>
+            </ProtectedRouteElement>
+          } />
+          <Route path="orders" element={
+            <ProtectedRouteElement>
+              <ProfilePage>
+                <OrderHistoryPage />
+              </ProfilePage>
+            </ProtectedRouteElement>
+          } />
+          <Route path="orders/:id" element={
+            <ProtectedRouteElement>
+              <OrderInfoPage />
+            </ProtectedRouteElement>
+          } />
         </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
         <Route path="*" element={<NonFound404Page />} />
@@ -72,10 +90,30 @@ const App: FC = () => {
             <Modal 
               closeModal={() => { 
                 dispatch(deleteIngredientDetails())
-                navigate('/')}} 
+                navigate(-1)}} 
               title={'Детали ингредиента'}
             >
               <IngredientDetails />
+            </Modal>
+          } />
+          <Route path="/feed/:id" element={
+            <Modal 
+              closeModal={() => {
+                navigate(-1)
+              } } 
+              title={'id'}
+            >
+              <OrderInfo />
+            </Modal>
+          } />
+          <Route path="/profile/orders/:id" element={
+            <Modal 
+              closeModal={() => {
+                navigate(-1)
+              }}
+              title={'id'}
+            >
+              <OrderInfo />
             </Modal>
           } />
         </Routes>

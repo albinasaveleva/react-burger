@@ -1,0 +1,59 @@
+.container {
+
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  column-gap: 36px;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  height: 315px;
+  column-gap: 16px;
+  row-gap: 16px;
+
+  overflow-y: auto;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;               
+}
+
+.list::-webkit-scrollbar-track {
+  background: #2F2F37;        
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+  border-radius: 0;
+  border: 3px solid #8585AD;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+}
+
+.scrollBar {
+  width: 8px;
+  height: auto;
+  background-color: #8585AD;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 8px;
+}
+
+.completed {
+
+}
