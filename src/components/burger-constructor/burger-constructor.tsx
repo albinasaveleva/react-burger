@@ -22,6 +22,7 @@ import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger
 import Preloader from "../preLoader/preloader";
 
 import { TIngredient } from "../../types/data";
+import { LOGIN_ROUTE } from "../../utils/burger-api";
 
 const BurgerConstructor: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -55,7 +56,7 @@ const BurgerConstructor: FC = () => {
 
       openModal();
     } else {
-      navigate('/login');
+      navigate(LOGIN_ROUTE);
     }
   }, [buns, ingredients])
 

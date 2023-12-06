@@ -9,8 +9,11 @@ import {
   ListIcon, 
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppSelector } from "../../services/store/store";
 
 const AppHeader: FC = () => {
+  const user = useAppSelector(store => store.auth.user);
+
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <nav className={headerStyle.navigation}>
@@ -93,7 +96,7 @@ const AppHeader: FC = () => {
                     </div>
                     <div className={headerStyle.linkTitle}>
                       <span className='text text_type_main-default'>
-                        Личный кабинет
+                        { user ? user.name : 'Личный кабинет' }
                       </span>
                     </div>
                   </>
@@ -103,7 +106,7 @@ const AppHeader: FC = () => {
                     </div>
                     <div className={headerStyle.linkTitle}>
                       <span className='text text_type_main-default text_color_inactive'>
-                        Личный кабинет
+                      { user ? user.name : 'Личный кабинет' }
                       </span>
                     </div>
                   </>

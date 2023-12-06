@@ -14,6 +14,7 @@ import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
 
 import { useAppDispatch, useAppSelector } from '../services/store/store';
+import { FORGOT_PASSWORD_ROUTE, LOGIN_ROUTE } from '../utils/burger-api';
 
 type TValues = {
   password: string, 
@@ -36,11 +37,11 @@ const ResetPasswordPage: FC = () => {
 
   React.useEffect(()=>{
     if (!isForgotPasswordSuccess) {
-      navigate('/forgot-password')
+      navigate(FORGOT_PASSWORD_ROUTE)
     }
 
     if (isResetPasswordSuccess) {
-      navigate('/login');
+      navigate(LOGIN_ROUTE);
     }
   }, [isForgotPasswordSuccess, isResetPasswordSuccess])
 

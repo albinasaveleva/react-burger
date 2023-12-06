@@ -17,11 +17,12 @@ const initialState: TWSState = {
 export const orderHistoryReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsConnecting, (state) => {
-        state.status = WebsocketStatus.CONNECTING;
+      state.status = WebsocketStatus.CONNECTING;
     })
     .addCase(wsOpen, (state) => {
-        state.status = WebsocketStatus.ONLINE;
-        state.error = '';
+      state.status = WebsocketStatus.ONLINE;
+      state.error = '';
+      state.orders = [];
     })
     .addCase(wsClose, (state) => {
       state.status = WebsocketStatus.OFFLINE;

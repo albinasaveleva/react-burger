@@ -92,7 +92,7 @@ const OrderCard: FC<TComponentProps> = ({order}) => {
   }
   
   return (
-    <Link to={`${order.number}`} state = {{ backgroundLocation: location }}>
+    <Link to={`${order.number}`} state = {{ backgroundLocation: location }} >
         <div className={`pt-6 pr-6 pb-6 pl-6 ${orderCardStyle.container}`}>
       <div className={`mb-6 ${orderCardStyle.info}`}>
         <span className={`text text_type_digits-default ${orderCardStyle.id}`}>{`#${order.number}`}</span>

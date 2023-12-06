@@ -1,6 +1,22 @@
 import { setCookie, getCookie } from "./cookies";
 import { TIngredient, TOrder } from '../types/data';
 
+export const INDEX_ROUTE = '/';
+export const LOGIN_ROUTE = '/login';
+export const REGISTER_ROUTE = '/register';
+export const FORGOT_PASSWORD_ROUTE = '/forgot-password';
+export const RESET_PASSWORD_ROUTE = '/reset-password';
+export const ORDER_FEED_ROUTE = '/feed';
+export const ORDER_FEED_ID_ROUTE = ':id';
+export const ORDER_FEED_ID_MODAL_ROUTE = '/feed/:id';
+export const PROFILE_ROUTE = '/profile';
+export const ORDER_HISTORY_ROUTE = 'orders';
+export const ORDER_HISTORY_ID_ROUTE = 'orders/:id';
+export const ORDER_HISTORY_ID_MODAL_ROUTE = '/profile/orders/:id';
+export const INGREDIENTS_ROUTE = '/ingredients/:id';
+export const NON_FOUND_ROUTE = '*';
+
+
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 export const GET_INGREDIENTS_ENDPOINT = 'ingredients';
 export const ORDER_ENDPOINT = 'orders';
@@ -148,7 +164,7 @@ export const createOrderApi = (body: string[]) => {
 };
 
 export const getOrderApi = (id: string) =>{
-  return fetchRequest<TOrdersResponse>(`${ORDER_ENDPOINT}/${id}`, {
+  return fetchRequestWithRefresh<TOrdersResponse>(`${ORDER_ENDPOINT}/${id}`, {
     method: 'GET',
     ...fetchOptions,
   })
