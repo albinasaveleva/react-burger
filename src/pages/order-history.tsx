@@ -9,6 +9,7 @@ const OrderHistoryPage: FC = () => {
   const dispatch = useAppDispatch();
   const connectStatus = useAppSelector((store) => store.orderHistory.status);
   const orders = useAppSelector((store) => store.orderHistory.orders);
+  const ingredients = useAppSelector(store => store.burgerIngredients.list);
 
   React.useEffect(
     () => {
@@ -22,7 +23,7 @@ const OrderHistoryPage: FC = () => {
   return (
     <>
       {
-        connectStatus !== 'ONLINE' || !orders || orders.length === 0
+        connectStatus !== 'ONLINE' || !orders || orders.length === 0 || ingredients.length === 0
           ? <Preloader />
           : <OrderHistory />
       }

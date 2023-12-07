@@ -10,22 +10,17 @@ type TComponentProps = {
 
 export const ProtectedRouteElement: FC<TComponentProps> = ({ onlyUnAuth = false, children }): ReactElement => {
   const location = useLocation();
-  // console.log(location)
 
   const isLoginSuccess = useAppSelector((store) => store.auth.isLoginSuccess);
 
   if (onlyUnAuth && isLoginSuccess) {
+    console.log(location.state || { from: { pathname: INDEX_ROUTE } })
     const { from } = location.state || { from: { pathname: INDEX_ROUTE } }
-    return <Navigate to={from} />
+    return <Navigate replace={true} to={from} state={ from.state ? from.state : null } />
   }
 
   if (!onlyUnAuth && !isLoginSuccess) {
-    return <Navigate to={LOGIN_ROUTE} state={
-      location.state?.backgroundLocation 
-        // ? { from: location, backgroundLocation: location }
-        ? { from: location }
-        : { from: location }
-    } />
+    return <Navigate to={LOGIN_ROUTE} state={{ from: location }} />
   }
 
   return children;

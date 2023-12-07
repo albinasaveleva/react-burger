@@ -22,7 +22,6 @@ const App: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
-  console.log(location)
 
   React.useEffect(()=> {
     dispatch(getIngredients());

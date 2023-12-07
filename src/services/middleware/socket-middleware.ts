@@ -41,13 +41,9 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, Root
 
         socket.onerror = event => {
           dispatch(onError(event.type));
-          console.log(event)
-
-
         };
 
         socket.onmessage = event => {
-          console.log(event)
           const { data } = event;
           const parsedData = JSON.parse(data);
           if (parsedData.success) {
@@ -56,15 +52,21 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, Root
             if (parsedData.message === 'Invalid or missing token') {
               refreshToken()
                 .then(refreshData => {
-                  const refreshToken = refreshData.refreshToken;
-                  localStorage.setItem("refreshToken", refreshToken);
-
-                  const accessToken = refreshData.accessToken.split('Bearer ')[1];
-                  setCookie("accessToken", accessToken , { expires: 365 * 24 * 60 * 60 , path: '/'});
-                  url = `${url.match(/.*token=/)}${accessToken}`;
+                  if (refreshData.success) {
+                    const refreshToken = refreshData.refreshToken;
+                    localStorage.setItem("refreshToken", refreshToken);
   
-                  dispatch(wsConnect(url))
-                })
+                    const accessToken = refreshData.accessToken.split('Bearer ')[1];
+                    setCookie("accessToken", accessToken , { expires: 365 * 24 * 60 * 60 , path: '/'});
+                    url = `${url.match(/.*token=/)}${accessToken}`;
+    
+                    dispatch(wsConnect(url))
+                  } else {
+                    throw new Error('Что-то пошло не так...'); 
+                  }
+
+                }) 
+                .catch(error => console.error(error));
             }
           }          
         };

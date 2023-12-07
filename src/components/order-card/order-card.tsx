@@ -43,9 +43,23 @@ export const getOrderPrice = (orderIngredients: string[], ingredients: TIngredie
   }, 0)
 }
 
+export const checkOrder = () => {
+
+}
+
 const OrderCard: FC<TComponentProps> = ({order}) => {
+  let orderError = false;
+
   const ingredients = useAppSelector(store => store.burgerIngredients.list);
   const location = useLocation();
+
+  order.ingredients.forEach(item => {
+    if (getIngredient(item, ingredients)) {
+      return;
+    } else {
+      orderError = true;
+    }
+  })
 
   const renderOrderStatus = (status: string) => {
     if (status === 'done') {
@@ -90,32 +104,40 @@ const OrderCard: FC<TComponentProps> = ({order}) => {
       })
     }
   }
+
+  const renderOrderCard = () => {
+    return (
+      <Link to={`${order.number}`} state = {{ backgroundLocation: location }} >
+        <div className={`pt-6 pr-6 pb-6 pl-6 ${orderCardStyle.container}`}>
+          <div className={`mb-6 ${orderCardStyle.info}`}>
+            <span className={`text text_type_digits-default ${orderCardStyle.id}`}>{`#${order.number}`}</span>
+            <span className={`text text_type_main-small text_color_inactive ${orderCardStyle.timestamp}`}>{getTimestamp(order.createdAt)}</span>
+          </div>
+          <div className={`mb-6 ${orderCardStyle.info}`}>
+            <span className={`text text_type_main-default ${orderCardStyle.name}`}>{order.name}</span>
+            { 
+              location.pathname === '/profile/orders' && renderOrderStatus(order.status)
+            }
+            
+          </div>
+          <div className={orderCardStyle.info}>
+            <div className={`mr-6 ${orderCardStyle.ingredients}`}>
+              { renderIngredients(order, ingredients) }
+            </div>
+            <div className={orderCardStyle.price}>
+              <span className='mr-2 text text_type_digits-default'>{getOrderPrice(order.ingredients, ingredients)}</span>
+              <CurrencyIcon type="primary" />
+            </div>
+          </div>
+        </div>
+      </Link>
+    )
+  }
   
   return (
-    <Link to={`${order.number}`} state = {{ backgroundLocation: location }} >
-        <div className={`pt-6 pr-6 pb-6 pl-6 ${orderCardStyle.container}`}>
-      <div className={`mb-6 ${orderCardStyle.info}`}>
-        <span className={`text text_type_digits-default ${orderCardStyle.id}`}>{`#${order.number}`}</span>
-        <span className={`text text_type_main-small text_color_inactive ${orderCardStyle.timestamp}`}>{getTimestamp(order.createdAt)}</span>
-      </div>
-      <div className={`mb-6 ${orderCardStyle.info}`}>
-        <span className={`text text_type_main-default ${orderCardStyle.name}`}>{order.name}</span>
-        { 
-          location.pathname === '/profile/orders' && renderOrderStatus(order.status)
-        }
-        
-      </div>
-      <div className={orderCardStyle.info}>
-        <div className={`mr-6 ${orderCardStyle.ingredients}`}>
-          { renderIngredients(order, ingredients) }
-        </div>
-        <div className={orderCardStyle.price}>
-          <span className='mr-2 text text_type_digits-default'>{getOrderPrice(order.ingredients, ingredients)}</span>
-          <CurrencyIcon type="primary" />
-        </div>
-      </div>
-    </div>
-    </Link>
+    <>
+    { !orderError && renderOrderCard() }
+    </>
   )
 }
 
