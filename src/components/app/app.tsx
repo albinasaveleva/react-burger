@@ -10,7 +10,6 @@ import {ProtectedRouteElement} from '../protected-roure-element/protected-route-
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { deleteIngredientDetails } from '../../services/ingredientDetails/actions';
 import { getIngredients } from "../../services/burgerIngredients/actions";
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/auth/actions';
@@ -90,7 +89,6 @@ const App: FC = () => {
           <Route path={INGREDIENTS_ROUTE} element={
             <Modal 
               closeModal={() => { 
-                dispatch(deleteIngredientDetails())
                 navigate(-1)}} 
               title={'Детали ингредиента'}
             >

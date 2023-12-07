@@ -1,8 +1,7 @@
 import React, {FC} from "react";
 import { useDrag } from "react-dnd";
-import { useAppSelector, useAppDispatch } from '../../services/store/store';
+import { useAppSelector } from '../../services/store/store';
 import { Link, useLocation } from "react-router-dom";
-import { addIngredienDetails } from "../../services/ingredientDetails/actions";
 
 import { 
   Counter,
@@ -18,8 +17,6 @@ type TComponentProps = {
 const BurgerIngredient: FC<TComponentProps> = ({item}) => {
   const buns = useAppSelector((store) => store.burgerConstructor.buns);
   const ingredients = useAppSelector((store) => store.burgerConstructor.ingredients);
-
-  const dispatch = useAppDispatch();
 
   const getCount = (): number => {
     if (item.type === 'bun') {
@@ -43,7 +40,7 @@ const BurgerIngredient: FC<TComponentProps> = ({item}) => {
 
   return (
     <Link to={`/ingredients/${item._id}`} state = {{ backgroundLocation: location }}>
-      <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`} onClick={()=>{dispatch(addIngredienDetails(item))}}>
+      <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`}>
         <div className={burgerIngredientStyle.content}>
           <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>
             <img src={item.image} alt={item.name} />

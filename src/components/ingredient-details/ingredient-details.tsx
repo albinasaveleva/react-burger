@@ -11,10 +11,10 @@ import Preloader from "../preLoader/preloader";
 
 const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const isRequest = useAppSelector((store) => store.burgerIngredients.isRequest);
   const ingredients = useAppSelector((store) => store.burgerIngredients.list);
 
-  const ingredient = useAppSelector((store) => store.ingredientDetails.item);
+  const getIngredient = () => ingredients.filter((item: TIngredient) => item._id === id)[0];
+  const ingredient = getIngredient();
 
   const renderIngredient = (ingredient: TIngredient) => {
     return (
@@ -43,19 +43,14 @@ const IngredientDetails: FC = () => {
     )
   };
 
-  const getIngredient = () => {
-    const item = ingredients.filter((item: TIngredient) => item._id === id)[0];
-    return renderIngredient(item)
-  };
+
 
   return (
     <>
       {
-        ingredient 
+        ingredients.length > 0 && ingredient 
           ? renderIngredient(ingredient)
-          : isRequest
-            ? <Preloader />
-            : ingredients.length > 0 && getIngredient()
+          : <Preloader />
       }
     </>
   );

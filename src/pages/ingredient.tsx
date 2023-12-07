@@ -10,7 +10,6 @@ import { TIngredient } from '../types/data';
 
 const IngredientPage: FC = () => {
   const { id } = useParams();
-  const isRequest = useAppSelector((store) => store.burgerIngredients.isRequest);
   const ingredients = useAppSelector((store) => store.burgerIngredients.list);
 
   const renderIngredient = () => {
@@ -30,9 +29,9 @@ const IngredientPage: FC = () => {
   return ( 
     <>
       {
-        isRequest
-          ? <Preloader />
-          : ingredients.length > 0 && renderIngredient()
+        ingredients.length > 0
+          ? renderIngredient()
+          : <Preloader />
       }
     </>
   )
