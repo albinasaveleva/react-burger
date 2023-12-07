@@ -9,7 +9,7 @@ const OrderFeedPage: FC = () => {
   const dispatch = useAppDispatch();
   const connectStatus = useAppSelector((store) => store.orderFeed.status);
   const orders = useAppSelector((store) => store.orderFeed.orders);
-  const ingredients = useAppSelector(store => store.burgerIngredients.list)
+  const ingredients = useAppSelector(store => store.burgerIngredients.list);
 
   React.useEffect(
     () => {
@@ -22,7 +22,7 @@ const OrderFeedPage: FC = () => {
   return (
     <>
       {
-        connectStatus !== 'ONLINE' || !orders || orders.length === 0 || ingredients.length === 0
+        connectStatus !== 'ONLINE' || !orders || ingredients.length === 0
           ? <Preloader />
           : <OrderFeed />
       }

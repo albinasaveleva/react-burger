@@ -23,7 +23,7 @@ const OrderHistoryPage: FC = () => {
   return (
     <>
       {
-        connectStatus !== 'ONLINE' || !orders || orders.length === 0 || ingredients.length === 0
+        connectStatus !== 'ONLINE' || !orders || ingredients.length === 0
           ? <Preloader />
           : <OrderHistory />
       }

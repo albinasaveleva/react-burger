@@ -14,7 +14,6 @@ export const ProtectedRouteElement: FC<TComponentProps> = ({ onlyUnAuth = false,
   const isLoginSuccess = useAppSelector((store) => store.auth.isLoginSuccess);
 
   if (onlyUnAuth && isLoginSuccess) {
-    console.log(location.state || { from: { pathname: INDEX_ROUTE } })
     const { from } = location.state || { from: { pathname: INDEX_ROUTE } }
     return <Navigate replace={true} to={from} state={ from.state ? from.state : null } />
   }

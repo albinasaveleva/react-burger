@@ -11,7 +11,9 @@ type TComponentProps = {
 const Orders: FC<TComponentProps> = ({orders}) => {
   return (
     <div className={`pr-2 ${ordersStyle.container}`}>
-      { orders.map(order => <OrderCard key={order.number} order={order} />) }
+      { orders.length > 0 
+        ? orders.map(order => <OrderCard key={order.number} order={order} />)
+        : <></> }
     </div>
   )
 }
