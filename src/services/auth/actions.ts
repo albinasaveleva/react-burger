@@ -145,77 +145,77 @@ export type TAuthActions =
   | IUpdateUserRequestSuccessAction
   | IUpdateUserRequestErrorAction;
 
-const authRegisterRequestAction = (): IAuthRegisterRequestAction => ({
+export const authRegisterRequestAction = (): IAuthRegisterRequestAction => ({
   type: AUTH_REGISTER_REQUEST
 })
-const authRegisterRequestSuccessAction = (user: TUser): IAuthRegisterRequestSuccessAction => ({
+export const authRegisterRequestSuccessAction = (user: TUser): IAuthRegisterRequestSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
   user
 })
-const authRegisterRequestErrorAction = (): IAuthRegisterRequestErrorAction => ({
+export const authRegisterRequestErrorAction = (): IAuthRegisterRequestErrorAction => ({
   type: AUTH_REGISTER_ERROR
 })
 
-const authLoginRequestAction = (): IAuthLoginRequestAction => ({
+export const authLoginRequestAction = (): IAuthLoginRequestAction => ({
   type: AUTH_LOGIN_REQUEST
 })
-const authLoginRequestSuccessAction = (user: TUser): IAuthLoginRequestSuccessAction => ({
+export const authLoginRequestSuccessAction = (user: TUser): IAuthLoginRequestSuccessAction => ({
   type: AUTH_LOGIN_SUCCESS,
   user
 })
-const authLoginRequestErrorAction = (): IAuthLoginRequestErrorAction => ({
+export const authLoginRequestErrorAction = (): IAuthLoginRequestErrorAction => ({
   type: AUTH_LOGIN_ERROR
 })
 
-const authLogoutRequestAction = (): IAuthLogoutRequestAction => ({
+export const authLogoutRequestAction = (): IAuthLogoutRequestAction => ({
   type: AUTH_LOGOUT_REQUEST
 })
-const authLogoutRequestSuccessAction = (): IAuthLogoutRequestSuccessAction => ({
+export const authLogoutRequestSuccessAction = (): IAuthLogoutRequestSuccessAction => ({
   type: AUTH_LOGOUT_SUCCESS
 })
-const authLogoutRequestErrorAction = (): IAuthLogoutRequestErrorAction => ({
+export const authLogoutRequestErrorAction = (): IAuthLogoutRequestErrorAction => ({
   type: AUTH_LOGOUT_ERROR
 })
 
-const forgotPasswordRequestAction = (): IForgotPasswordRequestAction => ({
+export const forgotPasswordRequestAction = (): IForgotPasswordRequestAction => ({
   type: FORGOT_PASSWORD_REQUEST
 })
-const forgotPasswordRequestSuccessAction = (): IForgotPasswordRequestSuccessAction => ({
+export const forgotPasswordRequestSuccessAction = (): IForgotPasswordRequestSuccessAction => ({
   type: FORGOT_PASSWORD_SUCCESS
 })
-const forgotPasswordRequestErrorAction = (): IForgotPasswordRequestErrorAction => ({
+export const forgotPasswordRequestErrorAction = (): IForgotPasswordRequestErrorAction => ({
   type: FORGOT_PASSWORD_ERROR
 })
 
-const resetPasswordRequestAction = (): IResetPasswordRequestAction => ({
+export const resetPasswordRequestAction = (): IResetPasswordRequestAction => ({
   type: RESET_PASSWORD_REQUEST
 })
-const resetPasswordRequestSuccessAction = (): IResetPasswordRequestSuccessAction => ({
+export const resetPasswordRequestSuccessAction = (): IResetPasswordRequestSuccessAction => ({
   type: RESET_PASSWORD_SUCCESS
 })
-const resetPasswordRequestErrorAction = (): IResetPasswordRequestErrorAction => ({
+export const resetPasswordRequestErrorAction = (): IResetPasswordRequestErrorAction => ({
   type: RESET_PASSWORD_ERROR
 })
 
-const getUserRequestAction = (): IGetUserRequestAction => ({
+export const getUserRequestAction = (): IGetUserRequestAction => ({
   type: GET_USER_REQUEST
 })
-const getUserRequestSuccessAction = (user: TUser): IGetUserRequestSuccessAction => ({
+export const getUserRequestSuccessAction = (user: TUser): IGetUserRequestSuccessAction => ({
   type: GET_USER_SUCCESS,
   user
 })
-const getUserRequestErrorAction = (): IGetUserRequestErrorAction => ({
+export const getUserRequestErrorAction = (): IGetUserRequestErrorAction => ({
   type: GET_USER_ERROR
 })
 
-const updateUserRequestAction = (): IUpdateUserRequestAction => ({
+export const updateUserRequestAction = (): IUpdateUserRequestAction => ({
   type: UPDATE_USER_REQUEST
 })
-const updateUserRequestSuccessAction = (user: TUser): IUpdateUserRequestSuccessAction => ({
+export const updateUserRequestSuccessAction = (user: TUser): IUpdateUserRequestSuccessAction => ({
   type: UPDATE_USER_SUCCESS,
   user
 })
-const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
+export const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
   type: UPDATE_USER_ERROR
 })
 
@@ -230,7 +230,7 @@ export const registerRequest = ({email, password, name}: {email: string, passwor
     ? function(dispatch: AppDispatch) {
       dispatch(authRegisterRequestAction());
 
-      registerRequestApi(body)
+      return registerRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch(authRegisterRequestSuccessAction(user));
 
