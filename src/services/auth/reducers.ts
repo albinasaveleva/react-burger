@@ -96,6 +96,8 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         isUpdateUserRequest: false,
         isUpdateUserSuccess: false,
         isUpdateUserError: false,
+
+        user: null
       }
     }
     case AUTH_REGISTER_SUCCESS: {
@@ -148,6 +150,8 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         isUpdateUserRequest: false,
         isUpdateUserSuccess: false,
         isUpdateUserError: false,
+
+        user: null
       }
     }
     case AUTH_LOGIN_SUCCESS: {
@@ -206,6 +210,8 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         isLogoutRequest: false,
         isLogoutSuccess: true,
         isLogoutError: false,
+
+        user: null
       }
     }
     case AUTH_LOGOUT_ERROR: {
@@ -306,6 +312,8 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         isUpdateUserRequest: false,
         isUpdateUserSuccess: true,
         isUpdateUserError: false,
+
+        isLoginSuccess: true,
 
         user: action.user,
       }

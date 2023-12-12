@@ -41,7 +41,7 @@ export function getIngredients() {
   return function(dispatch: AppDispatch) {
     dispatch(getIngredientsRequestAction());
 
-    getIngredientsApi()
+    return getIngredientsApi()
       .then(({data}) => {
         dispatch(getIngredientsRequestSuccessAction(data))
       })

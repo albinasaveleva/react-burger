@@ -1,53 +1,89 @@
-import {burgerConstructorReducer} from './reducers'
-// import * as types from './constants'
+import {burgerConstructorReducer} from './reducers';
+import * as types from './constants';
+
+const test = {
+  _id: '_id',
+  name: 'name',
+  type: 'type',
+  proteins: 0,
+  fat: 0,
+  carbohydrates: 0,
+  calories: 0,
+  price: 0,
+  image: 'image',
+  image_mobile: 'image_mobile',
+  image_large: 'image_large',
+  __v: 0,
+  constructorId: 'constructorId',
+}
 
 describe('burger constructor reducer', () => {
+  it('should handle ADD_BUN', () => {
+    expect(
+      burgerConstructorReducer(undefined, {
+        type: types.ADD_BUN,
+        payload: test
+      })
+    ).toEqual({
+      buns: test,
+      ingredients: []
+    })
+  })
+
+  it('should handle ADD_INGREDIENT', () => {
+    expect(
+      burgerConstructorReducer(undefined, {
+        type: types.ADD_INGREDIENT,
+        payload: test
+      })
+    ).toEqual({
+      buns: null,
+      ingredients: [ test ]
+    })
+  })
+
+  it('should handle DELETE_INGREDIENT', () => {
+    expect(
+      burgerConstructorReducer({
+        buns: null,
+        ingredients: [ test ]
+      }, {
+        type: types.DELETE_INGREDIENT,
+        payload: test
+      })
+    ).toEqual({
+      buns: null,
+      ingredients: []
+    })
+  })
+
+  it('should handle SORT_INGREDIENTS', () => {
+    expect(
+      burgerConstructorReducer(undefined, {
+        type: types.SORT_INGREDIENTS,
+        payload: [ test ]
+      })
+    ).toEqual({
+      buns: null,
+      ingredients: [ test ]
+    })
+  })
+
+  it('should handle RESET_BURGER_CONSTRUCTOR', () => {
+    expect(
+      burgerConstructorReducer(undefined, {
+        type: types.RESET_BURGER_CONSTRUCTOR
+      })
+    ).toEqual({
+      buns: null,
+      ingredients: []
+    })
+  })
+
   it('should return the initial state', () => {
     expect(burgerConstructorReducer(undefined, {})).toEqual({
       buns: null,
       ingredients: []
     })
   })
-
-  // it('should handle ADD_TODO', () => {
-  //   expect(
-  //     reducer([], {
-  //       type: types.ADD_TODO,
-  //       text: 'Run the tests'
-  //     })
-  //   ).toEqual([
-  //     {
-  //       text: 'Run the tests',
-  //       completed: false,
-  //       id: 0
-  //     }
-  //   ])
-
-  //   expect(
-  //     reducer(
-  //       [
-  //         {
-  //           text: 'Use Redux',
-  //           completed: false,
-  //           id: 0
-  //         }
-  //       ],
-  //       {
-  //         type: types.ADD_TODO,
-  //         text: 'Run the tests'
-  //       }
-  //     )
-  //   ).toEqual([
-  //     {
-  //       text: 'Run the tests',
-  //       completed: false,
-  //       id: 1
-  //     },
-  //     {
-  //       text: 'Use Redux',
-  //       completed: false,
-  //       id: 0
-  //     }
-  //   ])
-  // })
 })

@@ -264,16 +264,14 @@ export const loginRequest = ({email, password}: {email: string, password: string
   return checkData(email.length > 0 && password.length > 0)
     ? function(dispatch: AppDispatch) {
       dispatch(authLoginRequestAction());
-      loginRequestApi(body)
+      return loginRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch(authLoginRequestSuccessAction(user));
           localStorage.setItem('refreshToken', refreshToken);
           setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
         .catch((err)=>{
-          dispatch({
-            type: AUTH_LOGIN_ERROR
-          })
+          dispatch(authLoginRequestErrorAction())
           alert(err.message)
         })
     }
@@ -292,14 +290,14 @@ export const logoutRequest = (): AppThunk => {
   return function(dispatch: AppDispatch) {
     dispatch(authLogoutRequestAction());
 
-    logoutRequestApi(body)
+    return logoutRequestApi(body)
       .then(()=>{
         dispatch(authLogoutRequestSuccessAction());
 
         localStorage.removeItem('refreshToken');
         deleteCookie('accessToken');
       })
-      .catch(()=>{
+      .catch((err)=>{
         dispatch(authLogoutRequestErrorAction())
       })
   }
@@ -314,7 +312,7 @@ export const forgotPasswordRequest = ({email}: {email: string}): AppThunk => {
     ? function(dispatch: AppDispatch) {
       dispatch(forgotPasswordRequestAction());
 
-      forgotPasswordRequestApi(body)
+      return forgotPasswordRequestApi(body)
         .then(() => {
           dispatch(forgotPasswordRequestSuccessAction())
         })
@@ -341,7 +339,7 @@ export const resetPasswordRequest = ({password, token}: {password: string, token
     ? function(dispatch: AppDispatch) {
       dispatch(resetPasswordRequestAction());
 
-      resetPasswordRequestApi(body)
+      return resetPasswordRequestApi(body)
         .then(()=>{
           dispatch(resetPasswordRequestSuccessAction())
         })
@@ -362,11 +360,11 @@ export const getUser = (): AppThunk => {
   return function(dispatch: AppDispatch) {
     dispatch(getUserRequestAction());
 
-    getUserApi()
+    return getUserApi()
       .then(({ user }) => {
         dispatch(getUserRequestSuccessAction(user));
       })
-      .catch(()=>{
+      .catch((err)=>{
         dispatch(getUserRequestErrorAction())
       })
   }
@@ -382,7 +380,7 @@ export const updateUser = ({email, password, name}: {email: string, password: st
   return checkData(email.length > 0 && name.length > 0)
     ? function(dispatch: AppDispatch) {
       dispatch(updateUserRequestAction());
-      updateUserApi(body)
+      return updateUserApi(body)
         .then(({ user }) => {
           dispatch(updateUserRequestSuccessAction(user));
         })
