@@ -32,7 +32,7 @@ import {
 } from './constants';
 
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   isRegistrRequest: false,
   isRegistrSuccess: false,
   isRegistrError: false,

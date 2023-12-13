@@ -1,17 +1,21 @@
 import { WebsocketStatus } from '../../types/data';
-import {orderHistoryReducer} from './reducers';
+import {orderHistoryReducer, initialState} from './reducers';
 import * as types from './actions';
 
 describe('order history reducer', () => {
+  const testData = {
+    orders: [ 'order', 'order' ],
+    error: 'error'
+  };
+
   it('should handle wsConnecting', () => {
     expect(
       orderHistoryReducer(undefined, {
         type: types.wsConnecting
       })
     ).toEqual({
+      ...initialState,
       status: WebsocketStatus.CONNECTING,
-      orders: [],
-      error: ''
     })
   })
 
@@ -21,9 +25,8 @@ describe('order history reducer', () => {
         type: types.wsOpen
       })
     ).toEqual({
+      ...initialState,
       status: WebsocketStatus.ONLINE,
-      orders: [],
-      error: ''
     })
   })
 
@@ -32,23 +35,18 @@ describe('order history reducer', () => {
       orderHistoryReducer(undefined, {
         type: types.wsClose
       })
-    ).toEqual({
-      status: WebsocketStatus.OFFLINE,
-      orders: [],
-      error: ''
-    })
+    ).toEqual(initialState)
   })
 
   it('should handle wsError', () => {
     expect(
       orderHistoryReducer(undefined, {
         type: types.wsError,
-        payload: 'error'
+        payload: testData.error
       })
     ).toEqual({
-      status: WebsocketStatus.OFFLINE,
-      orders: [],
-      error: 'error'
+      ...initialState,
+      error: testData.error
     })
   })
 
@@ -57,23 +55,19 @@ describe('order history reducer', () => {
       orderHistoryReducer(undefined, {
         type: types.wsMessage,
         payload: {
-          orders: [ 'order', 'order' ],
+          orders: testData.orders,
           error: ''
         }
       })
     ).toEqual({
-      status: WebsocketStatus.OFFLINE,
-      orders: [ 'order', 'order' ],
+      ...initialState,
+      orders: testData.orders,
       error: ''
     })
   })
 
   it('should return the initial state', () => {
-    expect(orderHistoryReducer(undefined, {})).toEqual({
-      status: WebsocketStatus.OFFLINE,
-      orders: [],
-      error: ''
-    })
+    expect(orderHistoryReducer(undefined, {})).toEqual(initialState)
   })
 
 

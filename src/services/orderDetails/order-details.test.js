@@ -1,22 +1,17 @@
-import {orderReducer} from './reducers';
+import {orderReducer, initialState} from './reducers';
 import * as types from './constants';
 
 describe('order reducer', () => {
+  const testData = [ 'bun', 'ingredient', 'bun' ];
+  
   it('should handle CREATE_ORDER_REQUEST', () => {
     expect(
       orderReducer(undefined, {
         type: types.CREATE_ORDER_REQUEST
       })
     ).toEqual({
-        info : {
-          success: false,
-          name: null,
-          number: null,
-          ingredients: [],
-        },
-        error: null,
+        ...initialState,
         isRequest: true,
-        isFailed: false,
       })
   })
 
@@ -27,18 +22,16 @@ describe('order reducer', () => {
         success: true,
         name: 'name',
         number: 0,
-        ingredients: [ 'bun', 'ingredient', 'bun' ]
+        ingredients: testData
       })
     ).toEqual({
+        ...initialState,
         info : {
           success: true,
           name: 'name',
           number: 0,
-          ingredients: [ 'bun', 'ingredient', 'bun' ],
+          ingredients: testData,
         },
-        error: null,
-        isRequest: false,
-        isFailed: false,
       })
   })
 
@@ -49,14 +42,8 @@ describe('order reducer', () => {
         error: 'error'
       })
     ).toEqual({
-        info : {
-          success: false,
-          name: null,
-          number: null,
-          ingredients: []
-        },
+        ...initialState,
         error: 'error',
-        isRequest: false,
         isFailed: true,
       })
   })
@@ -64,30 +51,10 @@ describe('order reducer', () => {
   it('should handle RESET_ORDER_DATA', () => {
     expect(orderReducer(undefined, {
       type: types.RESET_ORDER_DATA
-    })).toEqual({
-      info: {
-        success: false,
-        name: null,
-        number: null,
-        ingredients: []
-      },
-      error: null,
-      isRequest: false,
-      isFailed: false,
-    })
+    })).toEqual(initialState)
   })
 
   it('should return the initial state', () => {
-    expect(orderReducer(undefined, {})).toEqual({
-      info: {
-        success: false,
-        name: null,
-        number: null,
-        ingredients: []
-      },
-      error: null,
-      isRequest: false,
-      isFailed: false,
-    })
+    expect(orderReducer(undefined, {})).toEqual(initialState)
   })
 })

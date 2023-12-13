@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+#Курсовой проект Stellar Burger на профессии Reaсt-разработчик. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Возможности приложения:
+  * Конструктор бургера и оформление заказа
+  * Лента заказов с возможностью просмотра заказов в режиме реального времени
+  * Личный кабинет пользователя и история его заказов
 
-## Available Scripts
+Ссылка на проект: https://albinasaveleva.github.io/react-burger/
 
-In the project directory, you can run:
 
-### `npm start`
+##Технологии
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ * JavaScript
+ * TypeScript
+ * React
+ * Redux
+ * WebSocket
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+##Разработка
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###Установка зависимостей
+Для установки зависимостей, выполните команду:
 
-### `npm run build`
+`npm i`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###Запуск Development сервера
+Чтобы запустить сервер для разработки, выполните команду:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`npm start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+###Создание билда
+Чтобы выполнить production сборку, выполните команду:
 
-### `npm run eject`
+`npm run build`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+###Деплой проекта на gh-pages
+Чтобы выполнить production сборку и задеплоить проект на gh-pages, выполните команду:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`npm run deploy`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+###Тестирование
+Проект покрыт юнит-тестами Jest. Чтобы запустить тесты, выполните команду:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+`npm run test`

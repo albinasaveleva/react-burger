@@ -6,7 +6,7 @@ import {
   GET_INGREDIENTS_ERROR
 } from './constants';
 
-const initialState: TBurgerIngredientsState = {
+export const initialState: TBurgerIngredientsState = {
   list: [],
   error: null,
   isRequest: false,

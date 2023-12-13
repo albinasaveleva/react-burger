@@ -1,32 +1,32 @@
-import {burgerConstructorReducer} from './reducers';
+import {burgerConstructorReducer, initialState} from './reducers';
 import * as types from './constants';
 
-const test = {
-  _id: '_id',
-  name: 'name',
-  type: 'type',
-  proteins: 0,
-  fat: 0,
-  carbohydrates: 0,
-  calories: 0,
-  price: 0,
-  image: 'image',
-  image_mobile: 'image_mobile',
-  image_large: 'image_large',
-  __v: 0,
-  constructorId: 'constructorId',
-}
-
 describe('burger constructor reducer', () => {
+  const testData = {
+    _id: '_id',
+    name: 'name',
+    type: 'type',
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+    price: 0,
+    image: 'image',
+    image_mobile: 'image_mobile',
+    image_large: 'image_large',
+    __v: 0,
+    constructorId: 'constructorId',
+  };
+  
   it('should handle ADD_BUN', () => {
     expect(
       burgerConstructorReducer(undefined, {
         type: types.ADD_BUN,
-        payload: test
+        payload: testData
       })
     ).toEqual({
-      buns: test,
-      ingredients: []
+      ...initialState,
+      buns: testData,
     })
   })
 
@@ -34,11 +34,11 @@ describe('burger constructor reducer', () => {
     expect(
       burgerConstructorReducer(undefined, {
         type: types.ADD_INGREDIENT,
-        payload: test
+        payload: testData
       })
     ).toEqual({
-      buns: null,
-      ingredients: [ test ]
+      ...initialState,
+      ingredients: [ testData ]
     })
   })
 
@@ -46,26 +46,23 @@ describe('burger constructor reducer', () => {
     expect(
       burgerConstructorReducer({
         buns: null,
-        ingredients: [ test ]
+        ingredients: [ testData ]
       }, {
         type: types.DELETE_INGREDIENT,
-        payload: test
+        payload: testData
       })
-    ).toEqual({
-      buns: null,
-      ingredients: []
-    })
+    ).toEqual(initialState)
   })
 
   it('should handle SORT_INGREDIENTS', () => {
     expect(
       burgerConstructorReducer(undefined, {
         type: types.SORT_INGREDIENTS,
-        payload: [ test ]
+        payload: [ testData ]
       })
     ).toEqual({
-      buns: null,
-      ingredients: [ test ]
+      ...initialState,
+      ingredients: [ testData ]
     })
   })
 
@@ -74,16 +71,10 @@ describe('burger constructor reducer', () => {
       burgerConstructorReducer(undefined, {
         type: types.RESET_BURGER_CONSTRUCTOR
       })
-    ).toEqual({
-      buns: null,
-      ingredients: []
-    })
+    ).toEqual(initialState)
   })
 
   it('should return the initial state', () => {
-    expect(burgerConstructorReducer(undefined, {})).toEqual({
-      buns: null,
-      ingredients: []
-    })
+    expect(burgerConstructorReducer(undefined, {})).toEqual(initialState)
   })
 })

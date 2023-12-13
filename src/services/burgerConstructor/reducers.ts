@@ -8,7 +8,7 @@ import {
 import { TBurgerConstructorState } from '../../types/data';
 import { TBurgetConstructorActions } from './actions';
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
   buns: null,
   ingredients: []
 }

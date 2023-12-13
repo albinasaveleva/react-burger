@@ -11,7 +11,7 @@ type TWSState = {
   error: string;
 }
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
   total: 0,

@@ -1,27 +1,25 @@
-import {burgerIngredientsReducer} from './reducers';
+import {burgerIngredientsReducer, initialState} from './reducers';
 import * as types from './constants';
 
 describe('burger ingredients reducer', () => {
+  const testData = [ 'ingredient', 'ingredient', 'ingredient' ];
+
   it('should handle GET_INGREDIENTS_REQUEST', () => {
     expect(burgerIngredientsReducer(undefined, {
       type: types.GET_INGREDIENTS_REQUEST
     })).toEqual({
-      list: [],
-      error: null,
+      ...initialState,
       isRequest: true,
-      isFailed: false,
     })
   })
 
   it('should handle GET_INGREDIENTS_SUCCESS', () => {
     expect(burgerIngredientsReducer(undefined, {
       type: types.GET_INGREDIENTS_SUCCESS,
-      payload: [ 'ingredient', 'ingredient', 'ingredient' ]
+      payload: testData
     })).toEqual({
-      list: [ 'ingredient', 'ingredient', 'ingredient' ],
-      error: null,
-      isRequest: false,
-      isFailed: false,
+      ...initialState,
+      list: testData,
     })
   })
 
@@ -30,19 +28,13 @@ describe('burger ingredients reducer', () => {
       type: types.GET_INGREDIENTS_ERROR,
       payload: 'error'
     })).toEqual({
-      list: [],
+      ...initialState,
       error: 'error',
-      isRequest: false,
       isFailed: true,
     })
   })
 
   it('should return the initial state', () => {
-    expect(burgerIngredientsReducer(undefined, {})).toEqual({
-      list: [],
-      error: null,
-      isRequest: false,
-      isFailed: false,
-    })
+    expect(burgerIngredientsReducer(undefined, {})).toEqual(initialState)
   })
 })

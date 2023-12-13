@@ -7,7 +7,7 @@ import {
   RESET_ORDER_DATA
 } from './constants';
 
-const initialState: TOrderDetailsState = {
+export const initialState: TOrderDetailsState = {
   info: {
     success: false,
     name: null,
