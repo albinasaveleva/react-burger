@@ -39,6 +39,7 @@ const LoginPage: FC = () => {
       <PageForm handleSubmit={handleSubmit} classNameString='mt-45'>
         <p className="mb-6 text text_type_main-medium">Вход</p>
         <EmailInput
+          data-testid='email_input'
           name={'email'}
           value={(values as TValues).email}
           placeholder={'E-mail'}
@@ -47,6 +48,7 @@ const LoginPage: FC = () => {
           onChange={handleChange}
         />
         <PasswordInput
+          data-testid='password_input'
           name={'password'}
           value={(values as TValues).password}
           placeholder={'Пароль'}

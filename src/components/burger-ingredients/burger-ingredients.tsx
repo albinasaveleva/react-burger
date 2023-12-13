@@ -141,7 +141,7 @@ const BurgerIngredients: FC = () => {
     <>
       <section className={`pt-10 ${burgerIngredientsStyle.container}`} id="burger-ingredients">
           <h2 className="mb-5 text text_type_main-large">Соберите бургер</h2>
-          <div className={burgerIngredientsStyle.tabs}>
+          <div data-testid='tabs' className={burgerIngredientsStyle.tabs}>
             { renderTabs() }
           </div>
           <div ref={rootContainerRef}  className={`pt-10 ${burgerIngredientsStyle.ingredients}`} id="burger-ingredients-content">

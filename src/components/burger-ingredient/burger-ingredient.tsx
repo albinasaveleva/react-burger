@@ -38,8 +38,18 @@ const BurgerIngredient: FC<TComponentProps> = ({item}) => {
   });
   let location = useLocation();
 
+  const addTestid = () => {
+    if (item._id === '643d69a5c3f7b9001cfa093c') {
+      return 'bun';
+    } else if (item._id === '643d69a5c3f7b9001cfa0941') {
+      return 'ingredient';
+    } else {
+      return null;
+    }
+  }
+
   return (
-    <Link to={`/ingredients/${item._id}`} state = {{ backgroundLocation: location }}>
+    <Link to={`/ingredients/${item._id}`} data-testid={ addTestid() } state = {{ backgroundLocation: location }}>
       <div ref={dragRef} className={`card ${burgerIngredientStyle.card}`}>
         <div className={burgerIngredientStyle.content}>
           <div className={`mb-1 ${burgerIngredientStyle.illustration}`}>

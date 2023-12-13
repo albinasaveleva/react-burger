@@ -45,7 +45,7 @@ const Modal: FC<TComponentProps> = ({closeModal, title, children}) => {
                 : <p className="pt-3 pb-3 text text_type_main-large">{title}</p>
               : null
             }
-            <div className={modalStyle.closeBtn} onClick={closeModal}>
+            <div id='modal-close-btn' className={modalStyle.closeBtn} onClick={closeModal}>
               <CloseIcon type="primary" />
             </div>
           </div>

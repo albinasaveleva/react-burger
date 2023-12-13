@@ -164,7 +164,7 @@ const BurgerConstructor: FC = () => {
               </span>
               <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large" onClick={handleClick}>
+            <Button id='order-button' htmlType="button" type="primary" size="large" onClick={handleClick}>
               Оформить заказ
             </Button>
           </div>
