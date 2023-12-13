@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../services/store/store';
 
 import PageForm from '../components/page-form/page-form';
 import Preloader from '../components/preLoader/preloader';
+import { RESET_PASSWORD_ROUTE } from '../utils/burger-api';
 
 type TValues = {email: string};
 
@@ -24,7 +25,7 @@ const ForgotPasswordPage: FC = () => {
 
   React.useEffect(() => {
     if (isForgotPasswordSuccess) {
-      navigate('/reset-password');
+      navigate(RESET_PASSWORD_ROUTE);
     }
   }, [isForgotPasswordSuccess])
 

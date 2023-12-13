@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 import { TIngredient } from '../../types/data';
 import {
   ADD_BUN,
@@ -54,8 +56,8 @@ const resetBurgerConstructorAction = (): IResetBurgerConstructorAction => ({
   type: RESET_BURGER_CONSTRUCTOR,
 });
 
-export const addBun = (item: TIngredient) => addBunAction(item);
-export const addIngredient = (item: TIngredient) => addIngredientAction(item);
+export const addBun = (item: TIngredient) => addBunAction({...item, constructorId: item._id});
+export const addIngredient = (item: TIngredient) => addIngredientAction({...item, constructorId: nanoid()});
 export const deleteIngredient = (item: TIngredient) => deleteIngredientAction(item);
 export const sortIngredients = (sortedIngredients: Array<TIngredient>) => sortIngredientsAction(sortedIngredients);
 export const resetBurgerConstructor = () => resetBurgerConstructorAction();

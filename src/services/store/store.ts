@@ -3,7 +3,6 @@ import { ThunkAction, configureStore } from '@reduxjs/toolkit';
 import type {} from 'redux-thunk/extend-redux';
 
 import { burgerIngredientsReducer } from '../burgerIngredients/reducers';
-import { ingredientReducer } from '../ingredientDetails/reducers';
 import { burgerConstructorReducer } from '../burgerConstructor/reducers';
 import { orderReducer } from '../orderDetails/reducers';
 import { authReducer } from '../auth/reducers';
@@ -17,7 +16,6 @@ import { TWSOrderHistoryActions, wsOrderHistoryActions } from '../orderHistory/a
 import { TAuthActions } from '../auth/actions';
 import { TBurgetConstructorActions } from '../burgerConstructor/actions';
 import { TBurgerIngredientsActions } from '../burgerIngredients/actions';
-import { TIngredientDetailsActions } from '../ingredientDetails/actions';
 import { TOrderDetailsStateActions } from '../orderDetails/actions';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
@@ -26,7 +24,6 @@ const orderHistoryMiddleware = socketMiddleware(wsOrderHistoryActions);
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
-  ingredientDetails: ingredientReducer,
   burgerConstructor: burgerConstructorReducer,
   orderDetails: orderReducer,
   auth: authReducer,
@@ -45,7 +42,6 @@ export type TApplicationActions =
   | TAuthActions
   | TBurgetConstructorActions
   | TBurgerIngredientsActions
-  | TIngredientDetailsActions
   | TOrderDetailsStateActions
   | TWSOrderFeedActions
   | TWSOrderHistoryActions;

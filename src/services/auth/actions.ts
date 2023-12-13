@@ -145,77 +145,77 @@ export type TAuthActions =
   | IUpdateUserRequestSuccessAction
   | IUpdateUserRequestErrorAction;
 
-const authRegisterRequestAction = (): IAuthRegisterRequestAction => ({
+export const authRegisterRequestAction = (): IAuthRegisterRequestAction => ({
   type: AUTH_REGISTER_REQUEST
 })
-const authRegisterRequestSuccessAction = (user: TUser): IAuthRegisterRequestSuccessAction => ({
+export const authRegisterRequestSuccessAction = (user: TUser): IAuthRegisterRequestSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
   user
 })
-const authRegisterRequestErrorAction = (): IAuthRegisterRequestErrorAction => ({
+export const authRegisterRequestErrorAction = (): IAuthRegisterRequestErrorAction => ({
   type: AUTH_REGISTER_ERROR
 })
 
-const authLoginRequestAction = (): IAuthLoginRequestAction => ({
+export const authLoginRequestAction = (): IAuthLoginRequestAction => ({
   type: AUTH_LOGIN_REQUEST
 })
-const authLoginRequestSuccessAction = (user: TUser): IAuthLoginRequestSuccessAction => ({
+export const authLoginRequestSuccessAction = (user: TUser): IAuthLoginRequestSuccessAction => ({
   type: AUTH_LOGIN_SUCCESS,
   user
 })
-const authLoginRequestErrorAction = (): IAuthLoginRequestErrorAction => ({
+export const authLoginRequestErrorAction = (): IAuthLoginRequestErrorAction => ({
   type: AUTH_LOGIN_ERROR
 })
 
-const authLogoutRequestAction = (): IAuthLogoutRequestAction => ({
+export const authLogoutRequestAction = (): IAuthLogoutRequestAction => ({
   type: AUTH_LOGOUT_REQUEST
 })
-const authLogoutRequestSuccessAction = (): IAuthLogoutRequestSuccessAction => ({
+export const authLogoutRequestSuccessAction = (): IAuthLogoutRequestSuccessAction => ({
   type: AUTH_LOGOUT_SUCCESS
 })
-const authLogoutRequestErrorAction = (): IAuthLogoutRequestErrorAction => ({
+export const authLogoutRequestErrorAction = (): IAuthLogoutRequestErrorAction => ({
   type: AUTH_LOGOUT_ERROR
 })
 
-const forgotPasswordRequestAction = (): IForgotPasswordRequestAction => ({
+export const forgotPasswordRequestAction = (): IForgotPasswordRequestAction => ({
   type: FORGOT_PASSWORD_REQUEST
 })
-const forgotPasswordRequestSuccessAction = (): IForgotPasswordRequestSuccessAction => ({
+export const forgotPasswordRequestSuccessAction = (): IForgotPasswordRequestSuccessAction => ({
   type: FORGOT_PASSWORD_SUCCESS
 })
-const forgotPasswordRequestErrorAction = (): IForgotPasswordRequestErrorAction => ({
+export const forgotPasswordRequestErrorAction = (): IForgotPasswordRequestErrorAction => ({
   type: FORGOT_PASSWORD_ERROR
 })
 
-const resetPasswordRequestAction = (): IResetPasswordRequestAction => ({
+export const resetPasswordRequestAction = (): IResetPasswordRequestAction => ({
   type: RESET_PASSWORD_REQUEST
 })
-const resetPasswordRequestSuccessAction = (): IResetPasswordRequestSuccessAction => ({
+export const resetPasswordRequestSuccessAction = (): IResetPasswordRequestSuccessAction => ({
   type: RESET_PASSWORD_SUCCESS
 })
-const resetPasswordRequestErrorAction = (): IResetPasswordRequestErrorAction => ({
+export const resetPasswordRequestErrorAction = (): IResetPasswordRequestErrorAction => ({
   type: RESET_PASSWORD_ERROR
 })
 
-const getUserRequestAction = (): IGetUserRequestAction => ({
+export const getUserRequestAction = (): IGetUserRequestAction => ({
   type: GET_USER_REQUEST
 })
-const getUserRequestSuccessAction = (user: TUser): IGetUserRequestSuccessAction => ({
+export const getUserRequestSuccessAction = (user: TUser): IGetUserRequestSuccessAction => ({
   type: GET_USER_SUCCESS,
   user
 })
-const getUserRequestErrorAction = (): IGetUserRequestErrorAction => ({
+export const getUserRequestErrorAction = (): IGetUserRequestErrorAction => ({
   type: GET_USER_ERROR
 })
 
-const updateUserRequestAction = (): IUpdateUserRequestAction => ({
+export const updateUserRequestAction = (): IUpdateUserRequestAction => ({
   type: UPDATE_USER_REQUEST
 })
-const updateUserRequestSuccessAction = (user: TUser): IUpdateUserRequestSuccessAction => ({
+export const updateUserRequestSuccessAction = (user: TUser): IUpdateUserRequestSuccessAction => ({
   type: UPDATE_USER_SUCCESS,
   user
 })
-const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
+export const updateUserRequestErrorAction = (): IUpdateUserRequestErrorAction => ({
   type: UPDATE_USER_ERROR
 })
 
@@ -230,7 +230,7 @@ export const registerRequest = ({email, password, name}: {email: string, passwor
     ? function(dispatch: AppDispatch) {
       dispatch(authRegisterRequestAction());
 
-      registerRequestApi(body)
+      return registerRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch(authRegisterRequestSuccessAction(user));
 
@@ -264,16 +264,14 @@ export const loginRequest = ({email, password}: {email: string, password: string
   return checkData(email.length > 0 && password.length > 0)
     ? function(dispatch: AppDispatch) {
       dispatch(authLoginRequestAction());
-      loginRequestApi(body)
+      return loginRequestApi(body)
         .then(({accessToken, refreshToken, user}) => {
           dispatch(authLoginRequestSuccessAction(user));
           localStorage.setItem('refreshToken', refreshToken);
           setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 365 * 24 * 60 * 60 , path: '/'});
         })
         .catch((err)=>{
-          dispatch({
-            type: AUTH_LOGIN_ERROR
-          })
+          dispatch(authLoginRequestErrorAction())
           alert(err.message)
         })
     }
@@ -292,14 +290,14 @@ export const logoutRequest = (): AppThunk => {
   return function(dispatch: AppDispatch) {
     dispatch(authLogoutRequestAction());
 
-    logoutRequestApi(body)
+    return logoutRequestApi(body)
       .then(()=>{
         dispatch(authLogoutRequestSuccessAction());
 
         localStorage.removeItem('refreshToken');
         deleteCookie('accessToken');
       })
-      .catch(()=>{
+      .catch((err)=>{
         dispatch(authLogoutRequestErrorAction())
       })
   }
@@ -314,7 +312,7 @@ export const forgotPasswordRequest = ({email}: {email: string}): AppThunk => {
     ? function(dispatch: AppDispatch) {
       dispatch(forgotPasswordRequestAction());
 
-      forgotPasswordRequestApi(body)
+      return forgotPasswordRequestApi(body)
         .then(() => {
           dispatch(forgotPasswordRequestSuccessAction())
         })
@@ -341,7 +339,7 @@ export const resetPasswordRequest = ({password, token}: {password: string, token
     ? function(dispatch: AppDispatch) {
       dispatch(resetPasswordRequestAction());
 
-      resetPasswordRequestApi(body)
+      return resetPasswordRequestApi(body)
         .then(()=>{
           dispatch(resetPasswordRequestSuccessAction())
         })
@@ -362,11 +360,11 @@ export const getUser = (): AppThunk => {
   return function(dispatch: AppDispatch) {
     dispatch(getUserRequestAction());
 
-    getUserApi()
+    return getUserApi()
       .then(({ user }) => {
         dispatch(getUserRequestSuccessAction(user));
       })
-      .catch(()=>{
+      .catch((err)=>{
         dispatch(getUserRequestErrorAction())
       })
   }
@@ -382,7 +380,7 @@ export const updateUser = ({email, password, name}: {email: string, password: st
   return checkData(email.length > 0 && name.length > 0)
     ? function(dispatch: AppDispatch) {
       dispatch(updateUserRequestAction());
-      updateUserApi(body)
+      return updateUserApi(body)
         .then(({ user }) => {
           dispatch(updateUserRequestSuccessAction(user));
         })

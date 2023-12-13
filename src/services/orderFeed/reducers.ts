@@ -22,11 +22,14 @@ const initialState: TWSState = {
 export const orderFeedReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsConnecting, (state) => {
-        state.status = WebsocketStatus.CONNECTING;
+      state.status = WebsocketStatus.CONNECTING;
     })
     .addCase(wsOpen, (state) => {
-        state.status = WebsocketStatus.ONLINE;
-        state.error = '';
+      state.status = WebsocketStatus.ONLINE;
+      state.orders = [];      
+      state.total = 0;
+      state.totalToday = 0;
+      state.error = '';
     })
     .addCase(wsClose, (state) => {
       state.status = WebsocketStatus.OFFLINE;

@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import {
   ADD_BUN,
   ADD_INGREDIENT,
@@ -18,19 +16,15 @@ const initialState: TBurgerConstructorState = {
 export const burgerConstructorReducer = (state = initialState, action: TBurgetConstructorActions): TBurgerConstructorState => {
   switch (action.type) {
     case ADD_BUN: {
-      const newItem = {...action.payload, constructorId: action.payload._id};
-
       return {
         ...state,
-        buns: newItem,
+        buns: action.payload,
       };
     }
     case ADD_INGREDIENT: {
-      const newItem = {...action.payload, constructorId: nanoid()};
-
       return {
         ...state,
-        ingredients: [...state.ingredients, newItem]
+        ingredients: [...state.ingredients, action.payload]
       };
     }
     case DELETE_INGREDIENT: {
